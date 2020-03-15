@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStack_MVC", "EventStack_MVC\EventStack_MVC.csproj", "{02DBA037-828E-4D9B-96AD-05155F3E3369}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventStack_MVC", "EventStack_MVC\EventStack_MVC.csproj", "{02DBA037-828E-4D9B-96AD-05155F3E3369}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStack_API", "EventStack_API\EventStack_API.csproj", "{4B989501-0F5B-4E05-99F5-CD7AA1625408}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventStack_API", "EventStack_API\EventStack_API.csproj", "{4B989501-0F5B-4E05-99F5-CD7AA1625408}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStack_API.UnitTest", "EventStack_API.UnitTest\EventStack_API.UnitTest.csproj", "{2A3A8F7E-A685-4413-A794-54FB4395A106}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStack_MVC.UnitTest", "EventStack_MVC.UnitTest\EventStack_MVC.UnitTest.csproj", "{570FD720-195E-46AE-BCA3-A99A87770613}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{4B989501-0F5B-4E05-99F5-CD7AA1625408}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B989501-0F5B-4E05-99F5-CD7AA1625408}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B989501-0F5B-4E05-99F5-CD7AA1625408}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A3A8F7E-A685-4413-A794-54FB4395A106}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A3A8F7E-A685-4413-A794-54FB4395A106}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A3A8F7E-A685-4413-A794-54FB4395A106}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A3A8F7E-A685-4413-A794-54FB4395A106}.Release|Any CPU.Build.0 = Release|Any CPU
+		{570FD720-195E-46AE-BCA3-A99A87770613}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{570FD720-195E-46AE-BCA3-A99A87770613}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{570FD720-195E-46AE-BCA3-A99A87770613}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{570FD720-195E-46AE-BCA3-A99A87770613}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
