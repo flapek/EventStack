@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventStack_MVC", "EventStac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventStack_API", "EventStack_API\EventStack_API.csproj", "{4B989501-0F5B-4E05-99F5-CD7AA1625408}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStack_API.UnitTest", "EventStack_API.UnitTest\EventStack_API.UnitTest.csproj", "{2A3A8F7E-A685-4413-A794-54FB4395A106}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventStack_API.UnitTest", "EventStack_API.UnitTest\EventStack_API.UnitTest.csproj", "{2A3A8F7E-A685-4413-A794-54FB4395A106}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStack_MVC.UnitTest", "EventStack_MVC.UnitTest\EventStack_MVC.UnitTest.csproj", "{570FD720-195E-46AE-BCA3-A99A87770613}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventStack_MVC.UnitTest", "EventStack_MVC.UnitTest\EventStack_MVC.UnitTest.csproj", "{570FD720-195E-46AE-BCA3-A99A87770613}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
