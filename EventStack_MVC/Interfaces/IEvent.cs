@@ -4,9 +4,9 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Geolocation;
 
-namespace Interface
+namespace Interfaces
 {
-    public interface IEvent
+    public class IEvent
     {
         [BsonId]
         [BsonElement("Id")]
@@ -15,10 +15,7 @@ namespace Interface
         [BsonElement("Name")]
         public string Name { get; set; }
         [BsonElement("Categories")]
-
         public IEnumerable<ICategory> Categories { get; set; }
-        [BsonElement("Photo")]
-        public string Photo { get; set; }
         [BsonElement("Description")]
         public string Description { get; set; }
         [BsonElement("StarTime")]

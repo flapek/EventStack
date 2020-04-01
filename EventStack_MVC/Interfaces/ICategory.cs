@@ -11,5 +11,5 @@ namespace Interfaces
         public ObjectId Id { get; set; }
         [BsonElement("Name")]
         public string Name { get; set; }
-    } 
+    }
 }
