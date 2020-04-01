@@ -1,9 +1,10 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Geolocation; // https://github.com/scottschluer/geolocation
+using System.Collections;
 using System.Collections.Generic;
 
-namespace Interfaces
+namespace Interface
 {
     public interface IOrganization
     {
@@ -30,6 +31,6 @@ namespace Interfaces
         [BsonElement("REGON")]
         public string REGON { get; set; }
         [BsonElement("KRS")]
-        public string KRE { get; set; }
+        public string KRS { get; set; }
     }
 }
