@@ -15,7 +15,7 @@ namespace EventStack_API.UnitTest
         }
 
         [Test]
-        public void findMany_ReturnAllRecords_Pass()
+        public void insertOne()
         {
             Assert.Pass();
         }
