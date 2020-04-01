@@ -10,6 +10,8 @@ namespace EventStack_API.Models
 {
     public class DbContext : DbFactory<IOrganization>
     {
+
+
         public override void deleteMany(IEnumerable<IOrganization> delete)
         {
             throw new NotImplementedException();
