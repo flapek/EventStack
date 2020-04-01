@@ -1,6 +1,7 @@
 ﻿using EventStack_API.Helpers;
 using Interfaces;
 using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 
@@ -8,6 +9,13 @@ namespace EventStack_API.Models
 {
     public class DbContext : DbFactory<IOrganization>
     {
+        public IMongoDatabase mongoDatabase { get; set; }
+
+        public DbContext(IMongoDatabase mongoDatabase)
+        {
+            this.mongoDatabase = mongoDatabase;
+        }
+
         public override void deleteMany(IEnumerable<IOrganization> delete)
         {
             throw new NotImplementedException();
