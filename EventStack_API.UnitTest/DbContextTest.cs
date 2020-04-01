@@ -36,9 +36,9 @@ namespace EventStack_API.UnitTest
             mockClient.Setup(c => c.GetDatabase(mockOption.Object.Value.DatabaseName, null))
                 .Returns(mockDb.Object);
 
-            var contex = new DbContext(mockOption.Object);
+            dbFactory = new DbContext(mockOption.Object);
 
-            Assert.NotNull(contex);
+            Assert.NotNull(dbFactory);
 
         }
     }
