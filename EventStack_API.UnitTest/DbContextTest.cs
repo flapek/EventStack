@@ -18,16 +18,6 @@ namespace EventStack_API.UnitTest
         private Mock<IMongoDatabase> mockDb;
         private Mock<IMongoClient> mockClient;
 
-        public static IEnumerable<TestCaseData> testCasesOrganizationsWithNullParameters
-        {
-            get
-            {
-                yield return new TestCaseData(new Organization() { Name = null });
-                yield return new TestCaseData(new Organization() { Name = "Jan", Password = null });
-                yield return new TestCaseData(new Organization() { Name = "Jan", Password = "@j3st", Email = null });
-            }
-        }
-
         [SetUp]
         public void Setup()
         {
@@ -61,11 +51,18 @@ namespace EventStack_API.UnitTest
         [Test]
         public void insertOne_WhenInputIdIsNotSet_ThenGenerateId() => dbFactory.insertOne(new Organization() { Name = "Jan", Password = "@j3st", Email = "jan.test@test.com" }).Id.Should().NotBeNull();
 
-        [TestCaseSource("testCasesOrganizationsWithNullParameters")]
-        public void insertOne_WhenNameOrPasswordOrEmailIsNull_ThenReturnNull(Organization organization)
+        [Test]
+        [Combinatorial]
+        public void insertOne_WhenNameOrPasswordOrEmailIsNull_ThenReturnNull(
+            [Values(null, "Jan")] string name,
+            [Values(null, "@j3st1234")] string password,
+            [Values(null, "jan.test@test.com")] string email)
         {
-            var result = dbFactory.insertOne(organization);
-            result.Should().NotBeNull();
+            if (name != null && password != null && email != null)
+                return;
+
+            var result = dbFactory.insertOne(new Organization() { Name = name, Password = password, Email = email });
+            result.Should().BeNull();
         }
     }
 }
