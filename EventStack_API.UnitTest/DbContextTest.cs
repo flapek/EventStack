@@ -59,11 +59,7 @@ namespace EventStack_API.UnitTest
         }
 
         [Test]
-        public void insertOne_WhenInputIdIsNotSet_ThenGenerateId()
-        {
-            var result = dbFactory.insertOne(new Organization() { Name = "Jan", Password = "@j3st", Email = "jan.test@test.com" });
-            result.Id.Should().NotBeNull();
-        }
+        public void insertOne_WhenInputIdIsNotSet_ThenGenerateId() => dbFactory.insertOne(new Organization() { Name = "Jan", Password = "@j3st", Email = "jan.test@test.com" }).Id.Should().NotBeNull();
 
         [TestCaseSource("testCasesOrganizationsWithNullParameters")]
         public void insertOne_WhenNameOrPasswordOrEmailIsNull_ThenReturnNull(Organization organization)
