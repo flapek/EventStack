@@ -3,8 +3,6 @@ using Interfaces;
 using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EventStack_API.Models
 {
@@ -21,6 +19,11 @@ namespace EventStack_API.Models
         }
 
         public override void find(ObjectId id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void findMany(IEnumerable<IOrganization> find)
         {
             throw new NotImplementedException();
         }
