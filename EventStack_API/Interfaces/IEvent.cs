@@ -4,7 +4,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Geolocation;
 
-namespace Interface
+namespace Interfaces
 {
     public interface IEvent
     {

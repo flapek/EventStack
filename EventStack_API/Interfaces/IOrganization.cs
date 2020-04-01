@@ -1,10 +1,9 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Geolocation; // https://github.com/scottschluer/geolocation
-using System.Collections;
 using System.Collections.Generic;
 
-namespace Interface
+namespace Interfaces
 {
     public interface IOrganization
     {
