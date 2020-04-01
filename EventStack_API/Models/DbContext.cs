@@ -23,6 +23,11 @@ namespace EventStack_API.Models
             throw new NotImplementedException();
         }
 
+        public override void findMany(IEnumerable<IOrganization> find)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void insertMany(IEnumerable<IOrganization> insert)
         {
             throw new NotImplementedException();
