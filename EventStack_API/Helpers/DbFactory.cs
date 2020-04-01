@@ -6,7 +6,7 @@ using MongoDB.Bson;
 
 namespace EventStack_API.Helpers
 {
-    abstract class DbFactory<T>
+    public abstract class DbFactory<T>
     {
         public abstract void insertOne(T insert);
         public abstract void insertMany(IEnumerable<T> insert);
