@@ -21,7 +21,8 @@ namespace EventStack_API.Models
 
         public override void insertOne(IOrganization insert)
         {
-            throw new NotImplementedException();
+            if (insert == null)
+                throw new ArgumentNullException();
         }
 
         public override void insertMany(IEnumerable<IOrganization> insert)

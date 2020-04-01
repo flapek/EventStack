@@ -38,12 +38,12 @@ namespace EventStack_API.UnitTest
         }
 
         [Test]
-        public void DbContext_CreateConstructor_Success() => dbFactory.Should().NotBeNull();
+        public void dbContext_CreateConstructor_Success() => dbFactory.Should().NotBeNull();
 
         [Test]
         public void insertOne_WhenIOrganizationIsNull_ThenArgumentNullExceptionIsThrown()
         {
-            Action action = () => dbFactory.find(null);
+            Action action = () => dbFactory.insertOne(null);
             action.Should().Throw<ArgumentNullException>();
         }
     }
