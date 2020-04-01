@@ -1,6 +1,6 @@
 ﻿using EventStack_API.Helpers;
-using Interfaces;
 using Microsoft.Extensions.Options;
+using Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace EventStack_API.Models
 {
-    public class DbContext : DbFactory<IOrganization>
+    public class DbContext : DbFactory<Organization>
     {
         private IMongoDatabase MongoDatabase { get; set; }
         private MongoClient MongoClient { get; set; }
@@ -19,13 +19,13 @@ namespace EventStack_API.Models
             MongoDatabase = MongoClient.GetDatabase(configuration.Value.DatabaseName);
         }
 
-        public override void insertOne(IOrganization insert)
+        public override void insertOne(Organization insert)
         {
             if (insert == null)
                 throw new ArgumentNullException();
         }
 
-        public override void insertMany(IEnumerable<IOrganization> insert)
+        public override void insertMany(IEnumerable<Organization> insert)
         {
             throw new NotImplementedException();
         }
@@ -35,22 +35,22 @@ namespace EventStack_API.Models
             throw new NotImplementedException();
         }
 
-        public override void find(IOrganization find)
+        public override void find(Organization find)
         {
             throw new NotImplementedException();
         }
 
-        public override void findMany(IEnumerable<IOrganization> find)
+        public override void findMany(IEnumerable<Organization> find)
         {
             throw new NotImplementedException();
         }
 
-        public override void updateOne(IOrganization update)
+        public override void updateOne(Organization update)
         {
             throw new NotImplementedException();
         }
 
-        public override void updateMany(IEnumerable<IOrganization> update)
+        public override void updateMany(IEnumerable<Organization> update)
         {
             throw new NotImplementedException();
         }
@@ -60,12 +60,12 @@ namespace EventStack_API.Models
             throw new NotImplementedException();
         }
 
-        public override void deleteOne(IOrganization delete)
+        public override void deleteOne(Organization delete)
         {
             throw new NotImplementedException();
         }
 
-        public override void deleteMany(IEnumerable<IOrganization> delete)
+        public override void deleteMany(IEnumerable<Organization> delete)
         {
             throw new NotImplementedException();
         }

@@ -1,18 +1,18 @@
 using EventStack_API.Helpers;
 using EventStack_API.Models;
-using Interfaces;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Moq;
 using NUnit.Framework;
 using System;
 using FluentAssertions;
+using Models;
 
 namespace EventStack_API.UnitTest
 {
     public class DbContextTest
     {
-        private DbFactory<IOrganization> dbFactory;
+        private DbFactory<Organization> dbFactory;
         private Mock<IOptions<DbSettings>> mockOption;
         private Mock<IMongoDatabase> mockDb;
         private Mock<IMongoClient> mockClient;
@@ -46,5 +46,6 @@ namespace EventStack_API.UnitTest
             Action action = () => dbFactory.insertOne(null);
             action.Should().Throw<ArgumentNullException>();
         }
+
     }
 }

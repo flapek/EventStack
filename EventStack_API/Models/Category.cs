@@ -1,9 +1,9 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Interfaces
+namespace Models
 {
-    public interface ICategory 
+    public interface Category 
     {
         [BsonId]
         [BsonElement("Id")]
