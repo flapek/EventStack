@@ -6,7 +6,7 @@ using Geolocation;
 
 namespace Models
 {
-    public interface Event
+    public class Event
     {
         [BsonId]
         [BsonElement("Id")]

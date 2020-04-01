@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Models
 {
-    public interface Category 
+    public class Category 
     {
         [BsonId]
         [BsonElement("Id")]

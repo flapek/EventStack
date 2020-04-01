@@ -46,6 +46,5 @@ namespace EventStack_API.UnitTest
             Action action = () => dbFactory.insertOne(null);
             action.Should().Throw<ArgumentNullException>();
         }
-
     }
 }

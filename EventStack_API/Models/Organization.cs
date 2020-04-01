@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Models
 {
-    public interface Organization
+    public class Organization
     {
         [BsonId]
         [BsonElement("Id")]
