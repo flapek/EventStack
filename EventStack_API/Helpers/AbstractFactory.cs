@@ -1,13 +1,15 @@
+using System.Collections.Generic;
+
 namespace EventStack_API.Helpers
 {
-    abstract class AbstractFactory
+    abstract class AbstractFactory<T>
     {
-        public abstract void insertOne();
-        public abstract void insertMany();
-        public abstract void find();
-        public abstract void updateOne();
-        public abstract void updateMany();
-        public abstract void deleteOne();
-        public abstract void deleteMany();
+        public abstract void insertOne(T insert);
+        public abstract void insertMany(List<T> insert);
+        public abstract void find(string id);
+        public abstract void updateOne(T update);
+        public abstract void updateMany(List<T> update);
+        public abstract void deleteOne(string id);
+        public abstract void deleteMany(List<T> delete);
     }
 }
