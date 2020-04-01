@@ -7,6 +7,7 @@ using NUnit.Framework;
 using System;
 using FluentAssertions;
 using Models;
+using System.Collections.Generic;
 
 namespace EventStack_API.UnitTest
 {
@@ -16,6 +17,16 @@ namespace EventStack_API.UnitTest
         private Mock<IOptions<DbSettings>> mockOption;
         private Mock<IMongoDatabase> mockDb;
         private Mock<IMongoClient> mockClient;
+
+        public static IEnumerable<TestCaseData> testCasesOrganizationsWithNullParameters
+        {
+            get
+            {
+                yield return new TestCaseData(new Organization() { Name = null });
+                yield return new TestCaseData(new Organization() { Name = "Jan", Password = null });
+                yield return new TestCaseData(new Organization() { Name = "Jan", Password = "@j3st", Email = null });
+            }
+        }
 
         [SetUp]
         public void Setup()
@@ -41,17 +52,24 @@ namespace EventStack_API.UnitTest
         public void dbContext_CreateConstructor_Success() => dbFactory.Should().NotBeNull();
 
         [Test]
-        public void insertOne_WhenIOrganizationIsNull_ThenArgumentNullExceptionIsThrown()
+        public void insertOne_WhenInputIsNull_ThenArgumentNullExceptionIsThrown()
         {
             Action action = () => dbFactory.insertOne(null);
             action.Should().Throw<ArgumentNullException>();
         }
 
         [Test]
-        public void insertOne_WhenIOrganizationIdIsNotSet_ThenGenerateId()
+        public void insertOne_WhenInputIdIsNotSet_ThenGenerateId()
         {
-            var result = dbFactory.insertOne(new Organization());
+            var result = dbFactory.insertOne(new Organization() { Name = "Jan", Password = "@j3st", Email = "jan.test@test.com" });
             result.Id.Should().NotBeNull();
+        }
+
+        [TestCaseSource("testCasesOrganizationsWithNullParameters")]
+        public void insertOne_WhenNameOrPasswordOrEmailIsNull_ThenReturnNull(Organization organization)
+        {
+            var result = dbFactory.insertOne(organization);
+            result.Should().NotBeNull();
         }
     }
 }

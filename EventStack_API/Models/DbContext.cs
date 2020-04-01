@@ -23,9 +23,14 @@ namespace EventStack_API.Models
         {
             if (insert == null)
                 throw new ArgumentNullException();
+
             if (insert.Id == null)
                 insert.Id = new ObjectId();
-            return insert;
+
+            if (validModel(insert))
+                return insert;
+
+            return null;
         }
 
         public override IEnumerable<Organization> insertMany(IEnumerable<Organization> insert)
@@ -72,5 +77,7 @@ namespace EventStack_API.Models
         {
             throw new NotImplementedException();
         }
+
+        private bool validModel(Organization insert) => insert.Name != null && insert.Password != null && insert.Email != null;
     }
 }
