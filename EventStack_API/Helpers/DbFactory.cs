@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace EventStack_API.Helpers
 {
-    abstract class AbstractFactory<T>
+    abstract class DbFactory<T>
     {
         public abstract void insertOne(T insert);
         public abstract void insertMany(List<T> insert);
