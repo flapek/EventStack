@@ -11,7 +11,7 @@ namespace EventStack_API.Helpers
         public abstract T insertOne(T insert);
         public abstract IEnumerable<T> insertMany(IEnumerable<T> insert);
         public abstract T find(ObjectId id);
-        public abstract IEnumerable<T> find(T find);
+        public abstract T find(T find);
         public abstract IEnumerable<T> findMany(IEnumerable<T> find);
         public abstract T updateOne(T update);
         public abstract IEnumerable<T> updateMany(IEnumerable<T> update);
