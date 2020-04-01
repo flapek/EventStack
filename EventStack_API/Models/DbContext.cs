@@ -19,10 +19,13 @@ namespace EventStack_API.Models
             MongoDatabase = MongoClient.GetDatabase(configuration.Value.DatabaseName);
         }
 
-        public override void insertOne(Organization insert)
+        public override Organization insertOne(Organization insert)
         {
             if (insert == null)
                 throw new ArgumentNullException();
+            if (insert.Id == null)
+                insert.Id = new ObjectId();
+            return insert;
         }
 
         public override void insertMany(IEnumerable<Organization> insert)

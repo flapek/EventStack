@@ -8,7 +8,7 @@ namespace EventStack_API.Helpers
 {
     public abstract class DbFactory<T>
     {
-        public abstract void insertOne(T insert);
+        public abstract T insertOne(T insert);
         public abstract void insertMany(IEnumerable<T> insert);
         public abstract void find(ObjectId id);
         public abstract void find(T find);

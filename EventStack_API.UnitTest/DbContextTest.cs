@@ -46,5 +46,12 @@ namespace EventStack_API.UnitTest
             Action action = () => dbFactory.insertOne(null);
             action.Should().Throw<ArgumentNullException>();
         }
+
+        [Test]
+        public void insertOne_WhenIOrganizationIdIsNotSet_ThenGenerateId()
+        {
+            var result = dbFactory.insertOne(new Organization());
+            result.Id.Should().NotBeNull();
+        }
     }
 }
