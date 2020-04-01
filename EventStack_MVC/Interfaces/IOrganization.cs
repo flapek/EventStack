@@ -31,6 +31,6 @@ namespace Interfaces
         [BsonElement("REGON")]
         public string REGON { get; set; }
         [BsonElement("KRS")]
-        public string KRE { get; set; }
+        public string KRS { get; set; }
     }
 }
