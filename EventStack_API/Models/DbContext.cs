@@ -16,22 +16,7 @@ namespace EventStack_API.Models
             this.mongoDatabase = mongoDatabase;
         }
 
-        public override void deleteMany(IEnumerable<IOrganization> delete)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void deleteOne(ObjectId id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void find(ObjectId id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void findMany(IEnumerable<IOrganization> find)
+        public override void insertOne(IOrganization insert)
         {
             throw new NotImplementedException();
         }
@@ -41,7 +26,22 @@ namespace EventStack_API.Models
             throw new NotImplementedException();
         }
 
-        public override void insertOne(IOrganization insert)
+        public override void find(ObjectId id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void find(IOrganization find)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void findMany(IEnumerable<IOrganization> find)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void updateOne(IOrganization update)
         {
             throw new NotImplementedException();
         }
@@ -51,7 +51,17 @@ namespace EventStack_API.Models
             throw new NotImplementedException();
         }
 
-        public override void updateOne(IOrganization update)
+        public override void deleteOne(ObjectId id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void deleteOne(IOrganization delete)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void deleteMany(IEnumerable<IOrganization> delete)
         {
             throw new NotImplementedException();
         }
