@@ -5,6 +5,8 @@ using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Moq;
 using NUnit.Framework;
+using System;
+using FluentAssertions;
 
 namespace EventStack_API.UnitTest
 {
@@ -21,11 +23,7 @@ namespace EventStack_API.UnitTest
             mockOption = new Mock<IOptions<DbSettings>>();
             mockDb = new Mock<IMongoDatabase>();
             mockClient = new Mock<IMongoClient>();
-        }
 
-        [Test]
-        public void DbContext_CreateConstructor_Success()
-        {
             var settings = new DbSettings()
             {
                 Connection = "mongodb://tes123",
@@ -37,9 +35,16 @@ namespace EventStack_API.UnitTest
                 .Returns(mockDb.Object);
 
             dbFactory = new DbContext(mockOption.Object);
+        }
 
-            Assert.NotNull(dbFactory);
+        [Test]
+        public void DbContext_CreateConstructor_Success() => dbFactory.Should().NotBeNull();
 
+        [Test]
+        public void insertOne_WhenIOrganizationIsNull_ThenArgumentNullExceptionIsThrown()
+        {
+            Action action = () => dbFactory.find(null);
+            action.Should().Throw<ArgumentNullException>();
         }
     }
 }
