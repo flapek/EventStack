@@ -28,47 +28,47 @@ namespace EventStack_API.Models
             return insert;
         }
 
-        public override void insertMany(IEnumerable<Organization> insert)
+        public override IEnumerable<Organization> insertMany(IEnumerable<Organization> insert)
         {
             throw new NotImplementedException();
         }
 
-        public override void find(ObjectId id)
+        public override Organization find(ObjectId id)
         {
             throw new NotImplementedException();
         }
 
-        public override void find(Organization find)
+        public override Organization find(Organization find)
         {
             throw new NotImplementedException();
         }
 
-        public override void findMany(IEnumerable<Organization> find)
+        public override IEnumerable<Organization> findMany(IEnumerable<Organization> find)
         {
             throw new NotImplementedException();
         }
 
-        public override void updateOne(Organization update)
+        public override Organization updateOne(Organization update)
         {
             throw new NotImplementedException();
         }
 
-        public override void updateMany(IEnumerable<Organization> update)
+        public override IEnumerable<Organization> updateMany(IEnumerable<Organization> update)
         {
             throw new NotImplementedException();
         }
 
-        public override void deleteOne(ObjectId id)
+        public override bool deleteOne(ObjectId id)
         {
             throw new NotImplementedException();
         }
 
-        public override void deleteOne(Organization delete)
+        public override bool deleteOne(Organization delete)
         {
             throw new NotImplementedException();
         }
 
-        public override void deleteMany(IEnumerable<Organization> delete)
+        public override bool deleteMany(IEnumerable<Organization> delete)
         {
             throw new NotImplementedException();
         }
