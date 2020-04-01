@@ -64,5 +64,12 @@ namespace EventStack_API.UnitTest
             var result = dbFactory.insertOne(new Organization() { Name = name, Password = password, Email = email });
             result.Should().BeNull();
         }
+
+        [TestCase("Jan", "@j3st1234", "jan.test@test.com")]
+        public void insertOne_WhenNameOrPasswordOrEmailIsNotNull_ThenReturnOrganizaction(string name, string password, string email)
+        {
+            var expected = new Organization() { Name = name, Password = password, Email = email };
+            dbFactory.insertOne(expected).Should().BeSameAs(expected);
+        }
     }
 }
