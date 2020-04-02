@@ -39,11 +39,14 @@ namespace EventStack_API.UnitTest
             dbFactory = new DbContext(mockOption.Object);
         }
 
-
-        #region insertOne Test
+        #region constructor Test
 
         [Test]
         public void dbContext_CreateConstructor_Success() => dbFactory.Should().NotBeNull();
+
+        #endregion
+
+        #region insertOne Test
 
         [Test]
         public void insertOne_WhenInputIsNull_ThenArgumentNullExceptionIsThrown()
@@ -52,8 +55,9 @@ namespace EventStack_API.UnitTest
             action.Should().Throw<ArgumentNullException>();
         }
 
-        [Test]
-        public void insertOne_WhenInputIdIsNotSet_ThenGenerateId() => dbFactory.insertOne(new Organization() { Name = "Jan", Password = "@j3st", Email = "jan.test@test.com" }).Id.Should().NotBeNull();
+        [TestCase("Jan", "@j3st1234", "jan.test@test.com")]
+        public void insertOne_WhenInputIdIsNotSet_ThenGenerateId(string name, string password, string email) => 
+            dbFactory.insertOne(new Organization() { Name = name, Password = password, Email = email }).Id.Should().NotBeNull();
 
         [Test]
         [Combinatorial]

@@ -29,8 +29,8 @@ namespace EventStack_API.Models
 
             if (validModel(insert))
             {
-                var collection = MongoDatabase.GetCollection<Organization>("Organizaction");
-                collection.InsertOne(insert);
+                //var collection = MongoDatabase.GetCollection<Organization>("Organizaction");
+                //collection.InsertOne(insert);
                 return insert;
             }
 
