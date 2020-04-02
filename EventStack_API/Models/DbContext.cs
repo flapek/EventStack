@@ -28,7 +28,11 @@ namespace EventStack_API.Models
                 insert.Id = new ObjectId();
 
             if (validModel(insert))
+            {
+                var collection = MongoDatabase.GetCollection<Organization>("Organizaction");
+                collection.InsertOne(insert);
                 return insert;
+            }
 
             return null;
         }
