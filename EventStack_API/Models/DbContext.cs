@@ -18,5 +18,10 @@ namespace EventStack_API.Models
             MongoClient = new MongoClient(configuration.Value.Connection);
             MongoDatabase = MongoClient.GetDatabase(configuration.Value.DatabaseName);
         }
+
+        public IMongoCollection<T> GetCollection<T>(string name)
+        {
+            return MongoDatabase.GetCollection<T>(name);
+        }
     }
 }
