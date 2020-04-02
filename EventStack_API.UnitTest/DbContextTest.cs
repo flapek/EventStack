@@ -15,15 +15,11 @@ namespace EventStack_API.UnitTest
     {
         private DbFactory<Organization> dbFactory;
         private Mock<IOptions<DbSettings>> mockOption;
-        private Mock<IMongoDatabase> mockDb;
-        private Mock<IMongoClient> mockClient;
 
         [SetUp]
         public void Setup()
         {
             mockOption = new Mock<IOptions<DbSettings>>();
-            mockDb = new Mock<IMongoDatabase>();
-            mockClient = new Mock<IMongoClient>();
 
             var settings = new DbSettings()
             {
@@ -32,11 +28,11 @@ namespace EventStack_API.UnitTest
             };
 
             mockOption.Setup(s => s.Value).Returns(settings);
-            mockClient.Setup(c => c.GetDatabase(mockOption.Object.Value.DatabaseName, null))
-                .Returns(mockDb.Object);
-
             dbFactory = new DbContext(mockOption.Object);
         }
+
+
+        #region insertOne Test
 
         [Test]
         public void dbContext_CreateConstructor_Success() => dbFactory.Should().NotBeNull();
@@ -71,5 +67,18 @@ namespace EventStack_API.UnitTest
             var expected = new Organization() { Name = name, Password = password, Email = email };
             dbFactory.insertOne(expected).Should().BeSameAs(expected);
         }
+
+        //incorect test
+        //TODO
+        [TestCase("Jan", "@j3st1234", "jan.test@test.com")]
+        public void insertOne_WhenModelIsValidAddItToDb_ThenDbCollectionHasOneElement(string name, string password, string email)
+        {
+            dbFactory.insertOne(new Organization() { Name = name, Password = password, Email = email });
+            var db = (DbContext)dbFactory;
+            var collection = db.MongoDatabase.GetCollection<Organization>("Organizaction");
+            collection.Should().NotBeNull();
+        }
+
+        #endregion
     }
 }

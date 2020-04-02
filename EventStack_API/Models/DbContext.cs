@@ -10,7 +10,7 @@ namespace EventStack_API.Models
 {
     public class DbContext : DbFactory<Organization>
     {
-        private IMongoDatabase MongoDatabase { get; set; }
+        public IMongoDatabase MongoDatabase { get; private set; }
         private MongoClient MongoClient { get; set; }
 
         public DbContext(IOptions<DbSettings> configuration)
