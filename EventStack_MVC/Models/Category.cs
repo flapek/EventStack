@@ -1,9 +1,9 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Interfaces
+namespace Models
 {
-    public interface ICategory 
+    public class Category 
     {
         [BsonId]
         [BsonElement("Id")]
@@ -11,5 +11,5 @@ namespace Interfaces
         public ObjectId Id { get; set; }
         [BsonElement("Name")]
         public string Name { get; set; }
-    }
+    } 
 }

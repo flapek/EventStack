@@ -1,12 +1,11 @@
-using System.Diagnostics;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Geolocation; // https://github.com/scottschluer/geolocation
 using System.Collections.Generic;
 
-namespace Interfaces
+namespace Models
 {
-    public interface IOrganization
+    public class Organization
     {
         [BsonId]
         [BsonElement("Id")]
@@ -25,7 +24,7 @@ namespace Interfaces
         [BsonElement("Destription")] 
         public string Destription { get; set; }
         [BsonElement("Events")] 
-        public IEnumerable<IEvent> Events { get; set; }
+        public IEnumerable<Event> Events { get; set; }
         [BsonElement("NIP")]
         public string NIP { get; set; }
         [BsonElement("REGON")]
