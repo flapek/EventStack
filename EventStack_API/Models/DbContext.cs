@@ -12,11 +12,13 @@ namespace EventStack_API.Models
     {
         public IMongoDatabase MongoDatabase { get; private set; }
         private MongoClient MongoClient { get; set; }
+        private IMongoCollection<Organization> MongoCollection { get; set; }
 
         public DbContext(IOptions<DbSettings> configuration)
         {
             MongoClient = new MongoClient(configuration.Value.Connection);
             MongoDatabase = MongoClient.GetDatabase(configuration.Value.DatabaseName);
+            MongoCollection = MongoDatabase.GetCollection<Organization>("Organization");
         }
 
         public override Organization insertOne(Organization insert)
