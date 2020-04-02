@@ -8,6 +8,7 @@ namespace EventStack_API.Models
     public class OrganizationRepository : DbFactory<Organization>
     {
         private DbContext _context { get; set; }
+        
         public OrganizationRepository(DbContext context)
         {
             _context = context;
