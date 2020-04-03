@@ -2,10 +2,11 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Geolocation; // https://github.com/scottschluer/geolocation
 using System.Collections.Generic;
+using EventStack_API.Interfaces;
 
 namespace Models
 {
-    public class Organization
+    public class Organization : IBaseDbModel
     {
         [BsonId]
         [BsonElement("Id")]

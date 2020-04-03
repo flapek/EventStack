@@ -3,10 +3,11 @@ using System;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Geolocation;
+using EventStack_API.Interfaces;
 
 namespace Models
 {
-    public class Event
+    public class Event : IBaseDbModel
     {
         [BsonId]
         [BsonElement("Id")]

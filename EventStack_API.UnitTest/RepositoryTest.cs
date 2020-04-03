@@ -6,31 +6,19 @@ using NUnit.Framework;
 using System;
 using FluentAssertions;
 using Models;
+using EventStack_API.Interfaces;
+using MongoDB.Driver;
 
 namespace EventStack_API.UnitTest
 {
-    public class RepositoryTest
+    [TestFixture(typeof(Organization))]
+    [TestFixture(typeof(Category))]
+    [TestFixture(typeof(Event))]
+    public class RepositoryTest<T> where T : IBaseDbModel
     {
-        private DbFactory<Organization> dbFactory;
-        private Mock<DbContext> dbContextMock;
-        private Mock<IOptions<DbSettings>> mockOption;
-
         [SetUp]
         public void Setup()
         {
-            var settings = new DbSettings()
-            {
-                _connectionString = "mongodb://tes123",
-                _databaseName = "TestDB"
-            };
-
-            mockOption = new Mock<IOptions<DbSettings>>();
-            mockOption.Setup(s => s.Value).Returns(settings);
-            dbContextMock = new Mock<DbContext>(mockOption.Object);
-
-            dbFactory = new OrganizationRepository(dbContextMock.Object);
-
-            //dbFactory = new OrganizationRepository(Mock.Of<DbContext>(option => option.GetCollection<Organization>("Organization") == ))
         }
 
         #region insert Test
@@ -38,14 +26,43 @@ namespace EventStack_API.UnitTest
         [Test]
         public void insert_WhenInputIsNull_ThenArgumentNullExceptionIsThrown()
         {
-            Organization organization = null;
-            Action action = () => dbFactory.insert(organization);
+            var settings = new DbSettings()
+            {
+                _connectionString = "mongodb://tes123",
+                _databaseName = "TestDB"
+            };
+            var mockOption = new Mock<IOptions<DbSettings>>();
+            mockOption.Setup(s => s.Value).Returns(settings);
+            var validator = new Mock<IDbModelValidator>();
+            var dbContextMock = new Mock<DbContext>(mockOption.Object);
+            DbFactory<T> dbFactory = new Repository<T>(dbContextMock.Object, validator.Object);
+
+            Action action = () => dbFactory.insert((dynamic)null);
+
             action.Should().Throw<ArgumentNullException>();
         }
 
         [TestCase("Jan", "@j3st1234", "jan.test@test.com")]
-        public void insert_WhenInputIdIsNotSet_ThenGenerateId(string name, string password, string email) =>
+        public void insert_WhenInputIdIsNotSet_ThenGenerateId(string name, string password, string email)
+        {
+            var settings = new DbSettings()
+            {
+                _connectionString = "mongodb://tes123",
+                _databaseName = "TestDB"
+            };
+            var mockOption = new Mock<IOptions<DbSettings>>();
+            mockOption.Setup(s => s.Value).Returns(settings);
+            var validator = Mock.Of<IDbModelValidator>(validator => validator.Validate(It.IsAny<IBaseDbModel>()) == false);
+            var dbContextMock = new Mock<DbContext>(mockOption.Object);
+
+            DbFactory<Organization> dbFactory = new Repository<Organization>(dbContextMock.Object, validator);
+            validator = Mock.Of<IDbModelValidator>(validator => validator.Validate(It.IsAny<IBaseDbModel>()) == true);
+            var collection = Mock.Of<IMongoCollection<IBaseDbModel>>();
+            var context = Mock.Of<IDbContext>(context => context.GetCollection<Organization>(typeof(Organization).Name) == collection);
+            dbFactory = new Repository<Organization>(dbContextMock.Object, validator);
+
             dbFactory.insert(new Organization() { Name = name, Password = password, Email = email }).Id.Should().NotBeNull();
+        }
 
         [Test]
         [Combinatorial]
@@ -54,6 +71,17 @@ namespace EventStack_API.UnitTest
             [Values(null, "@j3st1234")] string password,
             [Values(null, "jan.test@test.com")] string email)
         {
+            var settings = new DbSettings()
+            {
+                _connectionString = "mongodb://tes123",
+                _databaseName = "TestDB"
+            };
+            var mockOption = new Mock<IOptions<DbSettings>>();
+            mockOption.Setup(s => s.Value).Returns(settings);
+            var validator = Mock.Of<IDbModelValidator>(validator => validator.Validate(It.IsAny<IBaseDbModel>()) == false);
+            var dbContextMock = new Mock<DbContext>(mockOption.Object);
+            var dbFactory = new Repository<Organization>(dbContextMock.Object, validator);
+
             if (name != null && password != null && email != null)
                 return;
 
@@ -64,6 +92,17 @@ namespace EventStack_API.UnitTest
         [TestCase("Jan", "@j3st1234", "jan.test@test.com")]
         public void insert_WhenNameOrPasswordOrEmailIsNotNull_ThenReturnOrganizaction(string name, string password, string email)
         {
+            var settings = new DbSettings()
+            {
+                _connectionString = "mongodb://tes123",
+                _databaseName = "TestDB"
+            };
+            var mockOption = new Mock<IOptions<DbSettings>>();
+            mockOption.Setup(s => s.Value).Returns(settings);
+            var validator = Mock.Of<IDbModelValidator>(validator => validator.Validate(It.IsAny<IBaseDbModel>()) == false);
+            var dbContextMock = new Mock<DbContext>(mockOption.Object);
+
+            DbFactory<Organization> dbFactory = new Repository<Organization>(dbContextMock.Object, validator);
             var expected = new Organization() { Name = name, Password = password, Email = email };
             dbFactory.insert(expected).Should().BeSameAs(expected);
         }

@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using EventStack_API.Interfaces;
 using MongoDB.Bson;
 
 namespace EventStack_API.Helpers
 {
-    public abstract class DbFactory<T>
+    public abstract class DbFactory<T> where T: IBaseDbModel 
     {
         public abstract T insert(T insert);
         public abstract IEnumerable<T> insert(IEnumerable<T> insert);
