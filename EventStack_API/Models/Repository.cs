@@ -19,7 +19,7 @@ namespace EventStack_API.Models
         public T Insert(T insert)
         {
             if (insert == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(T));
 
             if (Validator.Validate(insert))
             {
