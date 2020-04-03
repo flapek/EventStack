@@ -8,11 +8,8 @@ namespace EventStack_API.Models
     public class CategoryRepository : DbFactory<Category>
     {
         private DbContext _context { get; set; }
-        
-        public CategoryRepository(DbContext context)
-        {
-            _context = context;
-        }
+
+        public CategoryRepository(DbContext context) => _context = context;
 
         public override Category insert(Category insert)
         {

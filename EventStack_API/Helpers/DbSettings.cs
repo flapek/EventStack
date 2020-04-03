@@ -2,7 +2,7 @@
 {
     public class DbSettings
     {
-        public string Connection { get; set; }
-        public string DatabaseName { get; set; }
+        public string _connectionString { get; set; }
+        public string _databaseName { get; set; }
     }
 }

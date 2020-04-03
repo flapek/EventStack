@@ -9,10 +9,7 @@ namespace EventStack_API.Models
     {
         private DbContext _context { get; set; }
 
-        public EventRepository(DbContext context)
-        {
-            _context = context;
-        }
+        public EventRepository(DbContext context) => _context = context;
 
         public override Event insert(Event insert)
         {

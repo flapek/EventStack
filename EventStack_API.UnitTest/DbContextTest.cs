@@ -28,12 +28,12 @@ namespace EventStack_API.UnitTest
 
             var settings = new DbSettings()
             {
-                Connection = "mongodb://tes123",
-                DatabaseName = "TestDB"
+                _connectionString = "mongodb://tes123",
+                _databaseName = "TestDB"
             };
 
             mockOption.Setup(s => s.Value).Returns(settings);
-            mockClient.Setup(c => c.GetDatabase(mockOption.Object.Value.DatabaseName, null))
+            mockClient.Setup(c => c.GetDatabase(mockOption.Object.Value._databaseName, null))
                .Returns(mockDb.Object);
 
             dbFactory = new DbContext(mockOption.Object);

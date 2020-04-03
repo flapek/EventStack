@@ -9,17 +9,14 @@ namespace EventStack_API.Models
     {
         private DbContext _context { get; set; }
 
-        public override bool delete(ObjectId id)
+        public OrganizationRepository(DbContext context) => _context = context;
+
+        public override Organization insert(Organization insert)
         {
             throw new System.NotImplementedException();
         }
 
-        public override bool delete(Organization delete)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override bool delete(IEnumerable<Organization> delete)
+        public override IEnumerable<Organization> insert(IEnumerable<Organization> insert)
         {
             throw new System.NotImplementedException();
         }
@@ -39,22 +36,26 @@ namespace EventStack_API.Models
             throw new System.NotImplementedException();
         }
 
-        public override Organization insert(Organization insert)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override IEnumerable<Organization> insert(IEnumerable<Organization> insert)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public override Organization update(Organization update)
         {
             throw new System.NotImplementedException();
         }
 
         public override IEnumerable<Organization> update(IEnumerable<Organization> update)
+        {
+            throw new System.NotImplementedException();
+        }
+        public override bool delete(ObjectId id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override bool delete(Organization delete)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override bool delete(IEnumerable<Organization> delete)
         {
             throw new System.NotImplementedException();
         }
