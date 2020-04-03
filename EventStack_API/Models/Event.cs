@@ -16,7 +16,6 @@ namespace Models
         [BsonElement("Name")]
         public string Name { get; set; }
         [BsonElement("Categories")]
-
         public IEnumerable<Category> Categories { get; set; }
         [BsonElement("Photo")]
         public string Photo { get; set; }
