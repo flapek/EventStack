@@ -1,10 +1,9 @@
-﻿using EventStack_API.Interfaces;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace EventStack_API.Models
 {
-    public class DbContext : IDbContext
+    public class DbContext
     {
         private IMongoDatabase _mongoDatabase { get; set; }
         private MongoClient _mongoClient { get; set; }
