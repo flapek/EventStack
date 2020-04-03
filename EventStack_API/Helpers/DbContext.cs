@@ -10,7 +10,7 @@ namespace EventStack_API.Models
 {
     public class DbContext
     {
-        public IMongoDatabase MongoDatabase { get; private set; }
+        private IMongoDatabase MongoDatabase { get; set; }
         private MongoClient MongoClient { get; set; }
 
         public DbContext(IOptions<DbSettings> configuration)
@@ -19,9 +19,6 @@ namespace EventStack_API.Models
             MongoDatabase = MongoClient.GetDatabase(configuration.Value.DatabaseName);
         }
 
-        public IMongoCollection<T> GetCollection<T>(string name)
-        {
-            return MongoDatabase.GetCollection<T>(name);
-        }
+        public IMongoCollection<T> GetCollection<T>(string name) => MongoDatabase.GetCollection<T>(name);
     }
 }
