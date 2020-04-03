@@ -1,13 +1,11 @@
 using System.Collections.Generic;
-using EventStack_API.Helpers;
-using Models;
 using MongoDB.Bson;
 using System;
 using EventStack_API.Interfaces;
 
 namespace EventStack_API.Models
 {
-    public class Repository<T> : DbFactory<T> where T: IBaseDbModel
+    public class Repository<T> : IRepository<T> where T: IBaseDbModel
     {
         private DbContext _context { get; set; }
         private IDbModelValidator _validator { get; set; }
@@ -17,7 +15,7 @@ namespace EventStack_API.Models
             _validator = validator;
         }
 
-        public override T insert(T insert)
+        public T insert(T insert)
         {
             if (insert == null)
                 throw new ArgumentNullException();
@@ -33,48 +31,48 @@ namespace EventStack_API.Models
             return default;
         }
 
-        public override IEnumerable<T> insert(IEnumerable<T> insert)
+        public IEnumerable<T> insert(IEnumerable<T> insert)
         {
             if (insert == null)
                 throw new ArgumentNullException();
             return null;
         }
 
-        public override T find(ObjectId id)
+        public T find(ObjectId id)
         {
             throw new NotImplementedException();
         }
 
-        public override T find(T find)
+        public T find(T find)
         {
             throw new NotImplementedException();
         }
 
-        public override IEnumerable<T> find(IEnumerable<T> find)
+        public IEnumerable<T> find(IEnumerable<T> find)
         {
             throw new NotImplementedException();
         }
 
-        public override T update(T update)
+        public T update(T update)
         {
             throw new NotImplementedException();
         }
 
-        public override IEnumerable<T> update(IEnumerable<T> update)
+        public IEnumerable<T> update(IEnumerable<T> update)
         {
             throw new NotImplementedException();
         }
-        public override bool delete(ObjectId id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool delete(T delete)
+        public bool delete(ObjectId id)
         {
             throw new NotImplementedException();
         }
 
-        public override bool delete(IEnumerable<T> delete)
+        public bool delete(T delete)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool delete(IEnumerable<T> delete)
         {
             throw new NotImplementedException();
         }

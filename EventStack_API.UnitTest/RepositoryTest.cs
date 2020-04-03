@@ -35,7 +35,7 @@ namespace EventStack_API.UnitTest
             mockOption.Setup(s => s.Value).Returns(settings);
             var validator = new Mock<IDbModelValidator>();
             var dbContextMock = new Mock<DbContext>(mockOption.Object);
-            DbFactory<T> dbFactory = new Repository<T>(dbContextMock.Object, validator.Object);
+            IRepository<T> dbFactory = new Repository<T>(dbContextMock.Object, validator.Object);
 
             Action action = () => dbFactory.insert((dynamic)null);
 
@@ -55,7 +55,7 @@ namespace EventStack_API.UnitTest
             var validator = Mock.Of<IDbModelValidator>(validator => validator.Validate(It.IsAny<IBaseDbModel>()) == false);
             var dbContextMock = new Mock<DbContext>(mockOption.Object);
 
-            DbFactory<Organization> dbFactory = new Repository<Organization>(dbContextMock.Object, validator);
+            IRepository<Organization> dbFactory = new Repository<Organization>(dbContextMock.Object, validator);
             validator = Mock.Of<IDbModelValidator>(validator => validator.Validate(It.IsAny<IBaseDbModel>()) == true);
             var collection = Mock.Of<IMongoCollection<IBaseDbModel>>();
             var context = Mock.Of<IDbContext>(context => context.GetCollection<Organization>(typeof(Organization).Name) == collection);
@@ -102,7 +102,7 @@ namespace EventStack_API.UnitTest
             var validator = Mock.Of<IDbModelValidator>(validator => validator.Validate(It.IsAny<IBaseDbModel>()) == false);
             var dbContextMock = new Mock<DbContext>(mockOption.Object);
 
-            DbFactory<Organization> dbFactory = new Repository<Organization>(dbContextMock.Object, validator);
+            IRepository<Organization> dbFactory = new Repository<Organization>(dbContextMock.Object, validator);
             var expected = new Organization() { Name = name, Password = password, Email = email };
             dbFactory.insert(expected).Should().BeSameAs(expected);
         }
