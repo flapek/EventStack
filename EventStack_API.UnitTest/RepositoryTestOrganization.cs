@@ -10,10 +10,7 @@ using MongoDB.Driver;
 
 namespace EventStack_API.UnitTest
 {
-    [TestFixture(typeof(Organization))]
-    [TestFixture(typeof(Category))]
-    [TestFixture(typeof(Event))]
-    public class RepositoryTest<T> where T : IDbModel
+    class RepositoryTestOrganization
     {
         [SetUp]
         public void Setup()
@@ -21,25 +18,6 @@ namespace EventStack_API.UnitTest
         }
 
         #region insert Test
-
-        [Test]
-        public void insert_WhenInputIsNull_ThenArgumentNullExceptionIsThrown()
-        {
-            var settings = new DbSettings()
-            {
-                _connectionString = "mongodb://tes123",
-                _databaseName = "TestDB"
-            };
-            var mockOption = new Mock<IOptions<DbSettings>>();
-            mockOption.Setup(s => s.Value).Returns(settings);
-            var validator = new Mock<IDbModelValidator>();
-            var dbContextMock = new Mock<DbContext>(mockOption.Object);
-            IRepositoryFactory<T> repositoryFactory = new Repository<T>(dbContextMock.Object, validator.Object);
-
-            Action action = () => repositoryFactory.insert(It.IsAny<T>());
-
-            action.Should().Throw<ArgumentNullException>();
-        }
 
         [Test]
         [Combinatorial]
