@@ -34,16 +34,16 @@ namespace EventStack_API.UnitTest
             mockOption.Setup(s => s.Value).Returns(settings);
             var validator = new Mock<IDbModelValidator>();
             var dbContextMock = new Mock<DbContext>(mockOption.Object);
-            IRepositoryFactory<T> dbFactory = new Repository<T>(dbContextMock.Object, validator.Object);
+            IRepositoryFactory<T> repositoryFactory = new Repository<T>(dbContextMock.Object, validator.Object);
 
-            Action action = () => dbFactory.insert(It.IsAny<T>());
+            Action action = () => repositoryFactory.insert(It.IsAny<T>());
 
             action.Should().Throw<ArgumentNullException>();
         }
 
         [Test]
         [Combinatorial]
-        public void insert_WhenNameOrPasswordOrEmailIsNull_ThenReturnNull(
+        public void insert_WhenNameOrPasswordOrEmailIsNullForOrganization_ThenReturnNull(
             [Values(null, "Jan")] string name,
             [Values(null, "@j3st1234")] string password,
             [Values(null, "jan.test@test.com")] string email)
@@ -57,17 +57,17 @@ namespace EventStack_API.UnitTest
             mockOption.Setup(s => s.Value).Returns(settings);
             var validator = Mock.Of<IDbModelValidator>(validator => validator.Validate(It.IsAny<IDbModel>()) == false);
             var dbContextMock = new Mock<DbContext>(mockOption.Object);
-            var dbFactory = new Repository<Organization>(dbContextMock.Object, validator);
+            var repositoryFactory = new Repository<Organization>(dbContextMock.Object, validator);
 
             if (name != null && password != null && email != null)
                 return;
 
-            var result = dbFactory.insert(new Organization() { Name = name, Password = password, Email = email });
+            var result = repositoryFactory.insert(new Organization() { Name = name, Password = password, Email = email });
             result.Should().BeNull();
         }
 
         [TestCase("Jan", "@j3st1234", "jan.test@test.com")]
-        public void insert_WhenNameOrPasswordOrEmailIsNotNull_ThenReturnOrganizaction(string name, string password, string email)
+        public void insert_WhenNameOrPasswordOrEmailIsNotNullForOrganization_ThenReturnOrganizaction(string name, string password, string email)
         {
             var settings = new DbSettings()
             {
@@ -76,12 +76,14 @@ namespace EventStack_API.UnitTest
             };
             var mockOption = new Mock<IOptions<DbSettings>>();
             mockOption.Setup(s => s.Value).Returns(settings);
-            var validator = Mock.Of<IDbModelValidator>(validator => validator.Validate(It.IsAny<IDbModel>()) == false);
+            var validator = Mock.Of<IDbModelValidator>(validator => validator.Validate(It.IsAny<IDbModel>()) == true);
             var dbContextMock = new Mock<DbContext>(mockOption.Object);
-
-            IRepositoryFactory<Organization> dbFactory = new Repository<Organization>(dbContextMock.Object, validator);
+            var mockCollection = new Mock<IMongoCollection<Organization>>();
+            dbContextMock.Setup(x => x.GetCollection<Organization>(typeof(Organization).Name)).Returns(mockCollection.Object);
+            IRepositoryFactory<Organization> repositoryFactory = new Repository<Organization>(dbContextMock.Object, validator);
             var expected = new Organization() { Name = name, Password = password, Email = email };
-            dbFactory.insert(expected).Should().BeSameAs(expected);
+
+            repositoryFactory.insert(expected).Should().BeSameAs(expected);
         }
 
         #endregion
