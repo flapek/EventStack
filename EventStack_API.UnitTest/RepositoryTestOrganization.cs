@@ -44,26 +44,6 @@ namespace EventStack_API.UnitTest
             result.Should().BeNull();
         }
 
-        [TestCase("Jan", "@j3st1234", "jan.test@test.com")]
-        public void insert_WhenNameOrPasswordOrEmailIsNotNullForOrganization_ThenReturnOrganizaction(string name, string password, string email)
-        {
-            var settings = new DbSettings()
-            {
-                _connectionString = "mongodb://tes123",
-                _databaseName = "TestDB"
-            };
-            var mockOption = new Mock<IOptions<DbSettings>>();
-            mockOption.Setup(s => s.Value).Returns(settings);
-            var validator = Mock.Of<IDbModelValidator>(validator => validator.Validate(It.IsAny<IDbModel>()) == true);
-            var dbContextMock = new Mock<DbContext>(mockOption.Object);
-            var mockCollection = new Mock<IMongoCollection<Organization>>();
-            dbContextMock.Setup(x => x.GetCollection<Organization>(typeof(Organization).Name)).Returns(mockCollection.Object);
-            IRepositoryFactory<Organization> repositoryFactory = new Repository<Organization>(dbContextMock.Object, validator);
-            var expected = new Organization() { Name = name, Password = password, Email = email };
-
-            repositoryFactory.insert(expected).Should().BeSameAs(expected);
-        }
-
         #endregion
     }
 }
