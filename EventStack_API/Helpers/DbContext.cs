@@ -7,7 +7,7 @@ namespace EventStack_API.Models
     public class DbContext : IDbContext
     {
         private IMongoDatabase MongoDatabase { get; set; }
-        private MongoClient MongoClient { get; set; }
+        public MongoClient MongoClient { get; set; }
 
         public DbContext(IOptions<DbSettings> configuration)
         {
