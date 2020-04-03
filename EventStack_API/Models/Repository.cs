@@ -6,7 +6,7 @@ using MongoDB.Driver;
 
 namespace EventStack_API.Models
 {
-    public class Repository<T> : IRepositoryFactory<T> where T: IDbModel
+    public class Repository<T> : IRepositoryFactory<T> where T : IDbModel
     {
         private IMongoCollection<T> collection { get; set; }
         private IDbModelValidator Validator { get; set; }
@@ -21,13 +21,8 @@ namespace EventStack_API.Models
             if (insert == null)
                 throw new ArgumentNullException(nameof(T));
 
-            if (Validator.Validate(insert))
-            {
-                collection.InsertOne(insert);
-                return insert;
-            }
-
-            return default;
+            collection.InsertOne(insert);
+            return insert;
         }
 
         public IEnumerable<T> Insert(IEnumerable<T> insert)
