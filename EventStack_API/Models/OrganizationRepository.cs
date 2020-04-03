@@ -17,9 +17,7 @@ namespace EventStack_API.Models
             if (insert == null)
                 throw new ArgumentNullException();
             if (insert.Id == null)
-            {
                 insert.Id = new ObjectId();
-            }
 
             if (ModelValid(insert))
             {

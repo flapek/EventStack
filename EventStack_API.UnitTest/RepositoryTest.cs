@@ -29,6 +29,8 @@ namespace EventStack_API.UnitTest
             dbContextMock = new Mock<DbContext>(mockOption.Object);
 
             dbFactory = new OrganizationRepository(dbContextMock.Object);
+
+            //dbFactory = new OrganizationRepository(Mock.Of<DbContext>(option => option.GetCollection<Organization>("Organization") == ))
         }
 
         #region insert Test
