@@ -35,7 +35,7 @@ namespace EventStack_API.UnitTest
             var dbContextMock = new Mock<DbContext>(mockOption.Object);
             IRepositoryFactory<T> repositoryFactory = new Repository<T>(dbContextMock.Object, validator.Object);
 
-            Action action = () => repositoryFactory.insert(It.IsAny<T>());
+            Action action = () => repositoryFactory.Insert(It.IsAny<T>());
 
             action.Should().Throw<ArgumentNullException>();
         }

@@ -6,15 +6,15 @@ namespace EventStack_API.Interfaces
 {
     public interface IRepositoryFactory<T> where T: IDbModel 
     {
-        T insert(T insert);
-        IEnumerable<T> insert(IEnumerable<T> insert);
-        T find(ObjectId id);
-        T find(T find);
-        IEnumerable<T> find(IEnumerable<T> find);
-        T update(T update);
-        IEnumerable<T> update(IEnumerable<T> update);
-        bool delete(ObjectId id);
-        bool delete(T delete);
-        bool delete(IEnumerable<T> delete);
+        T Insert(T insert);
+        IEnumerable<T> Insert(IEnumerable<T> insert);
+        T Find(ObjectId id);
+        T Find(T find);
+        IEnumerable<T> Find(IEnumerable<T> find);
+        T Update(T update);
+        IEnumerable<T> Update(IEnumerable<T> update);
+        bool Delete(ObjectId id);
+        bool Delete(T delete);
+        bool Delete(IEnumerable<T> delete);
     }
 }

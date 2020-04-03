@@ -6,15 +6,15 @@ namespace EventStack_API.Models
 {
     public class DbContext : IDbContext
     {
-        private IMongoDatabase _mongoDatabase { get; set; }
-        private MongoClient _mongoClient { get; set; }
+        private IMongoDatabase MongoDatabase { get; set; }
+        private MongoClient MongoClient { get; set; }
 
         public DbContext(IOptions<DbSettings> configuration)
         {
-            _mongoClient = new MongoClient(configuration.Value._connectionString);
-            _mongoDatabase = _mongoClient.GetDatabase(configuration.Value._databaseName);
+            MongoClient = new MongoClient(configuration.Value._connectionString);
+            MongoDatabase = MongoClient.GetDatabase(configuration.Value._databaseName);
         }
 
-        public IMongoCollection<T> GetCollection<T>(string name) => _mongoDatabase.GetCollection<T>(name);
+        public IMongoCollection<T> GetCollection<T>(string name) => MongoDatabase.GetCollection<T>(name);
     }
 }

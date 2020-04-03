@@ -7,70 +7,70 @@ namespace EventStack_API.Models
 {
     public class Repository<T> : IRepositoryFactory<T> where T: IDbModel
     {
-        private DbContext _context { get; set; }
-        private IDbModelValidator _validator { get; set; }
+        private DbContext Context { get; set; }
+        private IDbModelValidator Validator { get; set; }
         public Repository(DbContext context, IDbModelValidator validator)
         {
-            _context = context;
-            _validator = validator;
+            Context = context;
+            Validator = validator;
         }
 
-        public T insert(T insert)
+        public T Insert(T insert)
         {
             if (insert == null)
                 throw new ArgumentNullException();
 
-            if (_validator.Validate(insert))
+            if (Validator.Validate(insert))
             {
-                _context.GetCollection<T>(typeof(T).Name).InsertOne(insert);
+                Context.GetCollection<T>(typeof(T).Name).InsertOne(insert);
                 return insert;
             }
 
             return default;
         }
 
-        public IEnumerable<T> insert(IEnumerable<T> insert)
+        public IEnumerable<T> Insert(IEnumerable<T> insert)
         {
             if (insert == null)
                 throw new ArgumentNullException();
             return null;
         }
 
-        public T find(ObjectId id)
+        public T Find(ObjectId id)
         {
             throw new NotImplementedException();
         }
 
-        public T find(T find)
+        public T Find(T find)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<T> find(IEnumerable<T> find)
+        public IEnumerable<T> Find(IEnumerable<T> find)
         {
             throw new NotImplementedException();
         }
 
-        public T update(T update)
+        public T Update(T update)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<T> update(IEnumerable<T> update)
+        public IEnumerable<T> Update(IEnumerable<T> update)
         {
             throw new NotImplementedException();
         }
-        public bool delete(ObjectId id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool delete(T delete)
+        public bool Delete(ObjectId id)
         {
             throw new NotImplementedException();
         }
 
-        public bool delete(IEnumerable<T> delete)
+        public bool Delete(T delete)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Delete(IEnumerable<T> delete)
         {
             throw new NotImplementedException();
         }
