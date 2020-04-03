@@ -1,12 +1,8 @@
-using EventStack_API.Helpers;
 using EventStack_API.Models;
 using Microsoft.Extensions.Options;
-using MongoDB.Driver;
 using Moq;
 using NUnit.Framework;
-using System;
 using FluentAssertions;
-using Models;
 
 namespace EventStack_API.UnitTest
 {
