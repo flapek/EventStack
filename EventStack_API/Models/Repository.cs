@@ -2,16 +2,17 @@ using System.Collections.Generic;
 using MongoDB.Bson;
 using System;
 using EventStack_API.Interfaces;
+using MongoDB.Driver;
 
 namespace EventStack_API.Models
 {
     public class Repository<T> : IRepositoryFactory<T> where T: IDbModel
     {
-        private DbContext Context { get; set; }
+        private IMongoCollection<T> collection { get; set; }
         private IDbModelValidator Validator { get; set; }
         public Repository(DbContext context, IDbModelValidator validator)
         {
-            Context = context;
+            collection = context.GetCollection<T>(typeof(T).Name);
             Validator = validator;
         }
 
@@ -22,7 +23,7 @@ namespace EventStack_API.Models
 
             if (Validator.Validate(insert))
             {
-                Context.GetCollection<T>(typeof(T).Name).InsertOne(insert);
+                collection.InsertOne(insert);
                 return insert;
             }
 
