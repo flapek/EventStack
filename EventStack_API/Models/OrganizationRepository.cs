@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using EventStack_API.Helpers;
 using Models;
 using MongoDB.Bson;
+using System;
 
 namespace EventStack_API.Models
 {
@@ -13,51 +14,66 @@ namespace EventStack_API.Models
 
         public override Organization insert(Organization insert)
         {
-            throw new System.NotImplementedException();
+            if (insert == null)
+                throw new ArgumentNullException();
+            if (insert.Id == null)
+            {
+                insert.Id = new ObjectId();
+            }
+
+            if (ModelValid(insert))
+            {
+                _context.GetCollection<Organization>("Organization").InsertOne(insert);
+                return insert;
+            }
+
+            return null;
         }
 
         public override IEnumerable<Organization> insert(IEnumerable<Organization> insert)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public override Organization find(ObjectId id)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public override Organization find(Organization find)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public override IEnumerable<Organization> find(IEnumerable<Organization> find)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public override Organization update(Organization update)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public override IEnumerable<Organization> update(IEnumerable<Organization> update)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
         public override bool delete(ObjectId id)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public override bool delete(Organization delete)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public override bool delete(IEnumerable<Organization> delete)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
+
+        private bool ModelValid(Organization insert) => insert.Name != null && insert.Password != null && insert.Email != null;
     }
 }

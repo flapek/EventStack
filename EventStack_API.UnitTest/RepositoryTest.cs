@@ -27,6 +27,7 @@ namespace EventStack_API.UnitTest
 
             mockOption = new Mock<IOptions<DbSettings>>();
             mockOption.Setup(s => s.Value).Returns(settings);
+            dbContextMock = new Mock<DbContext>(mockOption.Object);
 
             dbFactory = new OrganizationRepository(dbContextMock.Object);
         }
@@ -36,7 +37,8 @@ namespace EventStack_API.UnitTest
         [Test]
         public void insert_WhenInputIsNull_ThenArgumentNullExceptionIsThrown()
         {
-            Action action = () => dbFactory.insert(new Organization());
+            Organization organization = null;
+            Action action = () => dbFactory.insert(organization);
             action.Should().Throw<ArgumentNullException>();
         }
 
