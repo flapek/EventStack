@@ -5,7 +5,7 @@ using EventStack_API.Interfaces;
 
 namespace EventStack_API.Models
 {
-    public class Repository<T> : IRepository<T> where T: IBaseDbModel
+    public class Repository<T> : IRepositoryFactory<T> where T: IDbModel
     {
         private DbContext _context { get; set; }
         private IDbModelValidator _validator { get; set; }
@@ -19,8 +19,6 @@ namespace EventStack_API.Models
         {
             if (insert == null)
                 throw new ArgumentNullException();
-            if (insert.Id == null)
-                insert.Id = new ObjectId();
 
             if (_validator.Validate(insert))
             {

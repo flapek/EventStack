@@ -4,7 +4,7 @@ using MongoDB.Bson;
 
 namespace EventStack_API.Interfaces
 {
-    public interface IRepository<T> where T: IBaseDbModel 
+    public interface IRepositoryFactory<T> where T: IDbModel 
     {
         T insert(T insert);
         IEnumerable<T> insert(IEnumerable<T> insert);

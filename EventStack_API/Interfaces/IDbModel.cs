@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace EventStack_API.Interfaces
 {
-    public interface IBaseDbModel
+    public interface IDbModel
     {
         public ObjectId Id { get; set; }
-        public string Name { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using EventStack_API.Interfaces;
 
 namespace Models
 {
-    public class Event : IBaseDbModel
+    public class Event : IDbModel
     {
         [BsonId]
         [BsonElement("Id")]
