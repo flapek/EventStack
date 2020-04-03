@@ -9,11 +9,10 @@ namespace EventStack_API.Models
     public class Repository<T> : IRepositoryFactory<T> where T : IDbModel
     {
         private IMongoCollection<T> collection { get; set; }
-        private IDbModelValidator Validator { get; set; }
-        public Repository(DbContext context, IDbModelValidator validator)
+
+        public Repository(DbContext context)
         {
             collection = context.GetCollection<T>(typeof(T).Name);
-            Validator = validator;
         }
 
         public T Insert(T insert)
