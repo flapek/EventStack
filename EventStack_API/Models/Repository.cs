@@ -8,11 +8,11 @@ namespace EventStack_API.Models
 {
     public class Repository<T> : IRepositoryFactory<T> where T : IDbModel
     {
-        private IMongoCollection<T> collection { get; set; }
+        private IDbContext _context { get; set; }
 
-        public Repository(DbContext context)
+        public Repository(IDbContext context)
         {
-            collection = context.GetCollection<T>(typeof(T).Name);
+            _context = context;
         }
 
         public T Insert(T insert)
