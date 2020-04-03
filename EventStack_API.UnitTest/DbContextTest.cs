@@ -51,13 +51,13 @@ namespace EventStack_API.UnitTest
         [Test]
         public void insertOne_WhenInputIsNull_ThenArgumentNullExceptionIsThrown()
         {
-            Action action = () => dbFactory.insertOne(null);
+            Action action = () => dbFactory.insert(null);
             action.Should().Throw<ArgumentNullException>();
         }
 
         [TestCase("Jan", "@j3st1234", "jan.test@test.com")]
         public void insertOne_WhenInputIdIsNotSet_ThenGenerateId(string name, string password, string email) => 
-            dbFactory.insertOne(new Organization() { Name = name, Password = password, Email = email }).Id.Should().NotBeNull();
+            dbFactory.insert(new Organization() { Name = name, Password = password, Email = email }).Id.Should().NotBeNull();
 
         [Test]
         [Combinatorial]
@@ -69,7 +69,7 @@ namespace EventStack_API.UnitTest
             if (name != null && password != null && email != null)
                 return;
 
-            var result = dbFactory.insertOne(new Organization() { Name = name, Password = password, Email = email });
+            var result = dbFactory.insert(new Organization() { Name = name, Password = password, Email = email });
             result.Should().BeNull();
         }
 
@@ -77,7 +77,7 @@ namespace EventStack_API.UnitTest
         public void insertOne_WhenNameOrPasswordOrEmailIsNotNull_ThenReturnOrganizaction(string name, string password, string email)
         {
             var expected = new Organization() { Name = name, Password = password, Email = email };
-            dbFactory.insertOne(expected).Should().BeSameAs(expected);
+            dbFactory.insert(expected).Should().BeSameAs(expected);
         }
 
         #endregion

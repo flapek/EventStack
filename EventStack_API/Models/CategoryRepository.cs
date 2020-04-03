@@ -14,17 +14,12 @@ namespace EventStack_API.Models
             _context = context;
         }
 
-        public override bool deleteMany(IEnumerable<Category> delete)
+        public override Category insert(Category insert)
         {
             throw new System.NotImplementedException();
         }
 
-        public override bool deleteOne(ObjectId id)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override bool deleteOne(Category delete)
+        public override IEnumerable<Category> insert(IEnumerable<Category> insert)
         {
             throw new System.NotImplementedException();
         }
@@ -39,27 +34,32 @@ namespace EventStack_API.Models
             throw new System.NotImplementedException();
         }
 
-        public override IEnumerable<Category> findMany(IEnumerable<Category> find)
+        public override IEnumerable<Category> find(IEnumerable<Category> find)
         {
             throw new System.NotImplementedException();
         }
 
-        public override IEnumerable<Category> insertMany(IEnumerable<Category> insert)
+        public override Category update(Category update)
         {
             throw new System.NotImplementedException();
         }
 
-        public override Category insertOne(Category insert)
+        public override IEnumerable<Category> update(IEnumerable<Category> update)
         {
             throw new System.NotImplementedException();
         }
 
-        public override IEnumerable<Category> updateMany(IEnumerable<Category> update)
+        public override bool delete(ObjectId id)
         {
             throw new System.NotImplementedException();
         }
 
-        public override Category updateOne(Category update)
+        public override bool delete(Category delete)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override bool delete(IEnumerable<Category> delete)
         {
             throw new System.NotImplementedException();
         }
