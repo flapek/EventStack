@@ -7,6 +7,6 @@ namespace EventStack_API.Interfaces
 {
     public interface IDbModelValidator
     {
-        bool Validate(IDbModel dbModel);
+        bool IsValid(IDbModel dbModel);
     }
 }
