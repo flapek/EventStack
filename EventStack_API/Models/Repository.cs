@@ -121,9 +121,28 @@ namespace EventStack_API.Models
             return toUpdate;
         }
 
-        public IEnumerable<T> Update(IEnumerable<T> toUpdate)
+        public IEnumerable<T> Update(IEnumerable<T> toUpdates)
         {
-            throw new NotImplementedException();
+            if (toUpdates == null)
+                throw new ArgumentNullException();
+
+            var collection = _context.GetCollection<T>(typeof(T).Name);
+
+            using (var session = _context.MongoClient.StartSession())
+            {
+                try
+                {
+                    session.StartTransaction();
+                    foreach(var toUpdate in toUpdates)
+                        collection.ReplaceOne(session, filter => filter.Id == toUpdate.Id, toUpdate);
+                    session.CommitTransaction();
+                }
+                catch (Exception)
+                {
+                    session.AbortTransaction();
+                }
+            }
+            return toUpdates;
         }
         public bool Delete(ObjectId id)
         {
