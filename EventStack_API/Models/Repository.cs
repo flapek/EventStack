@@ -38,9 +38,9 @@ namespace EventStack_API.Models
             return toInsert;
         }
 
-        public IEnumerable<T> Insert(IEnumerable<T> toInsert)
+        public IEnumerable<T> Insert(IEnumerable<T> toInserts)
         {
-            if (toInsert == null)
+            if (toInserts == null)
                 throw new ArgumentNullException();
 
             var collection = _context.GetCollection<T>(typeof(T).Name);
@@ -50,7 +50,7 @@ namespace EventStack_API.Models
                 try
                 {
                     session.StartTransaction();
-                    collection.InsertMany(session, toInsert);
+                    collection.InsertMany(session, toInserts);
                     session.CommitTransaction();
                 }
                 catch (Exception)
@@ -58,7 +58,7 @@ namespace EventStack_API.Models
                     session.AbortTransaction();
                 }
             }
-            return toInsert;
+            return toInserts;
         }
 
         public T Find(ObjectId id)
@@ -100,12 +100,31 @@ namespace EventStack_API.Models
             return result;
         }
 
-        public T Update(T update)
+        public T Update(T toUpdate)
         {
-            throw new NotImplementedException();
+            if (toUpdate == null)
+                throw new ArgumentNullException();
+
+            var collection = _context.GetCollection<T>(typeof(T).Name);
+            var filter = Builders<T>.Filter.Eq("Id", toUpdate.Id);
+
+            using (var session = _context.MongoClient.StartSession())
+            {
+                try
+                {
+                    session.StartTransaction();
+                    collection.ReplaceOne(session, filter, toUpdate);
+                    session.CommitTransaction();
+                }
+                catch (Exception)
+                {
+                    session.AbortTransaction();
+                }
+            }
+            return toUpdate;
         }
 
-        public IEnumerable<T> Update(IEnumerable<T> update)
+        public IEnumerable<T> Update(IEnumerable<T> toUpdate)
         {
             throw new NotImplementedException();
         }
