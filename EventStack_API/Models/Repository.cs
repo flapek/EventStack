@@ -193,9 +193,29 @@ namespace EventStack_API.Models
             }
         }
 
-        public bool Delete(IEnumerable<T> delete)
+        public bool Delete(IEnumerable<T> toDeletes)
         {
-            throw new NotImplementedException();
+            if (toDeletes == null)
+                throw new ArgumentNullException();
+
+            var collection = _context.GetCollection<T>(typeof(T).Name);
+
+            using (var session = _context.MongoClient.StartSession())
+            {
+                try
+                {
+                    session.StartTransaction();
+                    foreach(var toDelete in toDeletes)
+                        collection.DeleteOne(session, filter => filter.Id == toDelete.Id);
+                    session.CommitTransaction();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    session.AbortTransaction();
+                    return false;
+                }
+            }
         }
     }
 }
