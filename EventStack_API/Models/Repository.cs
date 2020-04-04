@@ -73,7 +73,12 @@ namespace EventStack_API.Models
 
         public T Find(T find)
         {
-            throw new NotImplementedException();
+            if (find == null)
+                throw new ArgumentNullException();
+            
+            var collection = _context.GetCollection<T>(typeof(T).Name);
+            var filter = Builders<T>.Filter.Eq("Id", find.Id);
+            return collection.Find(filter).First();
         }
 
         public IEnumerable<T> Find(IEnumerable<T> find)
