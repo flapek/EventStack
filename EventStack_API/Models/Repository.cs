@@ -67,8 +67,7 @@ namespace EventStack_API.Models
                 throw new ArgumentNullException();
 
             var collection = _context.GetCollection<T>(typeof(T).Name);
-            var filter = Builders<T>.Filter.Eq("Id", id);
-            return collection.Find(filter).First();
+            return collection.Find(filter => filter.Id == id).First();
         }
 
         public T Find(T toFind)
@@ -77,8 +76,7 @@ namespace EventStack_API.Models
                 throw new ArgumentNullException();
 
             var collection = _context.GetCollection<T>(typeof(T).Name);
-            var filter = Builders<T>.Filter.Eq("Id", toFind.Id);
-            return collection.Find(filter).First();
+            return collection.Find(filter => filter.Id == toFind.Id).First();
         }
 
         public IEnumerable<T> Find(IEnumerable<T> toFinds)
@@ -87,15 +85,15 @@ namespace EventStack_API.Models
                 throw new ArgumentNullException();
 
             var collection = _context.GetCollection<T>(typeof(T).Name);
-            var filters = new List<FilterDefinition<T>>();
-            
+            var filters = new List<Func<T, bool>>();
+
             foreach (var toFind in toFinds)
-                filters.Add(Builders<T>.Filter.Eq("Id", toFind.Id));
-            
+                filters.Add(filter => filter.Id == toFind.Id);
+
             var result = new List<T>();
 
             foreach (var filter in filters)
-                result.Add(collection.Find(filter).First());
+                result.Add(collection.Find(finded => filter.Equals(finded)).First());
 
             return result;
         }
