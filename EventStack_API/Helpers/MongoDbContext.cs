@@ -4,12 +4,12 @@ using MongoDB.Driver;
 
 namespace EventStack_API.Models
 {
-    public class DbContext : IDbContext
+    public class MongoDbContext : IDbContext
     {
         private IMongoDatabase MongoDatabase { get; set; }
-        private MongoClient MongoClient { get; set; }
+        public MongoClient MongoClient { get; private set; }
 
-        public DbContext(IOptions<DbSettings> configuration)
+        public MongoDbContext(IOptions<DbSettings> configuration)
         {
             MongoClient = new MongoClient(configuration.Value._connectionString);
             MongoDatabase = MongoClient.GetDatabase(configuration.Value._databaseName);

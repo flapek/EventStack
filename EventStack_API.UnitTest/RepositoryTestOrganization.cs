@@ -1,14 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using DCouple.Mongo;
 using EventStack_API.Interfaces;
 using EventStack_API.Models;
 using FluentAssertions;
 using Microsoft.Extensions.Options;
 using Models;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using Moq;
 using NUnit.Framework;
@@ -39,8 +34,8 @@ namespace EventStack_API.UnitTest
             var mockOption = new Mock<IOptions<DbSettings>>();
             mockOption.Setup(s => s.Value).Returns(settings);
             var validator = Mock.Of<IDbModelValidator>(validator => validator.Validate(It.IsAny<IDbModel>()) == false);
-            var dbContextMock = new Mock<DbContext>(mockOption.Object);
-            var repositoryFactory = new Repository<Organization>(dbContextMock.Object, validator);
+            var dbContextMock = new Mock<MongoDbContext>(mockOption.Object);
+            var repositoryFactory = new MongoRepository<Organization>(dbContextMock.Object, validator);
 
             if (name != null && password != null && email != null)
                 return;
@@ -63,8 +58,8 @@ namespace EventStack_API.UnitTest
             var databaseMock = new Mock<IMongoDatabase>();
             var peopleCollectionMock = new Mock<IMongoCollection<Organization>>();
             var validator = Mock.Of<IDbModelValidator>(validator => validator.Validate(It.IsAny<IDbModel>()) == true);
-            var dbContextMock = new Mock<DbContext>(mockOption.Object);
-            var repositoryFactory = new Repository<Organization>(dbContextMock.Object, validator);
+            var dbContextMock = new Mock<MongoDbContext>(mockOption.Object);
+            var repositoryFactory = new MongoRepository<Organization>(dbContextMock.Object, validator);
 
             //dbContextMock.Setup(x => x.GetCollection<Organization>(typeof(Organization).Name)).Returns(() => new FakeCollection<Organization>());
 

@@ -8,7 +8,7 @@ namespace EventStack_API.UnitTest
 {
     public class DbContextTest
     {
-        private DbContext dbContext;
+        private MongoDbContext dbContext;
         private Mock<IOptions<DbSettings>> mockOption;
 
         [SetUp]
@@ -23,7 +23,7 @@ namespace EventStack_API.UnitTest
             mockOption = new Mock<IOptions<DbSettings>>();
             mockOption.Setup(s => s.Value).Returns(settings);
 
-            dbContext = new DbContext(mockOption.Object);
+            dbContext = new MongoDbContext(mockOption.Object);
         }
 
         #region constructor Test
