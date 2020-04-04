@@ -2,15 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EventStack_API.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 
 namespace EventStack_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrganizactionController : ControllerBase
+    public class OrganizationController : ControllerBase
     {
+        private IRepositoryFactory<Organization> repository;
+
+        public OrganizationController(IRepositoryFactory<Organization> repository)
+        {
+            this.repository = repository;
+        }
+
         // GET: api/Test
         [HttpGet]
         public IEnumerable<string> Get()

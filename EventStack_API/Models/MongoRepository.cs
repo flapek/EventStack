@@ -9,11 +9,11 @@ namespace EventStack_API.Models
 {
     public class MongoRepository<T> : IRepositoryFactory<T> where T : IDbModel
     {
-        private MongoDbContext _context { get; set; }
+        private MongoDbContext Context { get; set; }
 
         public MongoRepository(MongoDbContext context)
         {
-            _context = context;
+            Context = context;
         }
 
         #region Sync Method
@@ -23,9 +23,9 @@ namespace EventStack_API.Models
             if (insert == null)
                 throw new ArgumentNullException(nameof(T));
 
-            var collection = _context.GetCollection<T>(typeof(T).Name);
+            var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = _context.MongoClient.StartSession())
+            using (var session = Context.MongoClient.StartSession())
             {
                 try
                 {
@@ -47,9 +47,9 @@ namespace EventStack_API.Models
             if (toInserts == null)
                 throw new ArgumentNullException();
 
-            var collection = _context.GetCollection<T>(typeof(T).Name);
+            var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = _context.MongoClient.StartSession())
+            using (var session = Context.MongoClient.StartSession())
             {
                 try
                 {
@@ -71,7 +71,7 @@ namespace EventStack_API.Models
             if (id == null)
                 throw new ArgumentNullException();
 
-            var collection = _context.GetCollection<T>(typeof(T).Name);
+            var collection = Context.GetCollection<T>(typeof(T).Name);
             return collection.Find(filter => filter.Id == id).First();
         }
 
@@ -80,7 +80,7 @@ namespace EventStack_API.Models
             if (toFind == null)
                 throw new ArgumentNullException();
 
-            var collection = _context.GetCollection<T>(typeof(T).Name);
+            var collection = Context.GetCollection<T>(typeof(T).Name);
             return collection.Find(filter => filter.Id == toFind.Id).First();
         }
 
@@ -89,7 +89,7 @@ namespace EventStack_API.Models
             if (toFinds == null)
                 throw new ArgumentNullException();
 
-            var collection = _context.GetCollection<T>(typeof(T).Name);
+            var collection = Context.GetCollection<T>(typeof(T).Name);
             var filters = new List<Func<T, bool>>();
 
             foreach (var toFind in toFinds)
@@ -108,9 +108,9 @@ namespace EventStack_API.Models
             if (toUpdate == null)
                 throw new ArgumentNullException();
 
-            var collection = _context.GetCollection<T>(typeof(T).Name);
+            var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = _context.MongoClient.StartSession())
+            using (var session = Context.MongoClient.StartSession())
             {
                 try
                 {
@@ -132,9 +132,9 @@ namespace EventStack_API.Models
             if (toUpdates == null)
                 throw new ArgumentNullException();
 
-            var collection = _context.GetCollection<T>(typeof(T).Name);
+            var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = _context.MongoClient.StartSession())
+            using (var session = Context.MongoClient.StartSession())
             {
                 try
                 {
@@ -157,9 +157,9 @@ namespace EventStack_API.Models
             if (id == null)
                 throw new ArgumentNullException();
 
-            var collection = _context.GetCollection<T>(typeof(T).Name);
+            var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = _context.MongoClient.StartSession())
+            using (var session = Context.MongoClient.StartSession())
             {
                 try
                 {
@@ -181,9 +181,9 @@ namespace EventStack_API.Models
             if (toDelete == null)
                 throw new ArgumentNullException();
 
-            var collection = _context.GetCollection<T>(typeof(T).Name);
+            var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = _context.MongoClient.StartSession())
+            using (var session = Context.MongoClient.StartSession())
             {
                 try
                 {
@@ -205,9 +205,9 @@ namespace EventStack_API.Models
             if (toDeletes == null)
                 throw new ArgumentNullException();
 
-            var collection = _context.GetCollection<T>(typeof(T).Name);
+            var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = _context.MongoClient.StartSession())
+            using (var session = Context.MongoClient.StartSession())
             {
                 try
                 {
@@ -234,9 +234,9 @@ namespace EventStack_API.Models
             if (insert == null)
                 throw new ArgumentNullException(nameof(T));
 
-            var collection = _context.GetCollection<T>(typeof(T).Name);
+            var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = _context.MongoClient.StartSession())
+            using (var session = Context.MongoClient.StartSession())
             {
                 try
                 {
@@ -258,9 +258,9 @@ namespace EventStack_API.Models
             if (toInserts == null)
                 throw new ArgumentNullException();
 
-            var collection = _context.GetCollection<T>(typeof(T).Name);
+            var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = _context.MongoClient.StartSession())
+            using (var session = Context.MongoClient.StartSession())
             {
                 try
                 {
