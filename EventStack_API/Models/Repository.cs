@@ -104,14 +104,13 @@ namespace EventStack_API.Models
                 throw new ArgumentNullException();
 
             var collection = _context.GetCollection<T>(typeof(T).Name);
-            var filter = Builders<T>.Filter.Eq("Id", toUpdate.Id);
 
             using (var session = _context.MongoClient.StartSession())
             {
                 try
                 {
                     session.StartTransaction();
-                    collection.ReplaceOne(session, filter, toUpdate);
+                    collection.ReplaceOne(session, filter => filter.Id == toUpdate.Id, toUpdate);
                     session.CommitTransaction();
                 }
                 catch (Exception)
