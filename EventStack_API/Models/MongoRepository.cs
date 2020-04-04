@@ -3,6 +3,7 @@ using MongoDB.Bson;
 using System;
 using EventStack_API.Interfaces;
 using MongoDB.Driver;
+using System.Threading.Tasks;
 
 namespace EventStack_API.Models
 {
@@ -17,9 +18,9 @@ namespace EventStack_API.Models
 
         #region Sync Method
 
-        public bool Insert(T toInsert)
+        public bool Insert(T insert)
         {
-            if (toInsert == null)
+            if (insert == null)
                 throw new ArgumentNullException(nameof(T));
 
             var collection = _context.GetCollection<T>(typeof(T).Name);
@@ -29,7 +30,7 @@ namespace EventStack_API.Models
                 try
                 {
                     session.StartTransaction();
-                    collection.InsertOne(session, toInsert);
+                    collection.InsertOne(session, insert);
                     session.CommitTransaction();
                     return true;
                 }
@@ -228,52 +229,71 @@ namespace EventStack_API.Models
 
         #region Async Method
 
-        public bool InsertAsync(T insert)
+        public async Task<bool> InsertAsync(T insert)
+        {
+            if (insert == null)
+                throw new ArgumentNullException(nameof(T));
+
+            var collection = _context.GetCollection<T>(typeof(T).Name);
+
+            using (var session = _context.MongoClient.StartSession())
+            {
+                try
+                {
+                    session.StartTransaction();
+                    await collection.InsertOneAsync(session, insert);
+                    session.CommitTransaction();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    session.AbortTransaction();
+                    return false;
+                }
+            }
+        }
+
+        public async Task<bool> InsertAsync(IEnumerable<T> toInserts)
         {
             throw new NotImplementedException();
         }
 
-        public bool InsertAsync(IEnumerable<T> toInserts)
+        public async Task<T> FindAsync(ObjectId id)
         {
             throw new NotImplementedException();
         }
 
-        public T FindAsync(ObjectId id)
+        public async Task<T> FindAsync(T toFind)
         {
             throw new NotImplementedException();
         }
 
-        public T FindAsync(T toFind)
+        public async Task<IEnumerable<T>> FindAsync(IEnumerable<T> toFinds)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<T> FindAsync(IEnumerable<T> toFinds)
+        public async Task<bool> UpdateAsync(T toUpdate)
         {
             throw new NotImplementedException();
         }
 
-        public bool UpdateAsync(T toUpdate)
+        public async Task<bool> UpdateAsync(IEnumerable<T> toUpdates)
         {
             throw new NotImplementedException();
         }
 
-        public bool UpdateAsync(IEnumerable<T> toUpdates)
+        public async Task<bool> DeleteAsync(ObjectId id)
         {
             throw new NotImplementedException();
         }
 
-        public bool DeleteAsync(ObjectId id)
+        public async Task<bool> DeleteAsync(T toDelete)
         {
             throw new NotImplementedException();
         }
 
-        public bool DeleteAsync(T toDelete)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool DeleteAsync(IEnumerable<T> toDelete)
+        public async Task<bool> DeleteAsync(IEnumerable<T> toDelete)
         {
             throw new NotImplementedException();
         }
