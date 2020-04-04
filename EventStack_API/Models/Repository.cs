@@ -15,9 +15,9 @@ namespace EventStack_API.Models
             _context = context;
         }
 
-        public T Insert(T insert)
+        public T Insert(T toInsert)
         {
-            if (insert == null)
+            if (toInsert == null)
                 throw new ArgumentNullException(nameof(T));
 
             var collection = _context.GetCollection<T>(typeof(T).Name);
@@ -27,22 +27,22 @@ namespace EventStack_API.Models
                 try
                 {
                     session.StartTransaction();
-                    collection.InsertOne(session, insert);
+                    collection.InsertOne(session, toInsert);
                     session.CommitTransaction();
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     session.AbortTransaction();
                 }
             }
-            return insert;
+            return toInsert;
         }
 
-        public IEnumerable<T> Insert(IEnumerable<T> insert)
+        public IEnumerable<T> Insert(IEnumerable<T> toInsert)
         {
-            if (insert == null)
+            if (toInsert == null)
                 throw new ArgumentNullException();
-            
+
             var collection = _context.GetCollection<T>(typeof(T).Name);
 
             using (var session = _context.MongoClient.StartSession())
@@ -50,40 +50,54 @@ namespace EventStack_API.Models
                 try
                 {
                     session.StartTransaction();
-                    collection.InsertMany(session, insert);
+                    collection.InsertMany(session, toInsert);
                     session.CommitTransaction();
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     session.AbortTransaction();
                 }
             }
-            return insert;
+            return toInsert;
         }
 
         public T Find(ObjectId id)
         {
             if (id == null)
                 throw new ArgumentNullException();
-            
+
             var collection = _context.GetCollection<T>(typeof(T).Name);
             var filter = Builders<T>.Filter.Eq("Id", id);
             return collection.Find(filter).First();
         }
 
-        public T Find(T find)
+        public T Find(T toFind)
         {
-            if (find == null)
+            if (toFind == null)
                 throw new ArgumentNullException();
-            
+
             var collection = _context.GetCollection<T>(typeof(T).Name);
-            var filter = Builders<T>.Filter.Eq("Id", find.Id);
+            var filter = Builders<T>.Filter.Eq("Id", toFind.Id);
             return collection.Find(filter).First();
         }
 
-        public IEnumerable<T> Find(IEnumerable<T> find)
+        public IEnumerable<T> Find(IEnumerable<T> toFinds)
         {
-            throw new NotImplementedException();
+            if (toFinds == null)
+                throw new ArgumentNullException();
+
+            var collection = _context.GetCollection<T>(typeof(T).Name);
+            var filters = new List<FilterDefinition<T>>();
+            
+            foreach (var toFind in toFinds)
+                filters.Add(Builders<T>.Filter.Eq("Id", toFind.Id));
+            
+            var result = new List<T>();
+
+            foreach (var filter in filters)
+                result.Add(collection.Find(filter).First());
+
+            return result;
         }
 
         public T Update(T update)
