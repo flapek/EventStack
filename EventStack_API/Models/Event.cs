@@ -20,6 +20,7 @@ namespace Models
         [BsonElement("Name")]
         [BsonRequired]
         [Required(ErrorMessage ="Name must be defined!")]
+        [StringLength(50, ErrorMessage = "The maximum number of character is 50!")]
         public string Name { get; set; }
 
         [BsonElement("Categories")]
@@ -31,7 +32,7 @@ namespace Models
         public string Photo { get; set; }
 
         [BsonElement("Description")]
-        [StringLength(1000)]
+        [StringLength(1000, ErrorMessage = "The maximum number of character is 1000!")]
         [BsonRequired]
         [Required(ErrorMessage = "Event must have short description!")]
         public string Description { get; set; }

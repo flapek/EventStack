@@ -17,6 +17,7 @@ namespace Models
         [BsonElement("Name")]
         [BsonRequired]
         [Required(ErrorMessage = "Name must be defined!")]
+        [StringLength(50, ErrorMessage = "The maximum number of character is 50!")]
         public string Name { get; set; }
     } 
 }
