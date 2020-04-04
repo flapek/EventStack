@@ -6,11 +6,11 @@ using MongoDB.Driver;
 
 namespace EventStack_API.Models
 {
-    public class Repository<T> : IRepositoryFactory<T> where T : IDbModel
+    public class MongoRepository<T> : IRepositoryFactory<T> where T : IDbModel
     {
-        private IDbContext _context { get; set; }
+        private MongoDbContext _context { get; set; }
 
-        public Repository(IDbContext context)
+        public MongoRepository(MongoDbContext context)
         {
             _context = context;
         }

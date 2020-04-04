@@ -32,8 +32,8 @@ namespace EventStack_API.UnitTest
             var mockOption = new Mock<IOptions<DbSettings>>();
             mockOption.Setup(s => s.Value).Returns(settings);
             var validator = new Mock<IDbModelValidator>();
-            var dbContextMock = new Mock<DbContext>(mockOption.Object);
-            IRepositoryFactory<T> repositoryFactory = new Repository<T>(dbContextMock.Object, validator.Object);
+            var dbContextMock = new Mock<MongoDbContext>(mockOption.Object);
+            IRepositoryFactory<T> repositoryFactory = new MongoRepository<T>(dbContextMock.Object, validator.Object);
 
             Action action = () => repositoryFactory.Insert(It.IsAny<T>());
 
