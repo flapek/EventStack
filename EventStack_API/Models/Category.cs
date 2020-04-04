@@ -1,9 +1,10 @@
+using EventStack_API.Interfaces;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Models
 {
-    public class Category 
+    public class Category : IDbModel
     {
         [BsonId]
         [BsonElement("Id")]

@@ -3,10 +3,11 @@ using System;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Geolocation;
+using EventStack_API.Interfaces;
 
 namespace Models
 {
-    public class Event
+    public class Event : IDbModel
     {
         [BsonId]
         [BsonElement("Id")]
@@ -15,7 +16,6 @@ namespace Models
         [BsonElement("Name")]
         public string Name { get; set; }
         [BsonElement("Categories")]
-
         public IEnumerable<Category> Categories { get; set; }
         [BsonElement("Photo")]
         public string Photo { get; set; }
