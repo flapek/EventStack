@@ -10,12 +10,12 @@ namespace Models
         [BsonId]
         [BsonElement("Id")]
         [BsonRepresentation(BsonType.ObjectId)]
-        [BsonRequired()]
+        [BsonRequired]
         [Required(ErrorMessage = "Id must be defined!")]
         public ObjectId Id { get; set; }
 
         [BsonElement("Name")]
-        [BsonRequired()]
+        [BsonRequired]
         [Required(ErrorMessage = "Name must be defined!")]
         public string Name { get; set; }
     } 
