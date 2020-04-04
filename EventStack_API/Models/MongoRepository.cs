@@ -255,7 +255,26 @@ namespace EventStack_API.Models
 
         public async Task<bool> InsertAsync(IEnumerable<T> toInserts)
         {
-            throw new NotImplementedException();
+            if (toInserts == null)
+                throw new ArgumentNullException();
+
+            var collection = _context.GetCollection<T>(typeof(T).Name);
+
+            using (var session = _context.MongoClient.StartSession())
+            {
+                try
+                {
+                    session.StartTransaction();
+                    await collection.InsertManyAsync(session, toInserts);
+                    session.CommitTransaction();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    session.AbortTransaction();
+                    return false;
+                }
+            }
         }
 
         public async Task<T> FindAsync(ObjectId id)
