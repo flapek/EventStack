@@ -146,7 +146,26 @@ namespace EventStack_API.Models
         }
         public bool Delete(ObjectId id)
         {
-            throw new NotImplementedException();
+            if (id == null)
+                throw new ArgumentNullException();
+
+            var collection = _context.GetCollection<T>(typeof(T).Name);
+
+            using (var session = _context.MongoClient.StartSession())
+            {
+                try
+                {
+                    session.StartTransaction();
+                    collection.DeleteOne(session, filter => filter.Id == id);
+                    session.CommitTransaction();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    session.AbortTransaction();
+                    return false;
+                }
+            }
         }
 
         public bool Delete(T delete)
