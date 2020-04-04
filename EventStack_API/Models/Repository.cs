@@ -15,7 +15,7 @@ namespace EventStack_API.Models
             _context = context;
         }
 
-        public T Insert(T toInsert)
+        public bool Insert(T toInsert)
         {
             if (toInsert == null)
                 throw new ArgumentNullException(nameof(T));
@@ -29,16 +29,17 @@ namespace EventStack_API.Models
                     session.StartTransaction();
                     collection.InsertOne(session, toInsert);
                     session.CommitTransaction();
+                    return true;
                 }
                 catch (Exception)
                 {
                     session.AbortTransaction();
+                    return false;
                 }
             }
-            return toInsert;
         }
 
-        public IEnumerable<T> Insert(IEnumerable<T> toInserts)
+        public bool Insert(IEnumerable<T> toInserts)
         {
             if (toInserts == null)
                 throw new ArgumentNullException();
@@ -52,13 +53,14 @@ namespace EventStack_API.Models
                     session.StartTransaction();
                     collection.InsertMany(session, toInserts);
                     session.CommitTransaction();
+                    return true;
                 }
                 catch (Exception)
                 {
                     session.AbortTransaction();
+                    return false;
                 }
             }
-            return toInserts;
         }
 
         public T Find(ObjectId id)
@@ -98,7 +100,7 @@ namespace EventStack_API.Models
             return result;
         }
 
-        public T Update(T toUpdate)
+        public bool Update(T toUpdate)
         {
             if (toUpdate == null)
                 throw new ArgumentNullException();
@@ -112,16 +114,17 @@ namespace EventStack_API.Models
                     session.StartTransaction();
                     collection.ReplaceOne(session, filter => filter.Id == toUpdate.Id, toUpdate);
                     session.CommitTransaction();
+                    return true;
                 }
                 catch (Exception)
                 {
                     session.AbortTransaction();
+                    return false;
                 }
             }
-            return toUpdate;
         }
 
-        public IEnumerable<T> Update(IEnumerable<T> toUpdates)
+        public bool Update(IEnumerable<T> toUpdates)
         {
             if (toUpdates == null)
                 throw new ArgumentNullException();
@@ -136,13 +139,14 @@ namespace EventStack_API.Models
                     foreach(var toUpdate in toUpdates)
                         collection.ReplaceOne(session, filter => filter.Id == toUpdate.Id, toUpdate);
                     session.CommitTransaction();
+                    return true;
                 }
                 catch (Exception)
                 {
                     session.AbortTransaction();
+                    return false;
                 }
             }
-            return toUpdates;
         }
         
         public bool Delete(ObjectId id)
