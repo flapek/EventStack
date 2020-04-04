@@ -15,6 +15,8 @@ namespace EventStack_API.Models
             _context = context;
         }
 
+        #region Sync Method
+
         public bool Insert(T toInsert)
         {
             if (toInsert == null)
@@ -221,5 +223,62 @@ namespace EventStack_API.Models
                 }
             }
         }
+
+        #endregion
+
+        #region Async Method
+
+        public bool InsertAsync(T insert)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool InsertAsync(IEnumerable<T> toInserts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public T FindAsync(ObjectId id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public T FindAsync(T toFind)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<T> FindAsync(IEnumerable<T> toFinds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UpdateAsync(T toUpdate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UpdateAsync(IEnumerable<T> toUpdates)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteAsync(ObjectId id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteAsync(T toDelete)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteAsync(IEnumerable<T> toDelete)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
     }
 }
