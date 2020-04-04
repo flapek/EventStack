@@ -42,7 +42,23 @@ namespace EventStack_API.Models
         {
             if (insert == null)
                 throw new ArgumentNullException();
-            return null;
+            
+            var collection = _context.GetCollection<T>(typeof(T).Name);
+
+            using (var session = _context.MongoClient.StartSession())
+            {
+                try
+                {
+                    session.StartTransaction();
+                    collection.InsertMany(session, insert);
+                    session.CommitTransaction();
+                }
+                catch(Exception)
+                {
+                    session.AbortTransaction();
+                }
+            }
+            return insert;
         }
 
         public T Find(ObjectId id)
