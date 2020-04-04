@@ -20,7 +20,21 @@ namespace EventStack_API.Models
             if (insert == null)
                 throw new ArgumentNullException(nameof(T));
 
-            collection.InsertOne(insert);
+            var collection = _context.GetCollection<T>(typeof(T).Name);
+
+            using (var session = _context.MongoClient.StartSession())
+            {
+                try
+                {
+                    session.StartTransaction();
+                    collection.InsertOne(session, insert);
+                    session.CommitTransaction();
+                }
+                catch(Exception)
+                {
+                    session.AbortTransaction();
+                }
+            }
             return insert;
         }
 
