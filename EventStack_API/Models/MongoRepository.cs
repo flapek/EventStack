@@ -279,7 +279,12 @@ namespace EventStack_API.Models
 
         public async Task<T> FindAsync(ObjectId id)
         {
-            throw new NotImplementedException();
+            if (id == null)
+                throw new ArgumentNullException();
+
+            var collection = Context.GetCollection<T>(typeof(T).Name);
+            var task = collection.FindAsync(filter => filter.Id == id);
+            return task.Result.First();
         }
 
         public async Task<T> FindAsync(T toFind)
