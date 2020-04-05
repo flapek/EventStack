@@ -357,7 +357,26 @@ namespace EventStack_API.Models
 
         public async Task<bool> DeleteAsync(T toDelete)
         {
-            throw new NotImplementedException();
+            if (toDelete == null)
+                throw new ArgumentNullException();
+
+            var collection = Context.GetCollection<T>(typeof(T).Name);
+
+            using (var session = Context.MongoClient.StartSession())
+            {
+                try
+                {
+                    session.StartTransaction();
+                    await collection.DeleteOneAsync(session, filter => filter.Id == toDelete.Id);
+                    session.CommitTransaction();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    session.AbortTransaction();
+                    return false;
+                }
+            }
         }
 
         public async Task<bool> DeleteAsync(IEnumerable<T> toDelete)
