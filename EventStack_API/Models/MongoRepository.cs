@@ -379,7 +379,7 @@ namespace EventStack_API.Models
             }
         }
 
-        public async Task<bool> DeleteAsync(IEnumerable<T> toDelete)
+        public async Task<bool> DeleteAsync(IEnumerable<T> toDeletes)
         {
             throw new NotImplementedException();
         }

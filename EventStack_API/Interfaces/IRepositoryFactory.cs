@@ -25,6 +25,6 @@ namespace EventStack_API.Interfaces
         bool Delete(T toDelete);
         Task<bool> DeleteAsync(T toDelete);
         bool Delete(IEnumerable<T> toDelete);
-        Task<bool> DeleteAsync(IEnumerable<T> toDelete);
+        Task<bool> DeleteAsync(IEnumerable<T> toDeletes);
     }
 }
