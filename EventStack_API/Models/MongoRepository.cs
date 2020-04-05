@@ -301,7 +301,7 @@ namespace EventStack_API.Models
             var collection = Context.GetCollection<T>(typeof(T).Name);
             var filter = Builders<T>.Filter.In(f => f.Id, toFinds.Select(toFind => toFind.Id));
             var task = await collection.FindAsync(filter);
-            return task.ToList();
+            return await task.ToListAsync();
         }
 
         public async Task<bool> UpdateAsync(T toUpdate)
