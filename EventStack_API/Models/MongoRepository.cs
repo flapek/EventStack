@@ -283,8 +283,8 @@ namespace EventStack_API.Models
                 throw new ArgumentNullException();
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
-            var task = collection.FindAsync(filter => filter.Id == id);
-            return task.Result.First();
+            var task = await collection.FindAsync(filter => filter.Id == id);
+            return task.First();
         }
 
         public async Task<T> FindAsync(T toFind)
