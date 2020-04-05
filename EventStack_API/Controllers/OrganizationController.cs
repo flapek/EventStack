@@ -11,6 +11,11 @@ namespace EventStack_API.Controllers
     {
         private IRepositoryFactory<Organization> repository { get; set; }
 
+        public OrganizationController(IRepositoryFactory<Organization> repository)
+        {
+            this.repository = repository;
+        }
+
         // GET: api/Organization
         [HttpGet]
         public IEnumerable<string> Get()
