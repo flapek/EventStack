@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using EventStack_API.Interfaces;
 using MongoDB.Bson;
 
 namespace EventStack_API.Interfaces
