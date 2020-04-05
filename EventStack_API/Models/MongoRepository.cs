@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 using MongoDB.Bson;
 using System;
@@ -381,7 +382,27 @@ namespace EventStack_API.Models
 
         public async Task<bool> DeleteAsync(IEnumerable<T> toDeletes)
         {
-            throw new NotImplementedException();
+            if (toDeletes == null)
+                throw new ArgumentNullException();
+
+            var collection = Context.GetCollection<T>(typeof(T).Name);
+            var filter = Builders<T>.Filter.In(f => f.Id, toDeletes.Select(d => d.Id));
+
+            using (var session = Context.MongoClient.StartSession())
+            {
+                try
+                {
+                    session.StartTransaction();
+                    await collection.DeleteManyAsync(session, filter);
+                    session.CommitTransaction();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    session.AbortTransaction();
+                    return false;
+                }
+            }
         }
 
         #endregion
