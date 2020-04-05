@@ -1,9 +1,9 @@
-using EventStack_API.Interfaces;
+using EventStack_MVC.Interfaces;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.ComponentModel.DataAnnotations;
 
-namespace Models
+namespace EventStack_MVC.Models
 {
     public class Category : IDbModel
     {

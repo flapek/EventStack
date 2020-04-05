@@ -2,10 +2,10 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Geolocation; // https://github.com/scottschluer/geolocation
 using System.Collections.Generic;
-using EventStack_API.Interfaces;
 using System.ComponentModel.DataAnnotations;
+using EventStack_MVC.Interfaces;
 
-namespace Models
+namespace EventStack_MVC.Models
 {
     public class Organization : IDbModel
     {

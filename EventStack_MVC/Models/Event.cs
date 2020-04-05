@@ -3,10 +3,10 @@ using System;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Geolocation;
-using EventStack_API.Interfaces;
 using System.ComponentModel.DataAnnotations;
+using EventStack_MVC.Interfaces;
 
-namespace Models
+namespace EventStack_MVC.Models
 {
     public class Event : IDbModel
     {

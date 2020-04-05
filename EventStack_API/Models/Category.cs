@@ -3,7 +3,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.ComponentModel.DataAnnotations;
 
-namespace Models
+namespace EventStack_API.Models
 {
     public class Category : IDbModel
     {

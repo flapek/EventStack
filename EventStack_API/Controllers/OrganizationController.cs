@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using EventStack_API.Models;
+using EventStack_API.Interfaces;
 
 namespace EventStack_API.Controllers
 {
@@ -11,6 +9,8 @@ namespace EventStack_API.Controllers
     [ApiController]
     public class OrganizationController : ControllerBase
     {
+        private IRepositoryFactory<Organization> repository { get; set; }
+
         // GET: api/Organization
         [HttpGet]
         public IEnumerable<string> Get()

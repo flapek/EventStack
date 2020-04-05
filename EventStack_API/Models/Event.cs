@@ -6,7 +6,7 @@ using Geolocation;
 using EventStack_API.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
-namespace Models
+namespace EventStack_API.Models
 {
     public class Event : IDbModel
     {

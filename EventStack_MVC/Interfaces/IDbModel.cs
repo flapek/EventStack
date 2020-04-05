@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson;
 
-namespace EventStack_API.Interfaces
+namespace EventStack_MVC.Interfaces
 {
     public interface IDbModel
     {
