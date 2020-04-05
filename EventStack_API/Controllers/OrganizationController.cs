@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EventStack_API.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Models;
 
 namespace EventStack_API.Controllers
 {
@@ -13,34 +11,27 @@ namespace EventStack_API.Controllers
     [ApiController]
     public class OrganizationController : ControllerBase
     {
-        private IRepositoryFactory<Organization> repository;
-
-        public OrganizationController(IRepositoryFactory<Organization> repository)
-        {
-            this.repository = repository;
-        }
-
-        // GET: api/Test
+        // GET: api/Organization
         [HttpGet]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
         }
 
-        // GET: api/Test/5
+        // GET: api/Organization/5
         [HttpGet("{id}", Name = "Get")]
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST: api/Test
+        // POST: api/Organization
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT: api/Test/5
+        // PUT: api/Organization/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
