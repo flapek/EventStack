@@ -91,15 +91,10 @@ namespace EventStack_API.Models
                 throw new ArgumentNullException();
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
-            var filters = new List<Func<T, bool>>();
-
-            foreach (var toFind in toFinds)
-                filters.Add(filter => filter.Id == toFind.Id);
-
             var result = new List<T>();
 
-            foreach (var filter in filters)
-                result.Add(collection.Find(finded => filter.Equals(finded)).Limit(1).FirstOrDefault());
+            foreach (var toFind in toFinds)
+                result.Add(collection.Find(filter => filter.Id == toFind.Id).Limit(1).FirstOrDefault());
 
             return result;
         }
