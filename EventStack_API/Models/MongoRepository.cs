@@ -280,7 +280,7 @@ namespace EventStack_API.Models
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
             var task = await collection.FindAsync(filter => filter.Id == id);
-            return task.First();
+            return await task.FirstOrDefaultAsync();
         }
 
         public async Task<T> FindAsync(T toFind)
@@ -290,7 +290,7 @@ namespace EventStack_API.Models
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
             var task = await collection.FindAsync(filter => filter.Id == toFind.Id);
-            return task.First();
+            return await task.FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<T>> FindAsync(IEnumerable<T> toFinds)
