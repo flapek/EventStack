@@ -300,7 +300,13 @@ namespace EventStack_API.Models
 
         public async Task<IEnumerable<T>> FindAsync(IEnumerable<T> toFinds)
         {
-            throw new NotImplementedException();
+            if (toFinds == null)
+                throw new ArgumentNullException();
+
+            var collection = Context.GetCollection<T>(typeof(T).Name);
+            var filter = Builders<T>.Filter.In(f => f.Id, toFinds.Select(toFind => toFind.Id));
+            var task = await collection.FindAsync(filter);
+            return task.ToList();
         }
 
         public async Task<bool> UpdateAsync(T toUpdate)
