@@ -72,7 +72,7 @@ namespace EventStack_API.Models
                 throw new ArgumentNullException();
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
-            return collection.Find(filter => filter.Id == id).Limit(1).First();
+            return collection.Find(filter => filter.Id == id).Limit(1).FirstOrDefault();
         }
 
         public T Find(T toFind)
@@ -81,7 +81,7 @@ namespace EventStack_API.Models
                 throw new ArgumentNullException();
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
-            return collection.Find(filter => filter.Id == toFind.Id).Limit(1).First();
+            return collection.Find(filter => filter.Id == toFind.Id).Limit(1).FirstOrDefault();
         }
 
         public IEnumerable<T> Find(IEnumerable<T> toFinds)
@@ -98,7 +98,7 @@ namespace EventStack_API.Models
             var result = new List<T>();
 
             foreach (var filter in filters)
-                result.Add(collection.Find(finded => filter.Equals(finded)).Limit(1).First());
+                result.Add(collection.Find(finded => filter.Equals(finded)).Limit(1).FirstOrDefault());
 
             return result;
         }
