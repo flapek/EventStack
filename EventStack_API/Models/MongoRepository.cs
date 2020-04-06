@@ -135,7 +135,7 @@ namespace EventStack_API.Models
                 try
                 {
                     session.StartTransaction();
-                    foreach(var toUpdate in toUpdates)
+                    foreach (var toUpdate in toUpdates)
                         collection.ReplaceOne(session, filter => filter.Id == toUpdate.Id, toUpdate);
                     session.CommitTransaction();
                     return true;
@@ -147,7 +147,7 @@ namespace EventStack_API.Models
                 }
             }
         }
-        
+
         public bool Delete(ObjectId id)
         {
             if (id == null)
@@ -208,7 +208,7 @@ namespace EventStack_API.Models
                 try
                 {
                     session.StartTransaction();
-                    foreach(var toDelete in toDeletes)
+                    foreach (var toDelete in toDeletes)
                         collection.DeleteOne(session, filter => filter.Id == toDelete.Id);
                     session.CommitTransaction();
                     return true;
@@ -340,7 +340,7 @@ namespace EventStack_API.Models
                 try
                 {
                     session.StartTransaction();
-                    foreach(var toUpdate in toUpdates)
+                    foreach (var toUpdate in toUpdates)
                         await collection.ReplaceOneAsync(session, filter => filter.Id == toUpdate.Id, toUpdate);
                     session.CommitTransaction();
                     return true;
