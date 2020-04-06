@@ -11,7 +11,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
             <div class="container">
-                <a class="navbar-brand text-black-50" asp-area="" asp-controller="Home" asp-action="Index">EventStack</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">EventStack</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -33,9 +33,9 @@
         @RenderBody()
     </main>
 
-    <footer class="border-top footer text-muted bg-dark">
-        <div class="container text-white">
-            &copy; 2020 - EventStack_MVC
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - EventStack - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
