@@ -330,7 +330,27 @@ namespace EventStack_API.Models
 
         public async Task<bool> UpdateAsync(IEnumerable<T> toUpdates)
         {
-            throw new NotImplementedException();
+            if (toUpdates == null)
+                throw new ArgumentNullException();
+
+            var collection = Context.GetCollection<T>(typeof(T).Name);
+
+            using (var session = Context.MongoClient.StartSession())
+            {
+                try
+                {
+                    session.StartTransaction();
+                    foreach(var toUpdate in toUpdates)
+                        await collection.ReplaceOneAsync(session, filter => filter.Id == toUpdate.Id, toUpdate);
+                    session.CommitTransaction();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    session.AbortTransaction();
+                    return false;
+                }
+            }
         }
 
         public async Task<bool> DeleteAsync(ObjectId id)
