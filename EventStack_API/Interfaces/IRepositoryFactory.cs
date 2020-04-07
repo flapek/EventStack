@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using EventStack_API.Interfaces;
+using System.Threading.Tasks;
 using MongoDB.Bson;
 
 namespace EventStack_API.Interfaces
@@ -7,14 +7,24 @@ namespace EventStack_API.Interfaces
     public interface IRepositoryFactory<T> where T: IDbModel 
     {
         bool Insert(T insert);
+        Task<bool> InsertAsync(T insert);
         bool Insert(IEnumerable<T> toInserts);
+        Task<bool> InsertAsync(IEnumerable<T> toInserts);
         T Find(ObjectId id);
+        Task<T> FindAsync(ObjectId id);
         T Find(T toFind);
+        Task<T> FindAsync(T toFind);
         IEnumerable<T> Find(IEnumerable<T> toFinds);
+        Task<IEnumerable<T>> FindAsync(IEnumerable<T> toFinds);
         bool Update(T toUpdate);
+        Task<bool> UpdateAsync(T toUpdate);
         bool Update(IEnumerable<T> toUpdates);
+        Task<bool> UpdateAsync(IEnumerable<T> toUpdates);
         bool Delete(ObjectId id);
+        Task<bool> DeleteAsync(ObjectId id);
         bool Delete(T toDelete);
+        Task<bool> DeleteAsync(T toDelete);
         bool Delete(IEnumerable<T> toDelete);
+        Task<bool> DeleteAsync(IEnumerable<T> toDeletes);
     }
 }

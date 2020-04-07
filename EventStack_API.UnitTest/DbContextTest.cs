@@ -16,8 +16,8 @@ namespace EventStack_API.UnitTest
         {
             var settings = new DbSettings()
             {
-                _connectionString = "mongodb://tes123",
-                _databaseName = "TestDB"
+                ConnectionString = "mongodb://tes123",
+                DatabaseName = "TestDB"
             };
 
             mockOption = new Mock<IOptions<DbSettings>>();
