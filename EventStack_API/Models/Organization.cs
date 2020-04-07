@@ -50,18 +50,13 @@ namespace EventStack_API.Models
         public IEnumerable<Event> Events { get; set; }
         
         [BsonElement("NIP")]
-        [StringLength(10)] //TODO check lenght for NIP
+        [StringLength(10)]
         [RegularExpression("", ErrorMessage = "")] //TODO regex for NIP and set ErrorMessage
         public string NIP { get; set; }
         
         [BsonElement("REGON")]
-        [StringLength(10)] //TODO check lenght for REGON
+        [StringLength(9)]
         [RegularExpression("", ErrorMessage = "")] //TODO regex for REGON and set ErrorMessage
-        public string REGON { get; set; }
-        
-        [BsonElement("KRS")]
-        [StringLength(10)] //TODO check lenght for KRS
-        [RegularExpression("", ErrorMessage = "")] //TODO regex for KRS and set ErrorMessage
-        public string KRS { get; set; }
+        public string REGON { get; set; }        
     }
 }
