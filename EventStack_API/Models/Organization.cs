@@ -26,14 +26,8 @@ namespace EventStack_API.Models
         [RegularExpression("", ErrorMessage = "")] //TODO regex for Password and set ErrorMessage
         public string Password
         {
-            get
-            {
-                return Password;
-            }
-            set
-            {
-                Password = PasswordHasher.ComputeHash(value);
-            }
+            get => Password;
+            set => Password = PasswordHasher.ComputeHash(value);
         }
 
         [BsonElement("Email")]
