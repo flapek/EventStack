@@ -37,7 +37,7 @@ namespace EventStack_API.Models
         [BsonRequired]
         [Required(ErrorMessage = "Email must be set!")]
         [StringLength(100, ErrorMessage = "The maximum number of character is 100!")]
-        [RegularExpression("", ErrorMessage = "")] //TODO regex for Email and set ErrorMessage
+        [RegularExpression(@"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", ErrorMessage = "Email must contain dot, @ and only lowercase letters")]
         public string Email { get; set; }
 
         [BsonElement("PhoneNumber")]
