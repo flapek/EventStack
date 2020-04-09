@@ -43,8 +43,8 @@ namespace EventStack_API.Models
         [BsonElement("PhoneNumber")]
         public string PhoneNumber { get; set; }
 
-        [BsonElement("Place")]  //TODO change place to Addres and create model for it 
-        public Coordinate Place { get; set; }
+        [BsonElement("Address")]
+        public Address Address { get; set; }
 
         [BsonElement("Destription")]
         [StringLength(1000, ErrorMessage = "The maximum number of character is 1000!")]
