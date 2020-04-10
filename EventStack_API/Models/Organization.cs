@@ -59,7 +59,7 @@ namespace EventStack_API.Models
 
         [BsonElement("REGON")]
         [StringLength(9)]
-        [RegularExpression("", ErrorMessage = "")] //TODO regex for REGON and set ErrorMessage
+        [RegularExpression(@"^[0-9]{9}$", ErrorMessage = "REGON must contain 9 digit")] //TODO regex for REGON and set ErrorMessage
         public string REGON { get; set; }
     }
 }
