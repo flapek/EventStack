@@ -54,12 +54,12 @@ namespace EventStack_API.Models
 
         [BsonElement("NIP")]
         [StringLength(10)]
-        [RegularExpression("", ErrorMessage = "")] //TODO regex for NIP and set ErrorMessage
+        [RegularExpression("^[0-9]{10}$", ErrorMessage = "NIP must contain 10 digit")]
         public string NIP { get; set; }
 
         [BsonElement("REGON")]
         [StringLength(9)]
-        [RegularExpression(@"^[0-9]{9}$", ErrorMessage = "REGON must contain 9 digit")] //TODO regex for REGON and set ErrorMessage
+        [RegularExpression(@"^[0-9]{9}$", ErrorMessage = "REGON must contain 9 digit")]
         public string REGON { get; set; }
     }
 }
