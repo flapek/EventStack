@@ -26,11 +26,7 @@ namespace EventStack_API.Models
         [Required(ErrorMessage = "Password must be set!")]
         [StringLength(30, ErrorMessage = "The maximum number of character is 30!")]
         [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$", ErrorMessage = "Password must contain minimum eight characters, at least one letter and one number")]
-        public string Password
-        {
-            get => Password;
-            set => Password = PasswordHasher.ComputeHash(value);
-        }
+        public string Password { get; set; }
 
         [BsonElement("Email")]
         [BsonRequired]
