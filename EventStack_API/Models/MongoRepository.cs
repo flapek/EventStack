@@ -5,6 +5,7 @@ using System;
 using EventStack_API.Interfaces;
 using MongoDB.Driver;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace EventStack_API.Models
 {
@@ -26,20 +27,25 @@ namespace EventStack_API.Models
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            try
             {
-                try
+                //session.StartTransaction();
+                //collection.InsertOne(session,insert);
+                //session.CommitTransaction();
+
+                session.WithTransaction<bool>((s, c) =>
                 {
-                    session.StartTransaction();
-                    collection.InsertOne(session, insert);
-                    session.CommitTransaction();
+                    collection.InsertOne(s, insert);
                     return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
+                }, new TransactionOptions(), CancellationToken.None);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                session.AbortTransaction();
+                return false;
             }
         }
 
