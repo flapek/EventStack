@@ -12,8 +12,6 @@ namespace EventStack_API.Models
         [BsonId]
         [BsonElement("Id")]
         [BsonRepresentation(BsonType.ObjectId)]
-        [BsonRequired]
-        [Required(ErrorMessage = "Id must be defined!")]
         public string Id { get; set; }
         
         [BsonElement("Name")]
@@ -26,14 +24,14 @@ namespace EventStack_API.Models
         [BsonRequired]
         [Required(ErrorMessage = "Password must be set!")]
         [StringLength(30, ErrorMessage = "The maximum number of character is 30!")]
-        [RegularExpression("", ErrorMessage = "")] //TODO regex for Password and set ErrorMessage
+        //[RegularExpression("", ErrorMessage = "")] //TODO regex for Password and set ErrorMessage
         public string Password { get; set; }
         
         [BsonElement("Email")]
         [BsonRequired]
         [Required(ErrorMessage = "Email must be set!")]
         [StringLength(100, ErrorMessage = "The maximum number of character is 100!")]
-        [RegularExpression("", ErrorMessage = "")] //TODO regex for Email and set ErrorMessage
+        //[RegularExpression("", ErrorMessage = "")] //TODO regex for Email and set ErrorMessage
         public string Email { get; set; }
         
         [BsonElement("PhoneNumber")]

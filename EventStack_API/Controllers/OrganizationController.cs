@@ -22,14 +22,12 @@ namespace EventStack_API.Controllers
         public Organization Get(Organization organization) => repository.Find(organization);
 
         // GET: api/Organization/5
-        [HttpGet("{id:lenght(24)}", Name = "Get")]
+        [HttpGet("{id}", Name = "Get")]
         public Organization Get(string id) => repository.Find(id);
 
         // POST: api/Organization
         [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+        public bool Post(Organization organizaction) => repository.Insert(organizaction);
 
         // PUT: api/Organization/5
         [HttpPut("{id}")]
