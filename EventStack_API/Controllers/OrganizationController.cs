@@ -18,9 +18,9 @@ namespace EventStack_API.Controllers
 
         // GET: api/Organization
         [HttpGet]
-        public IEnumerable<string> Get()
+        public Organization Get(Organization organization)
         {
-            return new string[] { "value1", "value2" };
+            return repository.Find(organization);
         }
 
         // GET: api/Organization/5

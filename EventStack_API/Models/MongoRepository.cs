@@ -12,9 +12,9 @@ namespace EventStack_API.Models
     {
         private MongoDbContext Context { get; set; }
 
-        public MongoRepository(MongoDbContext context)
+        public MongoRepository(IDbContext context)
         {
-            Context = context;
+            Context = (MongoDbContext)context;
         }
 
         #region Sync Method

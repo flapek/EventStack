@@ -1,8 +1,11 @@
+using EventStack_API.Interfaces;
+using EventStack_API.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
 namespace EventStack_API
@@ -20,6 +23,11 @@ namespace EventStack_API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.Configure<DbSettings>(Configuration.GetSection("MongoDBOption"));
+            services.AddScoped<IDbContext, MongoDbContext>();
+            services.AddScoped<IRepositoryFactory<Organization>, MongoRepository<Organization>>();
+
 
             services.AddSwaggerGen(s =>
             {
