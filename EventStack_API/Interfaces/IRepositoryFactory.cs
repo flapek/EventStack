@@ -10,8 +10,8 @@ namespace EventStack_API.Interfaces
         Task<bool> InsertAsync(T insert);
         bool Insert(IEnumerable<T> toInserts);
         Task<bool> InsertAsync(IEnumerable<T> toInserts);
-        T Find(ObjectId id);
-        Task<T> FindAsync(ObjectId id);
+        T Find(string id);
+        Task<T> FindAsync(string id);
         T Find(T toFind);
         Task<T> FindAsync(T toFind);
         IEnumerable<T> Find(IEnumerable<T> toFinds);
@@ -20,8 +20,8 @@ namespace EventStack_API.Interfaces
         Task<bool> UpdateAsync(T toUpdate);
         bool Update(IEnumerable<T> toUpdates);
         Task<bool> UpdateAsync(IEnumerable<T> toUpdates);
-        bool Delete(ObjectId id);
-        Task<bool> DeleteAsync(ObjectId id);
+        bool Delete(string id);
+        Task<bool> DeleteAsync(string id);
         bool Delete(T toDelete);
         Task<bool> DeleteAsync(T toDelete);
         bool Delete(IEnumerable<T> toDelete);

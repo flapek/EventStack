@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using EventStack_API.Models;
 using EventStack_API.Interfaces;
+using MongoDB.Bson;
 
 namespace EventStack_API.Controllers
 {
@@ -18,17 +19,11 @@ namespace EventStack_API.Controllers
 
         // GET: api/Organization
         [HttpGet]
-        public Organization Get(Organization organization)
-        {
-            return repository.Find(organization);
-        }
+        public Organization Get(Organization organization) => repository.Find(organization);
 
         // GET: api/Organization/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+        [HttpGet("{id:lenght(24)}", Name = "Get")]
+        public Organization Get(string id) => repository.Find(id);
 
         // POST: api/Organization
         [HttpPost]

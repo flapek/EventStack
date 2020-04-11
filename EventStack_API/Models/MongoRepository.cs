@@ -67,7 +67,7 @@ namespace EventStack_API.Models
             }
         }
 
-        public T Find(ObjectId id)
+        public T Find(string id)
         {
             if (id == null)
                 throw new ArgumentNullException();
@@ -148,7 +148,7 @@ namespace EventStack_API.Models
             }
         }
 
-        public bool Delete(ObjectId id)
+        public bool Delete(string id)
         {
             if (id == null)
                 throw new ArgumentNullException();
@@ -273,7 +273,7 @@ namespace EventStack_API.Models
             }
         }
 
-        public async Task<T> FindAsync(ObjectId id)
+        public async Task<T> FindAsync(string id)
         {
             if (id == null)
                 throw new ArgumentNullException();
@@ -353,7 +353,7 @@ namespace EventStack_API.Models
             }
         }
 
-        public async Task<bool> DeleteAsync(ObjectId id)
+        public async Task<bool> DeleteAsync(string id)
         {
             if (id == null)
                 throw new ArgumentNullException();
