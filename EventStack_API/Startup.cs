@@ -24,8 +24,9 @@ namespace EventStack_API
         {
             services.AddControllers();
 
-            services.Configure<DbSettings>(Configuration.GetSection("MongoDBOption"));
-            services.AddScoped<IOptions<DbSettings>>();
+            services.Configure<DbSettings>(Configuration.GetSection(nameof(DbSettings)));
+
+            services.AddSingleton<IDbSettings>(s => s.GetRequiredService<IOptions<DbSettings>>().Value);
             services.AddScoped<IDbContext, MongoDbContext>();
             services.AddScoped<IRepositoryFactory<Organization>, MongoRepository<Organization>>();
 
