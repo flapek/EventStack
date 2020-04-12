@@ -26,21 +26,13 @@ namespace EventStack_API.Models
                 throw new ArgumentNullException(nameof(T));
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
-
             using var session = Context.MongoClient.StartSession();
-            try
+            return session.WithTransaction<bool>((s, c) =>
             {
-                return session.WithTransaction<bool>((s, c) =>
-                {
-                    collection.InsertOne(s, insert);
-                    return true;
-                }, new TransactionOptions(), CancellationToken.None);
-            }
-            catch (Exception)
-            {
-                session.AbortTransaction();
-                return false;
-            }
+                collection.InsertOne(s, insert);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
+
         }
 
         public bool Insert(IEnumerable<T> toInserts)
