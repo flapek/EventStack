@@ -29,6 +29,10 @@ namespace EventStack_API.Controllers
         [HttpPost]
         public bool Post(Organization organizaction) => ModelState.IsValid ? repository.Insert(organizaction) : false;
 
+        // POST: api/Organization
+        [HttpPost]
+        public bool Post(IEnumerable<Organization> organizactions) => ModelState.IsValid ? repository.Insert(organizactions) : false;
+
         // PUT: api/Organization/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
