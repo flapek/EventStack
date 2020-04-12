@@ -30,10 +30,6 @@ namespace EventStack_API.Models
             using var session = Context.MongoClient.StartSession();
             try
             {
-                //session.StartTransaction();
-                //collection.InsertOne(session,insert);
-                //session.CommitTransaction();
-
                 return session.WithTransaction<bool>((s, c) =>
                 {
                     collection.InsertOne(s, insert);
