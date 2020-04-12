@@ -27,7 +27,7 @@ namespace EventStack_API.Models
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
             using var session = Context.MongoClient.StartSession();
-            return session.WithTransaction<bool>((s, c) =>
+            return session.WithTransaction((s, c) =>
             {
                 collection.InsertOne(s, insert);
                 return true;
@@ -42,21 +42,12 @@ namespace EventStack_API.Models
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            return session.WithTransaction((s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    collection.InsertMany(session, toInserts);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                collection.InsertMany(s, toInserts);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
         public T Find(string id)
