@@ -46,10 +46,7 @@ namespace EventStack_API
 
             app.UseHttpsRedirection();
 
-            app.UseSwagger(s =>
-            {
-                s.RouteTemplate = "swagger/{documentName}/swagger.json";
-            });
+            app.UseSwagger();
             app.UseSwaggerUI(s =>
             {
                 s.SwaggerEndpoint("/swagger/EventStack/swagger.json", "EventStack v1");
