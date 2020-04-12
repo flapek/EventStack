@@ -32,7 +32,7 @@ namespace EventStack_API
 
             services.AddSwaggerGen(s =>
             {
-                s.SwaggerDoc("v1", new OpenApiInfo { Title = "DbApi", Version = "v1" });
+                s.SwaggerDoc("EventStack", new OpenApiInfo { Title = "DbApi", Version = "v1" });
             });
         }
 
@@ -46,6 +46,15 @@ namespace EventStack_API
 
             app.UseHttpsRedirection();
 
+            app.UseSwagger(s =>
+            {
+                s.RouteTemplate = "swagger/{documentName}/swagger.json";
+            });
+            app.UseSwaggerUI(s =>
+            {
+                s.SwaggerEndpoint("/swagger/EventStack/swagger.json", "EventStack v1");
+            });
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -55,11 +64,7 @@ namespace EventStack_API
                 endpoints.MapControllers();
             });
 
-            app.UseSwagger();
-            app.UseSwaggerUI(x =>
-            {
-                x.SwaggerEndpoint("/swagger/v1/swagger.json", "My api v1");
-            });
+
         }
     }
 }
