@@ -34,13 +34,11 @@ namespace EventStack_API.Models
                 //collection.InsertOne(session,insert);
                 //session.CommitTransaction();
 
-                session.WithTransaction<bool>((s, c) =>
+                return session.WithTransaction<bool>((s, c) =>
                 {
                     collection.InsertOne(s, insert);
                     return true;
                 }, new TransactionOptions(), CancellationToken.None);
-
-                return true;
             }
             catch (Exception)
             {
