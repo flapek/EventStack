@@ -20,6 +20,6 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\filap\source\repos\EventStack\EventStack_API\EventStack_API.documentaction.xml</DocumentationFile>
+    <DocumentationFile>..\EventStack_API.documentaction.xml</DocumentationFile>
   </PropertyGroup>
 </Project>
