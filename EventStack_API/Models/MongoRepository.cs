@@ -103,22 +103,13 @@ namespace EventStack_API.Models
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            return session.WithTransaction((s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    foreach (var toUpdate in toUpdates)
-                        collection.ReplaceOne(session, filter => filter.Id == toUpdate.Id, toUpdate);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                foreach (var toUpdate in toUpdates)
+                    collection.ReplaceOne(session, filter => filter.Id == toUpdate.Id, toUpdate);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
         public bool Delete(string id)
