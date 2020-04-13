@@ -26,6 +26,14 @@ namespace EventStack_API.UnitTest.OrganizationTest
             Assert.IsTrue(!ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains(errorMessage)));
         }
 
+        [TestCase("123456")]
+        public void Organization_IsRegexRejectPassword_True(string password)
+        {
+            organization.Password = password;
+
+            Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains(errorMessage)));
+        }
+
         private IList<ValidationResult> ValidateModel(object model)
         {
             var validationResults = new List<ValidationResult>();
