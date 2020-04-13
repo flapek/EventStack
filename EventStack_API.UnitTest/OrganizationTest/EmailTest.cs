@@ -31,6 +31,12 @@ namespace EventStack_API.UnitTest.OrganizationTest
             Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("Email") && a.ErrorMessage.Contains("Email must contain")));
         }
 
+        public void Organization_IsEmailRequired_True()
+        {
+            organization.Email = null;
+            Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("Email") && a.ErrorMessage.Contains("Email must be set!")));
+        }
+
         private IList<ValidationResult> ValidateModel(object model)
         {
             var validationResults = new List<ValidationResult>();
