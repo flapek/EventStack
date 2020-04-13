@@ -18,10 +18,10 @@ namespace EventStack_API.UnitTest.OrganizationTest
             organization = new Organization();
         }
 
-        [Test]
-        public void Organization_IsRegexAcceptPassword_True()
+        [TestCase("EventStack123!")]
+        public void Organization_IsRegexAcceptPassword_True(string password)
         {
-            organization.Password = "EventStack123!";
+            organization.Password = password;
 
             Assert.IsTrue(!ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains(errorMessage)));
         }
