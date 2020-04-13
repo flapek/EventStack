@@ -51,12 +51,12 @@ namespace EventStack_API.Models
         
         [BsonElement("NIP")]
         [StringLength(10)]
-        [RegularExpression(@"\d{10}", ErrorMessage = "Only number and lenght must be 10!")]
+        [RegularExpression(@"[0-9]{10}", ErrorMessage = "Only number and lenght must be 10!")]
         public string NIP { get; set; }
         
         [BsonElement("REGON")]
         [StringLength(9)]
-        [RegularExpression(@"\d{9}", ErrorMessage = "Only number and lenght must be 10!")]
+        [RegularExpression(@"[0-9]{9}", ErrorMessage = "Only number and lenght must be 10!")]
         public string REGON { get; set; }        
     }
 }
