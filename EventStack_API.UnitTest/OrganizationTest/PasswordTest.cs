@@ -18,6 +18,11 @@ namespace EventStack_API.UnitTest.OrganizationTest
         }
 
         [TestCase("EventStack123!")]
+        [TestCase("#JamesBond007")]
+        [TestCase("$GrzesiuSzlac91$")]
+        [TestCase("8^2=6Cztery")]
+        [TestCase("Koronawirus,2020")]
+        [TestCase("JestemLegenda(2007)")]
         public void Organization_IsRegexAcceptPassword_True(string password)
         {
             organization.Password = password;
