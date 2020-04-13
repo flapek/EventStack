@@ -10,7 +10,7 @@ namespace EventStack_API.UnitTest.OrganizationTest
     public class PasswordTest
     {
         private Organization organization;
-        
+
         [SetUp]
         public void SetUp()
         {
@@ -21,7 +21,6 @@ namespace EventStack_API.UnitTest.OrganizationTest
         public void Organization_IsRegexAcceptPassword_True(string password)
         {
             organization.Password = password;
-
             Assert.IsTrue(!ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains("Password must contain")));
         }
 
@@ -29,7 +28,6 @@ namespace EventStack_API.UnitTest.OrganizationTest
         public void Organization_IsRegexRejectPassword_True(string password)
         {
             organization.Password = password;
-
             Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains("Password must contain")));
         }
 
@@ -37,7 +35,6 @@ namespace EventStack_API.UnitTest.OrganizationTest
         public void Organization_IsPasswordRequired_True()
         {
             organization.Password = null;
-
             Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains("Password must be set!")));
         }
 
@@ -45,7 +42,6 @@ namespace EventStack_API.UnitTest.OrganizationTest
         public void Organization_IsPasswordNotRequired_False()
         {
             organization.Password = "not null";
-
             Assert.IsFalse(ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains("Password must be set!")));
         }
 
