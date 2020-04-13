@@ -25,6 +25,11 @@ namespace EventStack_API.UnitTest.OrganizationTest
         }
 
         [TestCase("123456")]
+        [TestCase("Admin123")]
+        [TestCase("Haslo")]
+        [TestCase("00000")]
+        [TestCase("asdfghijklm")]
+        [TestCase("sexbomb69")]
         public void Organization_IsRegexRejectPassword_True(string password)
         {
             organization.Password = password;
