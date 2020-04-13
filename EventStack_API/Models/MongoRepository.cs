@@ -133,7 +133,7 @@ namespace EventStack_API.Models
                 throw new ArgumentNullException();
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
-           
+
             using var session = Context.MongoClient.StartSession();
             return session.WithTransaction((s, c) =>
             {
@@ -169,21 +169,12 @@ namespace EventStack_API.Models
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            return await session.WithTransactionAsync(async (s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    await collection.InsertOneAsync(session, insert);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                await collection.InsertOneAsync(session, insert);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
         public async Task<bool> InsertAsync(IEnumerable<T> toInserts)
@@ -193,21 +184,12 @@ namespace EventStack_API.Models
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            return await session.WithTransactionAsync(async (s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    await collection.InsertManyAsync(session, toInserts);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                await collection.InsertManyAsync(session, toInserts);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
         public async Task<T> FindAsync(string id)
