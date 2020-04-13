@@ -47,7 +47,7 @@ namespace EventStack_API.Models
         public string Destription { get; set; }
         
         [BsonElement("Events")] 
-        public IEnumerable<Event> Events { get; set; }
+        public IEnumerable<string> EventsID { get; set; }
         
         [BsonElement("NIP")]
         [StringLength(10)]
