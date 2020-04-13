@@ -24,6 +24,13 @@ namespace EventStack_API.UnitTest.OrganizationTest
             Assert.IsTrue(!ValidateModel(organization).Any(a => a.MemberNames.Contains("Email") && a.ErrorMessage.Contains("Email must contain")));
         }
 
+        [TestCase("@com")]
+        public void Organization_IsRegexRejectEmail_True(string email)
+        {
+            organization.Email = email;
+            Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("Email") && a.ErrorMessage.Contains("Email must contain")));
+        }
+
         private IList<ValidationResult> ValidateModel(object model)
         {
             var validationResults = new List<ValidationResult>();
