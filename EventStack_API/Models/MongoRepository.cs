@@ -261,21 +261,12 @@ namespace EventStack_API.Models
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            return await session.WithTransactionAsync(async (s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    await collection.DeleteOneAsync(session, filter => filter.Id == id);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                await collection.DeleteOneAsync(session, filter => filter.Id == id);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
         public async Task<bool> DeleteAsync(T toDelete)
@@ -285,21 +276,12 @@ namespace EventStack_API.Models
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            return await session.WithTransactionAsync(async (s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    await collection.DeleteOneAsync(session, filter => filter.Id == toDelete.Id);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                await collection.DeleteOneAsync(session, filter => filter.Id == toDelete.Id);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
         public async Task<bool> DeleteAsync(IEnumerable<T> toDeletes)
@@ -310,21 +292,12 @@ namespace EventStack_API.Models
             var collection = Context.GetCollection<T>(typeof(T).Name);
             var filter = Builders<T>.Filter.In(f => f.Id, toDeletes.Select(d => d.Id));
 
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            return await session.WithTransactionAsync(async (s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    await collection.DeleteManyAsync(session, filter);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                await collection.DeleteManyAsync(session, filter);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
         #endregion
