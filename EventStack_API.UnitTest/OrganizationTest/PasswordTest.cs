@@ -34,6 +34,14 @@ namespace EventStack_API.UnitTest.OrganizationTest
             Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains(errorMessage)));
         }
 
+        [Test]
+        public void Organization_IsPasswordRequired_True()
+        {
+            organization.Password = null;
+
+            Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains("Password must be set!")));
+        }
+
         private IList<ValidationResult> ValidateModel(object model)
         {
             var validationResults = new List<ValidationResult>();
