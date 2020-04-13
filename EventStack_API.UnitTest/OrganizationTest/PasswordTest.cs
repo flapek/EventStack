@@ -10,8 +10,7 @@ namespace EventStack_API.UnitTest.OrganizationTest
     public class PasswordTest
     {
         private Organization organization;
-        private string errorMessage = "Password must contain at least 1 lowercase and uppercase alphabetical character, 1 numeric character, 1 special character(!,@,#,$,%,^,&,*) and must be eight characters or longer!";
-
+        
         [SetUp]
         public void SetUp()
         {
@@ -23,7 +22,7 @@ namespace EventStack_API.UnitTest.OrganizationTest
         {
             organization.Password = password;
 
-            Assert.IsTrue(!ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains(errorMessage)));
+            Assert.IsTrue(!ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains("Password must contain")));
         }
 
         [TestCase("123456")]
@@ -31,7 +30,7 @@ namespace EventStack_API.UnitTest.OrganizationTest
         {
             organization.Password = password;
 
-            Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains(errorMessage)));
+            Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains("Password must contain")));
         }
 
         [Test]
