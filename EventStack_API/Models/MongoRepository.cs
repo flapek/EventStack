@@ -32,7 +32,6 @@ namespace EventStack_API.Models
                 collection.InsertOne(s, insert);
                 return true;
             }, new TransactionOptions(), CancellationToken.None);
-
         }
 
         public bool Insert(IEnumerable<T> toInserts)
@@ -89,21 +88,12 @@ namespace EventStack_API.Models
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            return session.WithTransaction((s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    collection.ReplaceOne(session, filter => filter.Id == toUpdate.Id, toUpdate);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                collection.ReplaceOne(s, filter => filter.Id == toUpdate.Id, toUpdate);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
         public bool Update(IEnumerable<T> toUpdates)
