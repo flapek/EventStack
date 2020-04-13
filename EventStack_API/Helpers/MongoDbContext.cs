@@ -9,10 +9,10 @@ namespace EventStack_API.Models
         private IMongoDatabase MongoDatabase { get; set; }
         public MongoClient MongoClient { get; private set; }
 
-        public MongoDbContext(IOptions<DbSettings> configuration)
+        public MongoDbContext(IDbSettings configuration)
         {
-            MongoClient = new MongoClient(configuration.Value.ConnectionString);
-            MongoDatabase = MongoClient.GetDatabase(configuration.Value.DatabaseName);
+            MongoClient = new MongoClient(configuration.ConnectionString);
+            MongoDatabase = MongoClient.GetDatabase(configuration.DatabaseName);
         }
 
         public IMongoCollection<T> GetCollection<T>(string name) => MongoDatabase.GetCollection<T>(name);

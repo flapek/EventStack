@@ -1,8 +1,11 @@
+using EventStack_API.Interfaces;
+using EventStack_API.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
 namespace EventStack_API
@@ -21,9 +24,15 @@ namespace EventStack_API
         {
             services.AddControllers();
 
+            services.Configure<DbSettings>(Configuration.GetSection(nameof(DbSettings)));
+
+            services.AddSingleton<IDbSettings>(s => s.GetRequiredService<IOptions<DbSettings>>().Value);
+            services.AddScoped<IDbContext, MongoDbContext>();
+            services.AddScoped<IRepositoryFactory<Organization>, MongoRepository<Organization>>();
+
             services.AddSwaggerGen(s =>
             {
-                s.SwaggerDoc("v1", new OpenApiInfo { Title = "DbApi", Version = "v1" });
+                s.SwaggerDoc("EventStack", new OpenApiInfo { Title = "DbApi", Version = "v1" });
             });
         }
 
@@ -37,6 +46,12 @@ namespace EventStack_API
 
             app.UseHttpsRedirection();
 
+            app.UseSwagger();
+            app.UseSwaggerUI(s =>
+            {
+                s.SwaggerEndpoint("/swagger/EventStack/swagger.json", "EventStack v1");
+            });
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -46,11 +61,7 @@ namespace EventStack_API
                 endpoints.MapControllers();
             });
 
-            app.UseSwagger();
-            app.UseSwaggerUI(x =>
-            {
-                x.SwaggerEndpoint("/swagger/v1/swagger.json", "My api v1");
-            });
+
         }
     }
 }

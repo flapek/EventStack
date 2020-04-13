@@ -5,6 +5,7 @@ using System;
 using EventStack_API.Interfaces;
 using MongoDB.Driver;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace EventStack_API.Models
 {
@@ -12,9 +13,9 @@ namespace EventStack_API.Models
     {
         private MongoDbContext Context { get; set; }
 
-        public MongoRepository(MongoDbContext context)
+        public MongoRepository(IDbContext context)
         {
-            Context = context;
+            Context = (MongoDbContext)context;
         }
 
         #region Sync Method
@@ -25,22 +26,12 @@ namespace EventStack_API.Models
                 throw new ArgumentNullException(nameof(T));
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
-
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            return session.WithTransaction((s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    collection.InsertOne(session, insert);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                collection.InsertOne(s, insert);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
         public bool Insert(IEnumerable<T> toInserts)
@@ -50,24 +41,15 @@ namespace EventStack_API.Models
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            return session.WithTransaction((s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    collection.InsertMany(session, toInserts);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                collection.InsertMany(s, toInserts);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
-        public T Find(ObjectId id)
+        public T Find(string id)
         {
             if (id == null)
                 throw new ArgumentNullException();
@@ -106,21 +88,12 @@ namespace EventStack_API.Models
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            return session.WithTransaction((s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    collection.ReplaceOne(session, filter => filter.Id == toUpdate.Id, toUpdate);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                collection.ReplaceOne(s, filter => filter.Id == toUpdate.Id, toUpdate);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
         public bool Update(IEnumerable<T> toUpdates)
@@ -130,46 +103,28 @@ namespace EventStack_API.Models
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            return session.WithTransaction((s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    foreach (var toUpdate in toUpdates)
-                        collection.ReplaceOne(session, filter => filter.Id == toUpdate.Id, toUpdate);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                foreach (var toUpdate in toUpdates)
+                    collection.ReplaceOne(session, filter => filter.Id == toUpdate.Id, toUpdate);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
-        public bool Delete(ObjectId id)
+        public bool Delete(string id)
         {
             if (id == null)
                 throw new ArgumentNullException();
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            return session.WithTransaction((s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    collection.DeleteOne(session, filter => filter.Id == id);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                collection.DeleteOne(session, filter => filter.Id == id);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
         public bool Delete(T toDelete)
@@ -179,21 +134,12 @@ namespace EventStack_API.Models
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            return session.WithTransaction((s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    collection.DeleteOne(session, filter => filter.Id == toDelete.Id);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                collection.DeleteOne(session, filter => filter.Id == toDelete.Id);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
         public bool Delete(IEnumerable<T> toDeletes)
@@ -203,22 +149,13 @@ namespace EventStack_API.Models
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            return session.WithTransaction((s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    foreach (var toDelete in toDeletes)
-                        collection.DeleteOne(session, filter => filter.Id == toDelete.Id);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                foreach (var toDelete in toDeletes)
+                    collection.DeleteOne(session, filter => filter.Id == toDelete.Id);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
         #endregion
@@ -232,21 +169,12 @@ namespace EventStack_API.Models
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            return await session.WithTransactionAsync(async (s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    await collection.InsertOneAsync(session, insert);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                await collection.InsertOneAsync(session, insert);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
         public async Task<bool> InsertAsync(IEnumerable<T> toInserts)
@@ -256,24 +184,15 @@ namespace EventStack_API.Models
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            return await session.WithTransactionAsync(async (s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    await collection.InsertManyAsync(session, toInserts);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                await collection.InsertManyAsync(session, toInserts);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
-        public async Task<T> FindAsync(ObjectId id)
+        public async Task<T> FindAsync(string id)
         {
             if (id == null)
                 throw new ArgumentNullException();
@@ -311,21 +230,12 @@ namespace EventStack_API.Models
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            return await session.WithTransactionAsync(async (s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    await collection.ReplaceOneAsync(session, filter => filter.Id == toUpdate.Id, toUpdate);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                await collection.ReplaceOneAsync(session, filter => filter.Id == toUpdate.Id, toUpdate);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
         public async Task<bool> UpdateAsync(IEnumerable<T> toUpdates)
@@ -335,46 +245,28 @@ namespace EventStack_API.Models
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            return await session.WithTransactionAsync(async (s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    foreach (var toUpdate in toUpdates)
-                        await collection.ReplaceOneAsync(session, filter => filter.Id == toUpdate.Id, toUpdate);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                foreach (var toUpdate in toUpdates)
+                    await collection.ReplaceOneAsync(session, filter => filter.Id == toUpdate.Id, toUpdate);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
-        public async Task<bool> DeleteAsync(ObjectId id)
+        public async Task<bool> DeleteAsync(string id)
         {
             if (id == null)
                 throw new ArgumentNullException();
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            return await session.WithTransactionAsync(async (s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    await collection.DeleteOneAsync(session, filter => filter.Id == id);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                await collection.DeleteOneAsync(session, filter => filter.Id == id);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
         public async Task<bool> DeleteAsync(T toDelete)
@@ -384,21 +276,12 @@ namespace EventStack_API.Models
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            return await session.WithTransactionAsync(async (s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    await collection.DeleteOneAsync(session, filter => filter.Id == toDelete.Id);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                await collection.DeleteOneAsync(session, filter => filter.Id == toDelete.Id);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
         public async Task<bool> DeleteAsync(IEnumerable<T> toDeletes)
@@ -409,21 +292,12 @@ namespace EventStack_API.Models
             var collection = Context.GetCollection<T>(typeof(T).Name);
             var filter = Builders<T>.Filter.In(f => f.Id, toDeletes.Select(d => d.Id));
 
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            return await session.WithTransactionAsync(async (s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    await collection.DeleteManyAsync(session, filter);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                await collection.DeleteManyAsync(session, filter);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
         #endregion

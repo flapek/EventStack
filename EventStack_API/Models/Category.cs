@@ -10,9 +10,7 @@ namespace EventStack_API.Models
         [BsonId]
         [BsonElement("Id")]
         [BsonRepresentation(BsonType.ObjectId)]
-        [BsonRequired]
-        [Required(ErrorMessage = "Id must be defined!")]
-        public ObjectId Id { get; set; }
+        public string Id { get; set; }
 
         [BsonElement("Name")]
         [BsonRequired]
