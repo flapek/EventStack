@@ -16,5 +16,20 @@ namespace EventStack_API.UnitTest.OrganizationTest
         {
             organization = new Organization();
         }
+
+        [TestCase("eventstack@gmail.com")]
+        public void Organization_IsRegexAcceptEmail_True(string email)
+        {
+            organization.Email = email;
+            Assert.IsTrue(!ValidateModel(organization).Any(a => a.MemberNames.Contains("Email") && a.ErrorMessage.Contains("Email must contain")));
+        }
+
+        private IList<ValidationResult> ValidateModel(object model)
+        {
+            var validationResults = new List<ValidationResult>();
+            var ctx = new ValidationContext(model, null, null);
+            Validator.TryValidateObject(model, ctx, validationResults, true);
+            return validationResults;
+        }
     }
 }
