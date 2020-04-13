@@ -24,7 +24,8 @@ namespace EventStack_API.Models
         [BsonRequired]
         [Required(ErrorMessage = "Password must be set!")]
         [StringLength(30, ErrorMessage = "The maximum number of character is 30!")]
-        //[RegularExpression("", ErrorMessage = "")] //TODO regex for Password and set ErrorMessage
+        [RegularExpression(@"(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})", ErrorMessage = 
+            "Password must contain at least 1 lowercase and uppercase alphabetical character, 1 numeric character, 1 special character(!,@,#,$,%,^,&,*) and must be eight characters or longer!")]
         public string Password { get; set; }
         
         [BsonElement("Email")]
