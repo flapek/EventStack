@@ -119,21 +119,12 @@ namespace EventStack_API.Models
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            return session.WithTransaction((s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    collection.DeleteOne(session, filter => filter.Id == id);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                collection.DeleteOne(session, filter => filter.Id == id);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
         public bool Delete(T toDelete)
@@ -142,22 +133,13 @@ namespace EventStack_API.Models
                 throw new ArgumentNullException();
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
-
-            using (var session = Context.MongoClient.StartSession())
+           
+            using var session = Context.MongoClient.StartSession();
+            return session.WithTransaction((s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    collection.DeleteOne(session, filter => filter.Id == toDelete.Id);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                collection.DeleteOne(session, filter => filter.Id == toDelete.Id);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
         public bool Delete(IEnumerable<T> toDeletes)
@@ -167,22 +149,13 @@ namespace EventStack_API.Models
 
             var collection = Context.GetCollection<T>(typeof(T).Name);
 
-            using (var session = Context.MongoClient.StartSession())
+            using var session = Context.MongoClient.StartSession();
+            return session.WithTransaction((s, c) =>
             {
-                try
-                {
-                    session.StartTransaction();
-                    foreach (var toDelete in toDeletes)
-                        collection.DeleteOne(session, filter => filter.Id == toDelete.Id);
-                    session.CommitTransaction();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    session.AbortTransaction();
-                    return false;
-                }
-            }
+                foreach (var toDelete in toDeletes)
+                    collection.DeleteOne(session, filter => filter.Id == toDelete.Id);
+                return true;
+            }, new TransactionOptions(), CancellationToken.None);
         }
 
         #endregion
