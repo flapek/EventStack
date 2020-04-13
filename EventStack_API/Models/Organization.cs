@@ -13,8 +13,7 @@ namespace EventStack_API.Models
         [BsonRepresentation(BsonType.ObjectId)]
         [BsonRequired]
         [Required(ErrorMessage = "Id must be defined!")]
-        public ObjectId Id { get; set; }
-
+        public string Id { get; set; }
         [BsonElement("Name")]
         [BsonRequired]
         [Required(ErrorMessage = "Name must be set!")]
@@ -25,14 +24,16 @@ namespace EventStack_API.Models
         [BsonRequired]
         [Required(ErrorMessage = "Password must be set!")]
         [StringLength(30, ErrorMessage = "The maximum number of character is 30!")]
-        [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$", ErrorMessage = "Password must contain minimum eight characters, at least one letter and one number")]
+        [RegularExpression(@"(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})", ErrorMessage = 
+            "Password must contain at least 1 lowercase and uppercase alphabetical character, 1 numeric character, 1 special character(!,@,#,$,%,^,&,*) and must be eight characters or longer!")]
         public string Password { get; set; }
 
         [BsonElement("Email")]
         [BsonRequired]
         [Required(ErrorMessage = "Email must be set!")]
         [StringLength(100, ErrorMessage = "The maximum number of character is 100!")]
-        [RegularExpression(@"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", ErrorMessage = "Email must contain dot, @ and only lowercase letters")]
+        [RegularExpression(@"[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*", ErrorMessage = 
+            "Email must contain eg. example@example.com")]
         public string Email { get; set; }
 
         [BsonElement("PhoneNumber")]
@@ -44,9 +45,9 @@ namespace EventStack_API.Models
         [BsonElement("Destription")]
         [StringLength(1000, ErrorMessage = "The maximum number of character is 1000!")]
         public string Destription { get; set; }
-
-        [BsonElement("Events")]
-        public IEnumerable<Event> Events { get; set; }
+        
+        [BsonElement("Events")] 
+        public IEnumerable<string> EventsID { get; set; }
 
         [BsonElement("NIP")]
         [StringLength(10)]

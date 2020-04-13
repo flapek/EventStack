@@ -1,6 +1,4 @@
 using EventStack_API.Models;
-using Microsoft.Extensions.Options;
-using Moq;
 using NUnit.Framework;
 using FluentAssertions;
 
@@ -9,7 +7,6 @@ namespace EventStack_API.UnitTest
     public class DbContextTest
     {
         private MongoDbContext dbContext;
-        private Mock<IOptions<DbSettings>> mockOption;
 
         [SetUp]
         public void Setup()
@@ -20,10 +17,7 @@ namespace EventStack_API.UnitTest
                 DatabaseName = "TestDB"
             };
 
-            mockOption = new Mock<IOptions<DbSettings>>();
-            mockOption.Setup(s => s.Value).Returns(settings);
-
-            dbContext = new MongoDbContext(mockOption.Object);
+            dbContext = new MongoDbContext(settings);
         }
 
         #region constructor Test
