@@ -1,3 +1,5 @@
+using System.Linq;
+using System.Xml.Linq;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using EventStack_API.Models;
@@ -8,22 +10,28 @@ namespace EventStack_API.UnitTest.OrganizationTest
     public class PasswordTest
     {
         private Organization organization;
+        private string errorMessage = "Password must contain at least 1 lowercase and uppercase alphabetical character, 1 numeric character, 1 special character(!,@,#,$,%,^,&,*) and must be eight characters or longer!";
+
         [SetUp]
         public void SetUp()
         {
             organization = new Organization();
         }
 
-        [TestCase("niebieski123")]
-        public void IsDigitNeeded(string password)
-        {   
-            var vc = new ValidationContext(organization, null, null);
-            organization.Password = password;
+        [Test]
+        public void Organization_IsRegexAcceptPassword_True()
+        {
+            organization.Password = "EventStack123!";
 
-            var errorMessage = new List<ValidationResult>();
-            var result = Validator.TryValidateProperty(organization.Password, vc, errorMessage);
+            Assert.IsTrue(!ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains(errorMessage)));
+        }
 
-            Assert.IsTrue(result);
+        private IList<ValidationResult> ValidateModel(object model)
+        {
+            var validationResults = new List<ValidationResult>();
+            var ctx = new ValidationContext(model, null, null);
+            Validator.TryValidateObject(model, ctx, validationResults, true);
+            return validationResults;
         }
     }
 }
