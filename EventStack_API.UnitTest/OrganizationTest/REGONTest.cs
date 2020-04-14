@@ -24,6 +24,13 @@ namespace EventStack_API.UnitTest.OrganizationTest
             Assert.IsFalse(ValidateModel(organization).Any(a => a.MemberNames.Contains("REGON") && a.ErrorMessage.Contains("REGON must contain")));
         }
 
+        [TestCase("a2345678b")]
+        public void Organization_IsRegexRejectREGON_True(string REGON)
+        {
+            organization.REGON = REGON;
+            Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("REGON") && a.ErrorMessage.Contains("REGON must contain")));
+        }
+
         private IList<ValidationResult> ValidateModel(object model)
         {
             var validationResults = new List<ValidationResult>();
