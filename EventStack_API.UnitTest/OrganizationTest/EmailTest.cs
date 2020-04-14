@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using EventStack_API.Models;
 using NUnit.Framework;
+using EventStack_API.UnitTest.Helpers;
 
 namespace EventStack_API.UnitTest.OrganizationTest
 {
@@ -12,52 +13,41 @@ namespace EventStack_API.UnitTest.OrganizationTest
         private Organization organization;
 
         [SetUp]
-        public void SetUp()
-        {
-            organization = new Organization();
-        }
+        public void SetUp() => organization = new Organization();
 
         [TestCase("eventstack@gmail.com")]
-        public void Organization_IsRegexAcceptEmail_False(string email)
+        public void Organization_IsRegexAcceptEmail_True(string email)
         {
             organization.Email = email;
-            Assert.IsFalse(ValidateModel(organization).Any(a => a.MemberNames.Contains("Email") && a.ErrorMessage.Contains("Email must contain")));
+            Assert.IsTrue((organization as object).isValid("Email", "Email must contain"));
         }
 
         [TestCase("@com")]
-        public void Organization_IsRegexRejectEmail_True(string email)
+        public void Organization_IsRegexRejectEmail_False(string email)
         {
             organization.Email = email;
-            Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("Email") && a.ErrorMessage.Contains("Email must contain")));
+            Assert.IsFalse((organization as object).isValid("Email", "Email must contain"));
         }
 
         [Test]
-        public void Organization_IsEmailRequired_True()
+        public void Organization_IsEmailRequired_False()
         {
             organization.Email = null;
-            Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("Email") && a.ErrorMessage.Contains("Email must be set!")));
+            Assert.IsFalse((organization as object).isValid("Email", "Email must be set!"));
         }
 
         [Test]
-        public void Organization_IsEmailCanBeNotNull_False()
+        public void Organization_IsEmailCanBeNotNull_True()
         {
             organization.Email = "not null";
-            Assert.IsFalse(ValidateModel(organization).Any(a => a.MemberNames.Contains("Email") && a.ErrorMessage.Contains("Email must be set!")));
+            Assert.IsTrue((organization as object).isValid("Email", "Email must be set!"));
         }
 
         [Test]
-        public void Organization_IsEmailHasMaximumOfCharacters_True()
+        public void Organization_IsEmailHasMaximumOfCharacters_False()
         {
             organization.Email = new string('*', 101);
-            Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("Email") && a.ErrorMessage.Contains("The maximum number")));
-        }
-
-        private IList<ValidationResult> ValidateModel(object model)
-        {
-            var validationResults = new List<ValidationResult>();
-            var ctx = new ValidationContext(model, null, null);
-            Validator.TryValidateObject(model, ctx, validationResults, true);
-            return validationResults;
+            Assert.IsFalse((organization as object).isValid("Email", "The maximum number"));
         }
     }
 }

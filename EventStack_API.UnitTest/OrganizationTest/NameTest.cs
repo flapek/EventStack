@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using EventStack_API.Models;
 using NUnit.Framework;
+using EventStack_API.UnitTest.Helpers;
 
 namespace EventStack_API.UnitTest.OrganizationTest
 {
@@ -12,38 +13,27 @@ namespace EventStack_API.UnitTest.OrganizationTest
         private Organization organization;
 
         [SetUp]
-        public void SetUp()
-        {
-            organization = new Organization();
-        }
+        public void SetUp() => organization = new Organization();
 
         [Test]
-        public void Organization_IsNameRequired_True()
+        public void Organization_IsNameRequired_False()
         {
             organization.Name = null;
-            Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("Name") && a.ErrorMessage.Contains("Name must be set!")));
+            Assert.IsFalse((organization as object).isValid("Name", "Name must be set!"));
         }
 
         [Test]
-        public void Organization_IsNameCanBeNotNull_False()
+        public void Organization_IsNameCanBeNotNull_True()
         {
             organization.Name = "not null";
-            Assert.IsFalse(ValidateModel(organization).Any(a => a.MemberNames.Contains("Name") && a.ErrorMessage.Contains("Name must be set!")));
+            Assert.IsTrue((organization as object).isValid("Name", "Name must be set!"));
         }
 
         [Test]
-        public void Organization_IsNameHasMaximumOfCharacters_True()
+        public void Organization_IsNameHasMaximumOfCharacters_False()
         {
             organization.Name = new string('*', 101);
-            Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("Name") && a.ErrorMessage.Contains("The maximum number")));
-        }
-
-        private IList<ValidationResult> ValidateModel(object model)
-        {
-            var validationResults = new List<ValidationResult>();
-            var ctx = new ValidationContext(model, null, null);
-            Validator.TryValidateObject(model, ctx, validationResults, true);
-            return validationResults;
+            Assert.IsFalse((organization as object).isValid("Name", "The maximum number"));
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using EventStack_API.Models;
 using NUnit.Framework;
+using EventStack_API.UnitTest.Helpers;
 
 namespace EventStack_API.UnitTest.OrganizationTest
 {
@@ -12,31 +13,20 @@ namespace EventStack_API.UnitTest.OrganizationTest
         private Organization organization;
 
         [SetUp]
-        public void SetUp()
-        {
-            organization = new Organization();
-        }
+        public void SetUp() => organization = new Organization();
 
         [TestCase("1234567890")]
-        public void Organization_IsRegexAcceptNIP_False(string NIP)
+        public void Organization_IsRegexAcceptNIP_True(string NIP)
         {
             organization.NIP = NIP;
-            Assert.IsFalse(ValidateModel(organization).Any(a => a.MemberNames.Contains("NIP") && a.ErrorMessage.Contains("NIP must contain")));
+            Assert.IsTrue((organization as object).isValid("NIP", "NIP must contain"));
         }
 
         [TestCase("a23456789b")]
-        public void Organization_IsRegexRejectNIP_True(string NIP)
+        public void Organization_IsRegexRejectNIP_False(string NIP)
         {
             organization.NIP = NIP;
-            Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("NIP") && a.ErrorMessage.Contains("NIP must contain")));
-        }
-
-        private IList<ValidationResult> ValidateModel(object model)
-        {
-            var validationResults = new List<ValidationResult>();
-            var ctx = new ValidationContext(model, null, null);
-            Validator.TryValidateObject(model, ctx, validationResults, true);
-            return validationResults;
+            Assert.IsFalse((organization as object).isValid("NIP", "NIP must contain"));
         }
     }
 }

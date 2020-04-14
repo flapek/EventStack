@@ -1,9 +1,11 @@
+using System;
 using System.Linq;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using EventStack_API.Models;
 using NUnit.Framework;
+using EventStack_API.UnitTest.Helpers;
 
 namespace EventStack_API.UnitTest.OrganizationTest
 {
@@ -12,24 +14,13 @@ namespace EventStack_API.UnitTest.OrganizationTest
         private Organization organization;
 
         [SetUp]
-        public void SetUp()
-        {
-            organization = new Organization();
-        }
+        public void SetUp() => organization = new Organization();
 
         [Test]
-        public void Organization_IsDestriptionHasMaximumOfCharacters_True()
+        public void Organization_IsDestriptionHasMaximumOfCharacters_False()
         {
             organization.Destription = new string('*', 1001);
-            Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("Destription") && a.ErrorMessage.Contains("The maximum number")));
-        }
-
-        private IList<ValidationResult> ValidateModel(object model)
-        {
-            var validationResults = new List<ValidationResult>();
-            var ctx = new ValidationContext(model, null, null);
-            Validator.TryValidateObject(model, ctx, validationResults, true);
-            return validationResults;
+            Assert.IsFalse((organization as object).isValid("Destription", "The maximum number"));
         }
     }
 }
