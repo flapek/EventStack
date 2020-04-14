@@ -27,8 +27,15 @@ namespace EventStack_API.UnitTest.OrganizationTest
         [Test]
         public void Organization_IsNameCanBeNotNull_False()
         {
-            organization.Id = "not null";
+            organization.Name = "not null";
             Assert.IsFalse(ValidateModel(organization).Any(a => a.MemberNames.Contains("Name") && a.ErrorMessage.Contains("Name must be set!")));
+        }
+
+        [Test]
+        public void Organization_IsNameHasMaximumOfCharacters_True()
+        {
+            organization.Name = new string('*', 101);
+            Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("Name") && a.ErrorMessage.Contains("The maximum number")));
         }
 
         private IList<ValidationResult> ValidateModel(object model)
