@@ -50,12 +50,10 @@ namespace EventStack_API.Models
         public IEnumerable<string> EventsID { get; set; }
 
         [BsonElement("NIP")]
-        [StringLength(10)]
         [RegularExpression("^[0-9]{10}$", ErrorMessage = "NIP must contain 10 digit")]
         public string NIP { get; set; }
 
         [BsonElement("REGON")]
-        [StringLength(9)]
         [RegularExpression(@"^[0-9]{9}$", ErrorMessage = "REGON must contain 9 digit")]
         public string REGON { get; set; }
     }
