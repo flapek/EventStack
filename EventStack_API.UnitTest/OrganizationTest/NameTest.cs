@@ -16,5 +16,20 @@ namespace EventStack_API.UnitTest.OrganizationTest
         {
             organization = new Organization();
         }
+
+        [Test]
+        public void Organization_IsNameRequired_True()
+        {
+            organization.Name = null;
+            Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("Name") && a.ErrorMessage.Contains("Name must be set!")));
+        }
+
+        private IList<ValidationResult> ValidateModel(object model)
+        {
+            var validationResults = new List<ValidationResult>();
+            var ctx = new ValidationContext(model, null, null);
+            Validator.TryValidateObject(model, ctx, validationResults, true);
+            return validationResults;
+        }
     }
 }
