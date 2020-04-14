@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using EventStack_API.Models;
 using NUnit.Framework;
+using EventStack_API.UnitTest.Helpers;
 
 namespace EventStack_API.UnitTest.OrganizationTest
 {
@@ -14,10 +15,7 @@ namespace EventStack_API.UnitTest.OrganizationTest
         private Organization organization;
 
         [SetUp]
-        public void SetUp()
-        {
-            organization = new Organization();
-        }
+        public void SetUp() => organization = new Organization();
 
         [TestCase("EventStack123!")]
         [TestCase("#JamesBond007")]
@@ -25,10 +23,10 @@ namespace EventStack_API.UnitTest.OrganizationTest
         [TestCase("8^2=6Cztery")]
         [TestCase("Koronawirus,2020")]
         [TestCase("JestemLegenda(2007)")]
-        public void Organization_IsRegexAcceptPassword_False(string password)
+        public void Organization_IsRegexAcceptPassword_True(string password)
         {
             organization.Password = password;
-            Assert.IsFalse(ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains("Password must contain")));
+            Assert.IsTrue((organization as object).isValid("Password", "Password must contain"));
         }
 
         [TestCase("123456")]
@@ -37,39 +35,31 @@ namespace EventStack_API.UnitTest.OrganizationTest
         [TestCase("00000")]
         [TestCase("asdfghijklm")]
         [TestCase("sexbomb69")]
-        public void Organization_IsRegexRejectPassword_True(string password)
+        public void Organization_IsRegexRejectPassword_False(string password)
         {
             organization.Password = password;
-            Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains("Password must contain")));
+            Assert.IsFalse((organization as object).isValid("Password", "Password must contain"));
         }
 
         [Test]
-        public void Organization_IsPasswordRequired_True()
+        public void Organization_IsPasswordRequired_False()
         {
             organization.Password = null;
-            Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains("Password must be set!")));
+            Assert.IsFalse((organization as object).isValid("Password", "Password must be set!"));
         }
 
         [Test]
-        public void Organization_IsPasswordCanBeNotNull_False()
+        public void Organization_IsPasswordCanBeNotNull_True()
         {
             organization.Password = "not null";
-            Assert.IsFalse(ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains("Password must be set!")));
+            Assert.IsTrue((organization as object).isValid("Password", "Password must be set!"));            
         }
 
         [Test]
-        public void Organization_IsPasswordHasMaximumOfCharacters_True()
+        public void Organization_IsPasswordHasMaximumOfCharacters_False()
         {
             organization.Password = new string('*', 31);
-            Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains("The maximum number")));
-        }
-
-        private IList<ValidationResult> ValidateModel(object model)
-        {
-            var validationResults = new List<ValidationResult>();
-            var ctx = new ValidationContext(model, null, null);
-            Validator.TryValidateObject(model, ctx, validationResults, true);
-            return validationResults;
+            Assert.IsFalse((organization as object).isValid("Password", "The maximum number"));            
         }
     }
 }

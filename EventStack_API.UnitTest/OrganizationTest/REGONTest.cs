@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using EventStack_API.Models;
 using NUnit.Framework;
+using EventStack_API.UnitTest.Helpers;
 
 namespace EventStack_API.UnitTest.OrganizationTest
 {
@@ -12,31 +13,20 @@ namespace EventStack_API.UnitTest.OrganizationTest
         private Organization organization;
 
         [SetUp]
-        public void SetUp()
-        {
-            organization = new Organization();
-        }
+        public void SetUp() => organization = new Organization();
 
         [TestCase("123456789")]
-        public void Organization_IsRegexAcceptREGON_False(string REGON)
+        public void Organization_IsRegexAcceptREGON_True(string REGON)
         {
             organization.REGON = REGON;
-            Assert.IsFalse(ValidateModel(organization).Any(a => a.MemberNames.Contains("REGON") && a.ErrorMessage.Contains("REGON must contain")));
+            Assert.IsTrue((organization as object).isValid("REGON", "REGON must contain"));
         }
 
         [TestCase("a2345678b")]
-        public void Organization_IsRegexRejectREGON_True(string REGON)
+        public void Organization_IsRegexRejectREGON_False(string REGON)
         {
             organization.REGON = REGON;
-            Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("REGON") && a.ErrorMessage.Contains("REGON must contain")));
-        }
-
-        private IList<ValidationResult> ValidateModel(object model)
-        {
-            var validationResults = new List<ValidationResult>();
-            var ctx = new ValidationContext(model, null, null);
-            Validator.TryValidateObject(model, ctx, validationResults, true);
-            return validationResults;
+            Assert.IsFalse((organization as object).isValid("REGON", "REGON must contain"));
         }
     }
 }
