@@ -18,10 +18,10 @@ namespace EventStack_API.UnitTest.OrganizationTest
         }
 
         [TestCase("eventstack@gmail.com")]
-        public void Organization_IsRegexAcceptEmail_True(string email)
+        public void Organization_IsRegexAcceptEmail_False(string email)
         {
             organization.Email = email;
-            Assert.IsTrue(!ValidateModel(organization).Any(a => a.MemberNames.Contains("Email") && a.ErrorMessage.Contains("Email must contain")));
+            Assert.IsFalse(ValidateModel(organization).Any(a => a.MemberNames.Contains("Email") && a.ErrorMessage.Contains("Email must contain")));
         }
 
         [TestCase("@com")]
@@ -39,10 +39,10 @@ namespace EventStack_API.UnitTest.OrganizationTest
         }
 
         [Test]
-        public void Organization_IsEmailCanBeNotNull_True()
+        public void Organization_IsEmailCanBeNotNull_False()
         {
             organization.Email = "not null";
-            Assert.IsTrue(!ValidateModel(organization).Any(a => a.MemberNames.Contains("Email") && a.ErrorMessage.Contains("Email must be set!")));
+            Assert.IsFalse(ValidateModel(organization).Any(a => a.MemberNames.Contains("Email") && a.ErrorMessage.Contains("Email must be set!")));
         }
 
         [Test]

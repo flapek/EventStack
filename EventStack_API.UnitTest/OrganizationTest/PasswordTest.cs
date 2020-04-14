@@ -25,10 +25,10 @@ namespace EventStack_API.UnitTest.OrganizationTest
         [TestCase("8^2=6Cztery")]
         [TestCase("Koronawirus,2020")]
         [TestCase("JestemLegenda(2007)")]
-        public void Organization_IsRegexAcceptPassword_True(string password)
+        public void Organization_IsRegexAcceptPassword_False(string password)
         {
             organization.Password = password;
-            Assert.IsTrue(!ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains("Password must contain")));
+            Assert.IsFalse(ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains("Password must contain")));
         }
 
         [TestCase("123456")]
@@ -51,10 +51,10 @@ namespace EventStack_API.UnitTest.OrganizationTest
         }
 
         [Test]
-        public void Organization_IsPasswordCanBeNotNull_True()
+        public void Organization_IsPasswordCanBeNotNull_False()
         {
             organization.Password = "not null";
-            Assert.IsTrue(!ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains("Password must be set!")));
+            Assert.IsFalse(ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains("Password must be set!")));
         }
 
         [Test]
