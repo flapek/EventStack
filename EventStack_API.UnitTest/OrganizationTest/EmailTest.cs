@@ -39,10 +39,10 @@ namespace EventStack_API.UnitTest.OrganizationTest
         }
 
         [Test]
-        public void Organization_IsEmailNotRequired_False()
+        public void Organization_IsEmailCanBeNotNull_True()
         {
             organization.Email = "not null";
-            Assert.IsFalse(ValidateModel(organization).Any(a => a.MemberNames.Contains("Email") && a.ErrorMessage.Contains("Email must be set!")));
+            Assert.IsTrue(!ValidateModel(organization).Any(a => a.MemberNames.Contains("Email") && a.ErrorMessage.Contains("Email must be set!")));
         }
 
         private IList<ValidationResult> ValidateModel(object model)
