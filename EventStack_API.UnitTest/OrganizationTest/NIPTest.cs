@@ -24,6 +24,13 @@ namespace EventStack_API.UnitTest.OrganizationTest
             Assert.IsFalse(ValidateModel(organization).Any(a => a.MemberNames.Contains("NIP") && a.ErrorMessage.Contains("NIP must contain")));
         }
 
+        [TestCase("a23456789b")]
+        public void Organization_IsRegexRejectNIP_True(string NIP)
+        {
+            organization.NIP = NIP;
+            Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("NIP") && a.ErrorMessage.Contains("NIP must contain")));
+        }
+
         private IList<ValidationResult> ValidateModel(object model)
         {
             var validationResults = new List<ValidationResult>();
