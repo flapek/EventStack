@@ -1,3 +1,5 @@
+using System.Text;
+using System;
 using System.Linq;
 using System.Xml.Linq;
 using System.Collections.Generic;
@@ -53,6 +55,13 @@ namespace EventStack_API.UnitTest.OrganizationTest
         {
             organization.Password = "not null";
             Assert.IsFalse(ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains("Password must be set!")));
+        }
+
+        [Test]
+        public void Organization_IsPasswordHasMaximumOfCharacters_True()
+        {
+            organization.Password = new string('*', 31);
+            Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("Password") && a.ErrorMessage.Contains("The maximum number")));
         }
 
         private IList<ValidationResult> ValidateModel(object model)
