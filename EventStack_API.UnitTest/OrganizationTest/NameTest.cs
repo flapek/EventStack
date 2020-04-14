@@ -24,6 +24,13 @@ namespace EventStack_API.UnitTest.OrganizationTest
             Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("Name") && a.ErrorMessage.Contains("Name must be set!")));
         }
 
+        [Test]
+        public void Organization_IsNameCanBeNotNull_False()
+        {
+            organization.Id = "not null";
+            Assert.IsFalse(ValidateModel(organization).Any(a => a.MemberNames.Contains("Name") && a.ErrorMessage.Contains("Name must be set!")));
+        }
+
         private IList<ValidationResult> ValidateModel(object model)
         {
             var validationResults = new List<ValidationResult>();
