@@ -53,7 +53,7 @@ namespace EventStack_API.Models
         [BsonElement("Place")]
         [BsonRequired]
         [Required(ErrorMessage ="Place for event must be set")]
-        public Coordinate Place { get; set; }
+        public Address Place { get; set; }
         
         [BsonElement("IsCanceled")]
         [BsonDefaultValue(false)]
