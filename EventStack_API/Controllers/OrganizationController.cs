@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using EventStack_API.Models;
 using EventStack_API.Interfaces;
-using MongoDB.Bson;
 
 namespace EventStack_API.Controllers
 {

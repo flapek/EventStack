@@ -1,5 +1,4 @@
 ﻿using EventStack_API.Interfaces;
-using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace EventStack_API.Models

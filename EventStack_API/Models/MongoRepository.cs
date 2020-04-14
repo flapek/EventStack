@@ -1,6 +1,5 @@
 using System.Linq;
 using System.Collections.Generic;
-using MongoDB.Bson;
 using System;
 using EventStack_API.Interfaces;
 using MongoDB.Driver;
