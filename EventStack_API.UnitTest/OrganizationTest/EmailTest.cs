@@ -45,6 +45,13 @@ namespace EventStack_API.UnitTest.OrganizationTest
             Assert.IsTrue(!ValidateModel(organization).Any(a => a.MemberNames.Contains("Email") && a.ErrorMessage.Contains("Email must be set!")));
         }
 
+        [Test]
+        public void Organization_IsEmailHasMaximumOfCharacters_True()
+        {
+            organization.Email = new string('*', 101);
+            Assert.IsTrue(ValidateModel(organization).Any(a => a.MemberNames.Contains("Email") && a.ErrorMessage.Contains("The maximum number")));
+        }
+
         private IList<ValidationResult> ValidateModel(object model)
         {
             var validationResults = new List<ValidationResult>();
