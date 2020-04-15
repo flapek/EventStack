@@ -1,6 +1,7 @@
 using EventStack_API.Models;
 using NUnit.Framework;
 using FluentAssertions;
+using EventStack_API.Helpers;
 
 namespace EventStack_API.UnitTest
 {

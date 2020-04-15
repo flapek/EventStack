@@ -1,10 +1,8 @@
-﻿using MongoDB.Bson;
-
-namespace EventStack_API.Interfaces
+﻿namespace EventStack_API.Interfaces
 {
     public interface IDbModel
     {
-        string Id { get; set; }
+        string Id { get; }
         string Name { get; set; }
     }
 }

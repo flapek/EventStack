@@ -1,5 +1,7 @@
+using EventStack_API.Helpers;
 using EventStack_API.Interfaces;
 using EventStack_API.Models;
+using EventStack_API.Workers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -7,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using System.Linq;
 
 namespace EventStack_API
 {
@@ -29,10 +32,13 @@ namespace EventStack_API
             services.AddSingleton<IDbSettings>(s => s.GetRequiredService<IOptions<DbSettings>>().Value);
             services.AddScoped<IDbContext, MongoDbContext>();
             services.AddScoped<IRepositoryFactory<Organization>, MongoRepository<Organization>>();
+            services.AddScoped<IRepositoryFactory<Category>, MongoRepository<Category>>();
+            services.AddScoped<IRepositoryFactory<Event>, MongoRepository<Event>>();
 
             services.AddSwaggerGen(s =>
             {
                 s.SwaggerDoc("EventStack", new OpenApiInfo { Title = "DbApi", Version = "v1" });
+                s.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
             });
         }
 
@@ -60,7 +66,6 @@ namespace EventStack_API
             {
                 endpoints.MapControllers();
             });
-
 
         }
     }

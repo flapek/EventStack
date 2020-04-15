@@ -1,18 +1,15 @@
-using EventStack_API.Interfaces;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System.ComponentModel.DataAnnotations;
+using MongoDB.Driver.GeoJsonObjectModel;
 
 namespace EventStack_API.Models
 {
     public class Address
     {
-        [BsonId]
-        [BsonElement("Id")]
-        [BsonRepresentation(BsonType.ObjectId)]
-        [BsonRequired]
-        [Required(ErrorMessage = "Id must be defined!")]
-        public ObjectId Id { get; set; }
+        //[BsonId]
+        //[BsonElement("Id")]
+        //[BsonRepresentation(BsonType.ObjectId)]
+        //public ObjectId Id { get; set; }
 
         [BsonElement("Country")]
         public string Country { get; set; }
@@ -25,5 +22,8 @@ namespace EventStack_API.Models
 
         [BsonElement("ZipCode")]
         public string ZipCode { get; set; }
+
+        [BsonElement("Location")]
+        public GeoJsonPoint<GeoJson2DGeographicCoordinates> Location { get; set; }
     }
 }
