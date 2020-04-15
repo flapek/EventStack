@@ -16,32 +16,57 @@ namespace EventStack_API.Controllers
             this.repository = repository;
         }
 
+        // GET: api/Organization/id
+        [HttpGet("{id}", Name = "Get")]
+        public Organization Get(string id)
+            => repository.Find(id);
+
         // GET: api/Organization
         [HttpGet]
-        public Organization Get(Organization organization) => repository.Find(organization);
+        public Organization Get(Organization organization)
+            => repository.Find(organization);
 
-        // GET: api/Organization/5
-        [HttpGet("{id}", Name = "Get")]
-        public Organization Get(string id) => repository.Find(id);
-
-        // POST: api/Organization
-        [HttpPost]
-        public bool Post(Organization organizaction) => ModelState.IsValid ? repository.Insert(organizaction) : false;
+        // GET: api/Organization
+        [HttpGet]
+        public IEnumerable<Organization> Get(IEnumerable<Organization> organization)
+            => repository.Find(organization);
 
         // POST: api/Organization
         [HttpPost]
-        public bool Post(IEnumerable<Organization> organizactions) => ModelState.IsValid ? repository.Insert(organizactions) : false;
+        public bool Post(Organization organizaction)
+            => ModelState.IsValid ? repository.Insert(organizaction) : false;
 
-        // PUT: api/Organization/5
+        // POST: api/Organization
+        [HttpPost]
+        public bool Post(IEnumerable<Organization> organizactions)
+            => ModelState.IsValid ? repository.Insert(organizactions) : false;
+
+        // PUT: api/Organization
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+        public bool Put(Organization organization)
+            => ModelState.IsValid ? repository.Update(organization) : false;
 
-        // DELETE: api/ApiWithActions/5
+        // PUT: api/Organization
+        [HttpPut("{id}")]
+        public bool Put(IEnumerable<Organization> organizations)
+            => ModelState.IsValid ? repository.Update(organizations) : false;
+
+
+        // DELETE: api/ApiWithActions/id
         [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        public bool Delete(string id)
+            => repository.Delete(id);
+
+
+        // DELETE: api/ApiWithActions
+        [HttpDelete("{id}")]
+        public bool Delete(Organization organization)
+            => repository.Delete(organization);
+
+
+        // DELETE: api/ApiWithActions/id
+        [HttpDelete("{id}")]
+        public bool Delete(IEnumerable<Organization> organizations)
+            => repository.Delete(organizations);
     }
 }
