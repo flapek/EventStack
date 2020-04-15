@@ -31,6 +31,7 @@ namespace EventStack_API
             services.AddScoped<IDbContext, MongoDbContext>();
             services.AddScoped<IRepositoryFactory<Organization>, MongoRepository<Organization>>();
             services.AddScoped<IRepositoryFactory<Category>, MongoRepository<Category>>();
+            services.AddScoped<IRepositoryFactory<Event>, MongoRepository<Event>>();
 
             services.AddSwaggerGen(s =>
             {
