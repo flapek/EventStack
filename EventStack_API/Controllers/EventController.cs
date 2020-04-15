@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
+using EventStack_API.Interfaces;
+using EventStack_API.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventStack_API.Controllers
@@ -11,61 +9,61 @@ namespace EventStack_API.Controllers
     [ApiController]
     public class EventController : ControllerBase
     {
-        private IRepositoryFactory<Category> repository { get; set; }
+        private IRepositoryFactory<Event> repository { get; set; }
 
-        public CategoryController(IRepositoryFactory<Category> repository)
+        public EventController(IRepositoryFactory<Event> repository)
         {
             this.repository = repository;
         }
 
-        // GET: api/Category/id
+        // GET: api/Event/id
         [HttpGet("{id}", Name = "Get")]
-        public Category Get(string id)
+        public Event Get(string id)
             => repository.Find(id);
 
-        // GET: api/Category
+        // GET: api/Event
         [HttpGet]
-        public Category Get(Category organization)
+        public Event Get(Event organization)
             => repository.Find(organization);
 
-        // GET: api/Category
+        // GET: api/Event
         [HttpGet]
-        public IEnumerable<Category> Get(IEnumerable<Category> organization)
+        public IEnumerable<Event> Get(IEnumerable<Event> organization)
             => repository.Find(organization);
 
-        // POST: api/Category
+        // POST: api/Event
         [HttpPost]
-        public bool Post(Category organizaction)
+        public bool Post(Event organizaction)
             => ModelState.IsValid ? repository.Insert(organizaction) : false;
 
-        // POST: api/Category
+        // POST: api/Event
         [HttpPost]
-        public bool Post(IEnumerable<Category> organizactions)
+        public bool Post(IEnumerable<Event> organizactions)
             => ModelState.IsValid ? repository.Insert(organizactions) : false;
 
-        // PUT: api/Category
+        // PUT: api/Event
         [HttpPut("{id}")]
-        public bool Put(Category organization)
+        public bool Put(Event organization)
             => ModelState.IsValid ? repository.Update(organization) : false;
 
-        // PUT: api/Category
+        // PUT: api/Event
         [HttpPut("{id}")]
-        public bool Put(IEnumerable<Category> organizations)
+        public bool Put(IEnumerable<Event> organizations)
             => ModelState.IsValid ? repository.Update(organizations) : false;
 
-        // DELETE: api/Category
+        // DELETE: api/Event
         [HttpDelete("{id}")]
         public bool Delete(string id)
             => repository.Delete(id);
 
-        // DELETE: api/Category
+        // DELETE: api/Event
         [HttpDelete("{id}")]
-        public bool Delete(Category organization)
+        public bool Delete(Event organization)
             => repository.Delete(organization);
 
-        // DELETE: api/Category
+        // DELETE: api/Event
         [HttpDelete("{id}")]
-        public bool Delete(IEnumerable<Category> organizations)
+        public bool Delete(IEnumerable<Event> organizations)
             => repository.Delete(organizations);
     }
 }
