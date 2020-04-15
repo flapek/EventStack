@@ -1,7 +1,6 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver.GeoJsonObjectModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace EventStack_API.Models
 {

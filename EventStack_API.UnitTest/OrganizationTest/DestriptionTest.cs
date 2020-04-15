@@ -1,7 +1,6 @@
 using EventStack_API.Models;
 using NUnit.Framework;
 using EventStack_API.UnitTest.Helpers;
-using System;
 
 namespace EventStack_API.UnitTest.OrganizationTest
 {

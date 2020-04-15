@@ -5,8 +5,9 @@ using EventStack_API.Interfaces;
 using MongoDB.Driver;
 using System.Threading.Tasks;
 using System.Threading;
+using EventStack_API.Helpers;
 
-namespace EventStack_API.Models
+namespace EventStack_API.Workers
 {
     public class MongoRepository<T> : IRepositoryFactory<T> where T : IDbModel
     {

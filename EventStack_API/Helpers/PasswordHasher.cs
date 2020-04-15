@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-public class PasswordHasher
+namespace EventStack_API.Helpers
 {
-    private const string salt = "3v3nt.St@ck";
-
-    public static string ComputeHash(string password)
+    public class PasswordHasher
     {
-        var bytesPassword = Convert.FromBase64String(password + salt);
+        private const string salt = "3v3nt.St@ck";
 
-        var hashAlgorithm = new SHA512Managed();
-        var hashedPassword = hashAlgorithm.ComputeHash(bytesPassword);
+        public static string ComputeHash(string password)
+        {
+            var bytesPassword = Convert.FromBase64String(password + salt);
 
-        return Convert.ToBase64String(hashedPassword);
+            var hashAlgorithm = new SHA512Managed();
+            var hashedPassword = hashAlgorithm.ComputeHash(bytesPassword);
+
+            return Convert.ToBase64String(hashedPassword);
+        }
     }
 }

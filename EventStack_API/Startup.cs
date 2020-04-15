@@ -1,5 +1,7 @@
+using EventStack_API.Helpers;
 using EventStack_API.Interfaces;
 using EventStack_API.Models;
+using EventStack_API.Workers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
