@@ -21,10 +21,26 @@ namespace EventStack_API.Workers
             Collection = Context.GetCollection<Event>(typeof(Event).Name);
         }
 
-        public IEnumerable<Event> Find(GeoJson2DGeographicCoordinates coordinates, double distance)
+        public IEnumerable<Event> Find(Filter filter)
         {
-            var locationQuery = new FilterDefinitionBuilder<Event>().Near(e => e.Place.Location, coordinates.Latitude, coordinates.Longitude, distance);
+            var locationQuery = new FilterDefinitionBuilder<Event>()
+                .Near(e => e.Place.Location, filter.Coordinates.Latitude, filter.Coordinates.Longitude, filter.MaxDistance, filter.MinDistance);
             return Collection.Find(locationQuery).ToList();
+        }
+
+        public async Task<IEnumerable<Event>> FindAsync(Filter filter)
+        {
+            var locationQuery = new FilterDefinitionBuilder<Event>()
+                .Near(e => e.Place.Location, filter.Coordinates.Latitude, filter.Coordinates.Longitude, filter.MaxDistance, filter.MinDistance);
+            var result = await Collection.FindAsync(locationQuery);
+            return await result.ToListAsync();
+        }
+
+        public class Filter
+        {
+            public GeoJson2DGeographicCoordinates Coordinates { get; set; }
+            public double? MaxDistance { get; set; }
+            public double? MinDistance { get; set; }
         }
     }
 }
