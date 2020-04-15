@@ -75,7 +75,7 @@ namespace EventStack_API.Models
             var result = new List<T>();
 
             foreach (var toFind in toFinds)
-                result.Add(collection.Find(filter => filter.Id == toFind.Id).Limit(1).FirstOrDefault());
+                result.Add(collection.Find(filter => filter.Id == toFind.Id).FirstOrDefault());
 
             return result;
         }
