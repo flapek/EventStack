@@ -53,19 +53,19 @@ namespace EventStack_API.Controllers
             => ModelState.IsValid ? repository.Update(organizations) : false;
 
 
-        // DELETE: api/ApiWithActions/id
+        // DELETE: api/Category
         [HttpDelete("{id}")]
         public bool Delete(string id)
             => repository.Delete(id);
 
 
-        // DELETE: api/ApiWithActions
+        // DELETE: api/Category
         [HttpDelete("{id}")]
         public bool Delete(Category organization)
             => repository.Delete(organization);
 
 
-        // DELETE: api/ApiWithActions/id
+        // DELETE: api/Category
         [HttpDelete("{id}")]
         public bool Delete(IEnumerable<Category> organizations)
             => repository.Delete(organizations);
