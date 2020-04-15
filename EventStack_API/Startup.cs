@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using System.Linq;
 
 namespace EventStack_API
 {
@@ -33,6 +34,7 @@ namespace EventStack_API
             services.AddSwaggerGen(s =>
             {
                 s.SwaggerDoc("EventStack", new OpenApiInfo { Title = "DbApi", Version = "v1" });
+                s.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
             });
         }
 
@@ -60,7 +62,6 @@ namespace EventStack_API
             {
                 endpoints.MapControllers();
             });
-
 
         }
     }
