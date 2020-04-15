@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
-using EventStack_API.Interfaces;
-using EventStack_API.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventStack_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoryController : ControllerBase
+    public class EventController : ControllerBase
     {
         private IRepositoryFactory<Category> repository { get; set; }
 
