@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using Geolocation;
 using EventStack_API.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
@@ -13,7 +12,7 @@ namespace EventStack_API.Models
         [BsonId]
         [BsonElement("Id")]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        public string Id { get; }
 
         [BsonElement("Name")]
         [BsonRequired]
@@ -53,7 +52,7 @@ namespace EventStack_API.Models
         [BsonElement("Place")]
         [BsonRequired]
         [Required(ErrorMessage ="Place for event must be set")]
-        public Coordinate Place { get; set; }
+        public Address Place { get; set; }
         
         [BsonElement("IsCanceled")]
         [BsonDefaultValue(false)]
