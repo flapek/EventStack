@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EventStack_API.Workers
 {
-    public class Event_MongoRepository : MongoRepository<Event>
+    public class Event_MongoRepository : MongoRepository<Event>, IRepositoryFactory<Event>
     {
         private MongoDbContext Context { get; set; }
         private IMongoCollection<Event> Collection { get; set; }
