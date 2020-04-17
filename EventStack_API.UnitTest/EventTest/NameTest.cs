@@ -6,9 +6,15 @@ namespace EventStack_API.UnitTest.EventTest
 {
     public class NameTest
     {
-        private Organization organization;
-
+        private Event eventModel;
         [SetUp]
-        public void SetUp() => organization = new Organization();
+        public void SetUp() => eventModel = new Event();
+
+        [Test]
+        public void Event_IsNameRequired_False()
+        {
+            eventModel.Name = null;
+            Assert.IsFalse((eventModel as object).isValid("Name", "Name must be defined!"));
+        }
     }
 }
