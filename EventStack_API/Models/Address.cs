@@ -6,11 +6,6 @@ namespace EventStack_API.Models
 {
     public class Address
     {
-        //[BsonId]
-        //[BsonElement("Id")]
-        //[BsonRepresentation(BsonType.ObjectId)]
-        //public ObjectId Id { get; set; }
-
         [BsonElement("Country")]
         public string Country { get; set; }
 
