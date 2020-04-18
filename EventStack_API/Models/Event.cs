@@ -34,10 +34,10 @@ namespace EventStack_API.Models
         [Required(ErrorMessage = "Event must have short description!")]
         public string Description { get; set; }
 
-        [BsonElement("StarTime")]
+        [BsonElement("StartTime")]
         [BsonRequired]
         [Required(ErrorMessage = "Event start date must be defined!")]
-        public DateTime StarTime { get; set; }
+        public DateTime StartTime { get; set; }
 
         [BsonElement("EndTime")]
         [BsonRequired]
