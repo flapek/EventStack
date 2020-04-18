@@ -2,7 +2,7 @@ using NUnit.Framework;
 
 namespace EventStack_API.IntegrationTest
 {
-    public class CategoryTest
+    public class CategoryTest 
     {
         [SetUp]
         public void Setup()
