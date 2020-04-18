@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using EventStack_API.Interfaces;
 using EventStack_API.Models;
+using EventStack_API.Workers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventStack_API.Controllers
@@ -9,17 +10,22 @@ namespace EventStack_API.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private IRepositoryFactory<Category> repository { get; set; }
+        private Category_MongoRepository repository { get; set; }
 
         public CategoryController(IRepositoryFactory<Category> repository)
         {
-            this.repository = repository;
+            this.repository = (Category_MongoRepository)repository;
         }
 
         // GET: api/Category/id
         [HttpGet("{id}", Name = "Get")]
         public Category Get(string id)
             => repository.Find(id);
+
+        // GET: api/Category
+        [HttpGet]
+        public IEnumerable<Category> Get()
+            => repository.Find();
 
         // GET: api/Category
         [HttpGet]
