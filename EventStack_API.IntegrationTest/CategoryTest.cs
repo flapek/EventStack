@@ -22,13 +22,25 @@ namespace EventStack_API.IntegrationTest
         [Test]
         public async Task Test1()
         {
-            var url = "/api/Category/";
+            var url = "/api/Category";
             HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(new Category
             {
                 Name = "Holidays"
             }));
 
             var httpRensponse = await client.PostAsync(url, httpContent);
+
+            httpRensponse.EnsureSuccessStatusCode();
+
+            Assert.IsTrue(httpRensponse.IsSuccessStatusCode);
+
+        }
+
+        [Test]
+        public async Task Test2()
+        {
+            var url = "/api/Category";
+            var httpRensponse = await client.GetAsync(url);
 
             httpRensponse.EnsureSuccessStatusCode();
 
