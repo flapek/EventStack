@@ -10,5 +10,11 @@ namespace EventStack_API.UnitTest.EventTest
 
         [SetUp]
         public void SetUp() => eventModel = new Event();
+        // 
+        [Test]
+        public void Event_IsCanceledRequired_False()
+        {
+            Assert.IsFalse((eventModel as object).isValid("IsCanceled", "Flag must be set!"));
+        }
     }
 }
