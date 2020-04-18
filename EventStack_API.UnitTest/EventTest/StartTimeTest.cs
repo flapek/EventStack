@@ -10,5 +10,11 @@ namespace EventStack_API.UnitTest.EventTest
 
         [SetUp]
         public void SetUp() => eventModel = new Event();
+
+        [Test]
+        public void Event_IsStartTimeRequired_False()
+        {
+            Assert.IsFalse((eventModel as object).isValid("StartTime", "Event start date must be defined!"));
+        }
     }
 }
