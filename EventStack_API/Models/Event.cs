@@ -46,7 +46,7 @@ namespace EventStack_API.Models
 
         [BsonElement("PublishTime")]
         [BsonRequired]
-        [Required(ErrorMessage = "Publish datemust be set")]
+        [Required(ErrorMessage = "Publish date must be set")]
         public DateTime PublishTime { get; set; }
 
         [BsonElement("Place")]
