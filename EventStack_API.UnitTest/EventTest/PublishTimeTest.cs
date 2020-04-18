@@ -10,5 +10,11 @@ namespace EventStack_API.UnitTest.EventTest
 
         [SetUp]
         public void SetUp() => eventModel = new Event();
+
+        [Test]
+        public void Event_IsPublishTimeRequired_False()
+        {
+            Assert.IsFalse((eventModel as object).isValid("PublishTime", "Publish date must be set"));
+        }
     }
 }
