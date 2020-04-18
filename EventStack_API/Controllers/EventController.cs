@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using EventStack_API.Interfaces;
 using EventStack_API.Models;
+using EventStack_API.Workers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventStack_API.Controllers
@@ -9,11 +10,11 @@ namespace EventStack_API.Controllers
     [ApiController]
     public class EventController : ControllerBase
     {
-        private IRepositoryFactory<Event> repository { get; set; }
+        private Event_MongoRepository repository { get; set; }
 
         public EventController(IRepositoryFactory<Event> repository)
         {
-            this.repository = repository;
+            this.repository = (Event_MongoRepository)repository;
         }
 
         // GET: api/Event/id
@@ -21,10 +22,19 @@ namespace EventStack_API.Controllers
         public Event Get(string id)
             => repository.Find(id);
 
+        [HttpGet]
+        public IEnumerable<Event> Get()
+            => repository.Find();
+
         // GET: api/Event
         [HttpGet]
         public Event Get(Event organization)
             => repository.Find(organization);
+
+        // GET: api/Event
+        [HttpGet]
+        public IEnumerable<Event> Get(Event_MongoRepository.Filter filter)
+            => repository.Find(filter);
 
         // GET: api/Event
         [HttpGet]
