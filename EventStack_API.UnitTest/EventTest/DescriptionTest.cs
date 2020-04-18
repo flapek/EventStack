@@ -12,6 +12,13 @@ namespace EventStack_API.UnitTest.EventTest
         public void SetUp() => eventModel = new Event();
 
         [Test]
+        public void Event_IsNameRequired_False()
+        {
+            eventModel.Description = null;
+            Assert.IsFalse((eventModel as object).isValid("Description", "Event must have"));
+        }
+
+        [Test]
         public void Event_IsDescriptionHasMaximumOfCharacters_False()
         {
             eventModel.Description = new string('*', 1001);
