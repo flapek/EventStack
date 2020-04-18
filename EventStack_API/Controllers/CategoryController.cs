@@ -17,24 +17,24 @@ namespace EventStack_API.Controllers
             this.repository = (Category_MongoRepository)repository;
         }
 
-        // GET: api/Category/id
-        [HttpGet("{id}", Name = "Get")]
-        public Category Get(string id)
-            => repository.Find(id);
-
         // GET: api/Category
         [HttpGet]
         public IEnumerable<Category> Get()
             => repository.Find();
 
+        // GET: api/Category/id
+        [HttpGet("{id}")]
+        public Category Get(string id)
+            => repository.Find(id);
+
         // GET: api/Category
         [HttpGet]
-        public Category Get(Category organization)
+        public Category Get([FromBody]Category organization)
             => repository.Find(organization);
 
         // GET: api/Category
         [HttpGet]
-        public IEnumerable<Category> Get(IEnumerable<Category> organization)
+        public IEnumerable<Category> Get([FromBody]IEnumerable<Category> organization)
             => repository.Find(organization);
 
         // POST: api/Category

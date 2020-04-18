@@ -18,7 +18,7 @@ namespace EventStack_API.Controllers
         }
 
         // GET: api/Event/id
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public Event Get(string id)
             => repository.Find(id);
 
