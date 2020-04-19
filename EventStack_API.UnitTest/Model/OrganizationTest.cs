@@ -4,7 +4,7 @@ using EventStack_API.UnitTest.Helpers;
 
 namespace EventStack_API.UnitTest.Model
 {
-    public class Organization
+    public class OrganizationTest
     {
         private Organization organization;
 
