@@ -17,5 +17,12 @@ namespace EventStack_API.UnitTest.Model
             eventModel.Description = null;
             Assert.IsFalse((eventModel as object).isValid("Description", "Event must have"));
         }
+
+        [Test]
+        public void Event_IsDescriptionCanBeNotNull_True()
+        {
+            eventModel.Description = "not null";
+            Assert.IsTrue((eventModel as object).isValid("Description", "Event must have"));
+        }
     }
 }
