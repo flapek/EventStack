@@ -10,7 +10,7 @@ namespace EventStack_API.UnitTest.EventTest
 
         [SetUp]
         public void SetUp() => eventModel = new Event();
-        // 
+        
         [Test]
         public void Event_IsCanceledRequired_False()
         {
