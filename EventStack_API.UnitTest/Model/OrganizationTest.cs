@@ -16,7 +16,7 @@ namespace EventStack_API.UnitTest.Model
         [Test]
         public void Organization_IsDescriptionHasMaximumOfCharacters_False()
         {
-            organization.Destription = new string('*', 1001);
+            organization.Description = new string('*', 1001);
             Assert.IsFalse((organization as object).isValid("Destription", "The maximum number"));
         }
 

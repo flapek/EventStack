@@ -43,7 +43,7 @@ namespace EventStack_API.Models
 
         [BsonElement("Destription")]
         [StringLength(1000, ErrorMessage = "The maximum number of character is 1000!")]
-        public string Destription { get; set; }
+        public string Description { get; set; }
 
         [BsonElement("Events")]
         public IEnumerable<string> EventsID { get; set; }
