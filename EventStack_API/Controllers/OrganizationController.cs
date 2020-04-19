@@ -43,8 +43,8 @@ namespace EventStack_API.Controllers
 
         // PUT: api/Organization
         [HttpPut("{id}")]
-        public bool Put(Organization organization)
-            => ModelState.IsValid ? repository.Update(organization) : false;
+        public bool Put(string id, Organization organization)
+            => ModelState.IsValid ? repository.Update(id, organization) : false;
 
         // PUT: api/Organization
         [HttpPut("{id}")]

@@ -15,8 +15,8 @@ namespace EventStack_API.Interfaces
         Task<T> FindAsync(T toFind);
         IEnumerable<T> Find(IEnumerable<T> toFinds);
         Task<IEnumerable<T>> FindAsync(IEnumerable<T> toFinds);
-        bool Update(T toUpdate);
-        Task<bool> UpdateAsync(T toUpdate);
+        bool Update(string id, T toUpdate);
+        Task<bool> UpdateAsync(string id,T toUpdate);
         bool Update(IEnumerable<T> toUpdates);
         Task<bool> UpdateAsync(IEnumerable<T> toUpdates);
         bool Delete(string id);

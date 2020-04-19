@@ -77,7 +77,7 @@ namespace EventStack_API.Workers
             return result;
         }
 
-        public bool Update(T toUpdate)
+        public bool Update(string id, T toUpdate)
         {
             if (toUpdate == null)
                 throw new ArgumentNullException();
@@ -85,7 +85,7 @@ namespace EventStack_API.Workers
             using var session = Context.MongoClient.StartSession();
             return session.WithTransaction((s, c) =>
             {
-                Collection.ReplaceOne(s, filter => filter.Id == toUpdate.Id, toUpdate);
+                Collection.ReplaceOne(s, filter => filter.Id == id, toUpdate);
                 return true;
             }, new TransactionOptions(), CancellationToken.None);
         }
@@ -204,7 +204,7 @@ namespace EventStack_API.Workers
             return await task.ToListAsync();
         }
 
-        public async Task<bool> UpdateAsync(T toUpdate)
+        public async Task<bool> UpdateAsync(string id, T toUpdate)
         {
             if (toUpdate == null)
                 throw new ArgumentNullException();

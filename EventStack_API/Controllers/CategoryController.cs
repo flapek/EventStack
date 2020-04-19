@@ -27,49 +27,19 @@ namespace EventStack_API.Controllers
         public Category Get(string id)
             => repository.Find(id);
 
-        // GET: api/Category
-        [HttpGet]
-        public Category Get([FromBody]Category organization)
-            => repository.Find(organization);
-
-        // GET: api/Category
-        [HttpGet]
-        public IEnumerable<Category> Get([FromBody]IEnumerable<Category> organization)
-            => repository.Find(organization);
-
         // POST: api/Category
         [HttpPost]
         public bool Post(Category organizaction)
             => ModelState.IsValid ? repository.Insert(organizaction) : false;
 
-        // POST: api/Category
-        [HttpPost]
-        public bool Post(IEnumerable<Category> organizactions)
-            => ModelState.IsValid ? repository.Insert(organizactions) : false;
-
         // PUT: api/Category
         [HttpPut("{id}")]
-        public bool Put(Category organization)
-            => ModelState.IsValid ? repository.Update(organization) : false;
-
-        // PUT: api/Category
-        [HttpPut("{id}")]
-        public bool Put(IEnumerable<Category> organizations)
-            => ModelState.IsValid ? repository.Update(organizations) : false;
+        public bool Put(string id, Category organization)
+            => ModelState.IsValid ? repository.Update(id, organization) : false;
 
         // DELETE: api/Category
         [HttpDelete("{id}")]
         public bool Delete(string id)
             => repository.Delete(id);
-
-        // DELETE: api/Category
-        [HttpDelete("{id}")]
-        public bool Delete(Category organization)
-            => repository.Delete(organization);
-
-        // DELETE: api/Category
-        [HttpDelete("{id}")]
-        public bool Delete(IEnumerable<Category> organizations)
-            => repository.Delete(organizations);
     }
 }
