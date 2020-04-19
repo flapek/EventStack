@@ -24,5 +24,12 @@ namespace EventStack_API.UnitTest.Model
             eventModel.Description = "not null";
             Assert.IsTrue((eventModel as object).isValid("Description", "Event must have"));
         }
+
+        [Test]
+        public void Event_IsDescriptionHasMaximumOfCharacters_False()
+        {
+            eventModel.Description = new string('*', 1001);
+            Assert.IsFalse((eventModel as object).isValid("Description", "The maximum number"));
+        }
     }
 }
