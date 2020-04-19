@@ -10,12 +10,16 @@ namespace EventStack_API.UnitTest.Model
 
         [SetUp]
         public void SetUp() => organization = new Organization();
+        
+        #region Description
 
         [Test]
-        public void Organization_IsDestriptionHasMaximumOfCharacters_False()
+        public void Organization_IsDescriptionHasMaximumOfCharacters_False()
         {
             organization.Destription = new string('*', 1001);
             Assert.IsFalse((organization as object).isValid("Destription", "The maximum number"));
         }
+
+        #endregion
     }
 }
