@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using EventStack_API.Interfaces;
 using EventStack_API.Models;
 using EventStack_API.Workers;
@@ -19,18 +20,18 @@ namespace EventStack_API.Controllers
 
         // GET: api/Category
         [HttpGet]
-        public IEnumerable<Category> Get()
-            => repository.Find();
+        public async Task<IEnumerable<Category>> Get()
+            => await repository.FindAsync();
 
         // GET: api/Category/id
         [HttpGet("{id}")]
-        public Category Get(string id)
-            => repository.Find(id);
+        public async Task<Category> Get(string id)
+            => await repository.FindAsync(id);
 
         // POST: api/Category
         [HttpPost]
-        public bool Post(Category organizaction)
-            => ModelState.IsValid ? repository.Insert(organizaction) : false;
+        public async Task<bool> Post(Category organizaction)
+            => ModelState.IsValid ? await repository.InsertAsync(organizaction) : false;
 
         // PUT: api/Category
         [HttpPut("{id}")]
