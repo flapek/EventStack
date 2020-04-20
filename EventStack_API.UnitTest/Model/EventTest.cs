@@ -54,6 +54,17 @@ namespace EventStack_API.UnitTest.Model
         }
         #endregion
 
-        #region 
+
+        #region NameTest 
+        [Test]
+        public void Event_IsNameRequired_False()
+        {
+            eventModel.Name = null;
+            Assert.IsFalse((eventModel as object).isValid("Name", "Name must be defined!"));
+        }
+
+
+        
+        #endregion
     }
 }
