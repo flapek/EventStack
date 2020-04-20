@@ -88,6 +88,16 @@ namespace EventStack_API.UnitTest.Model
         }
         #endregion
 
+
+
+        #region PublishTimeTest
+        [Test]
+        public void Event_IsPublishTimeRequired_False()
+        {
+            Assert.IsFalse((eventModel as object).isValid("PublishTime", "Publish date must be set"));
+        }
+        #endregion
+
         
     }
 }
