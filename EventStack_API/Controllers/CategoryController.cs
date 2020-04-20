@@ -35,8 +35,8 @@ namespace EventStack_API.Controllers
 
         // PUT: api/Category/id
         [HttpPut("{id}")]
-        public bool Put(string id, Category organization)
-            => ModelState.IsValid ? repository.Update(id, organization) : false;
+        public async Task<Category> Put(string id, Category organization)
+            => ModelState.IsValid ? await repository.UpdateAsync(id, organization) : null;
 
         // DELETE: api/Category
         [HttpDelete("{id}")]
