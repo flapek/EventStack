@@ -76,7 +76,18 @@ namespace EventStack_API.UnitTest.Model
             eventModel.Name = new string('*', 51);
             Assert.IsFalse((eventModel as object).isValid("Name", "The maximum number"));
         }
-
         #endregion
+
+
+        #region PlaceTest
+        [Test]
+        public void Event_IsPlaceRequired_False()
+        {
+            eventModel.Place = null;
+            Assert.IsFalse((eventModel as object).isValid("Place", "Place for event must be set"));
+        }
+        #endregion
+
+        
     }
 }
