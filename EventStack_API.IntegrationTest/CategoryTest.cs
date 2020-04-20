@@ -8,6 +8,7 @@ using EventStack_API.Models;
 using System.Net;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace EventStack_API.IntegrationTest
 {
@@ -54,7 +55,7 @@ namespace EventStack_API.IntegrationTest
 
         [TestCase("d328hdn8s9auy3d")]
         [TestCase("5e9d7e2e1c9d44000007@088")]
-        public async Task Get_ById_ChcekRensponseStatusCode_ReturnStatus400(string id)
+        public async Task Get_ById_ChcekRensponseStatusCode_ReturnStatus500(string id)
         {
             var url = "/api/Category/" + id;
             var httpRensponse = await client.GetAsync(url);
@@ -62,23 +63,26 @@ namespace EventStack_API.IntegrationTest
             httpRensponse.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
 
-
         #endregion
 
+        #region Post method
+
         [Test]
-        public async Task post()
+        public async Task Post_CheckRensponseStatusCode_ReturnStatus200()
         {
             var url = "/api/Category";
             HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(new Category
             {
                 Name = "Holidays"
-            }));
+            }), Encoding.UTF8, "application/json");
 
             var httpRensponse = await client.PostAsync(url, httpContent);
 
             httpRensponse.EnsureSuccessStatusCode();
 
-            Assert.IsTrue(httpRensponse.IsSuccessStatusCode);
+            httpRensponse.StatusCode.Should().Be(HttpStatusCode.OK);
         }
+
+        #endregion
     }
 }
