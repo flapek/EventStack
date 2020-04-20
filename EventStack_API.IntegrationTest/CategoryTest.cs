@@ -68,7 +68,7 @@ namespace EventStack_API.IntegrationTest
         #region Post method
 
         [Test]
-        public async Task Post_CheckRensponseStatusCode_ReturnStatus200()
+        public async Task Post_CheckRensponseStatusCodeWhenModelIsValid_ReturnStatus200()
         {
             var url = "/api/Category";
             HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(new Category
@@ -83,6 +83,112 @@ namespace EventStack_API.IntegrationTest
             httpRensponse.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
+        [Test]
+        public async Task Post_CheckRensponseStatusCodeWhenNameIsNotSet_ReturnStatus400()
+        {
+            var url = "/api/Category";
+            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(new Category()), Encoding.UTF8, "application/json");
+
+            var httpRensponse = await client.PostAsync(url, httpContent);
+
+            httpRensponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [TestCase("sadnvfinoisdqwdnwoqkncionocesjoisadoisamkdnowqidnewonckoicoiocnewoinvksmocpjeionfcodsmopmowen")]
+        public async Task Post_CheckRensponseStatusCodeWhenNameIsLongerThan50_ReturnStatus400(string name)
+        {
+            var url = "/api/Category";
+            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(new Category
+            {
+                Name = name
+            }), Encoding.UTF8, "application/json");
+
+            var httpRensponse = await client.PostAsync(url, httpContent);
+
+            httpRensponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
         #endregion
+
+        #region Put method
+
+        [Theory]
+        public async Task Put_CheckRensponseStatusCodeWhenModelIsValid_ReturnStatus200()
+        {
+            var url = "/api/Category/";
+            var httpRensponseAll = await client.GetAsync(url);
+            var content = JsonConvert.DeserializeObject<List<Category>>(await httpRensponseAll.Content.ReadAsStringAsync());
+            var oneCategory = content.FirstOrDefault();
+            httpRensponseAll.EnsureSuccessStatusCode();
+
+            Assume.That(oneCategory != null);
+            url += oneCategory.Id;
+            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(new Category
+            {
+                Name = "changedName"
+            }), Encoding.UTF8, "application/json");
+            var httpRensponse = await client.PutAsync(url, httpContent);
+            httpRensponse.EnsureSuccessStatusCode();
+
+            httpRensponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Theory]
+        public async Task Put_CheckRensponseContentWhenModelIsValid_ReturnNameIsCorrectChanged()
+        {
+            var expected = new Category { Name = "changedName" };
+            var url = "/api/Category/";
+            var httpRensponseAll = await client.GetAsync(url);
+            var content = JsonConvert.DeserializeObject<List<Category>>(await httpRensponseAll.Content.ReadAsStringAsync());
+            var oneCategory = content.FirstOrDefault();
+            httpRensponseAll.EnsureSuccessStatusCode();
+
+            Assume.That(oneCategory != null);
+            url += oneCategory.Id;
+            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(expected), Encoding.UTF8, "application/json");
+            var httpRensponse = await client.PutAsync(url, httpContent);
+            httpRensponse.EnsureSuccessStatusCode();
+
+            var result = JsonConvert.DeserializeObject<Category>(await httpRensponse.Content.ReadAsStringAsync());
+            Assert.AreEqual(expected.Name, result.Name);
+        }
+
+        [TestCase("5e9d7e2e1c9d44000007a088s")]
+        [TestCase("5e9d7e2e1c9d44000007a")]
+        [TestCase("5e9d7e2e1c9d44000007@088")]
+        public async Task Put_CheckRensponseStatusCodeWhenIdIsNotValid_ReturnStatus500(string id)
+        {
+            var url = "/api/Category/" + id;
+            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(new Category
+            {
+                Name = "changedName"
+            }), Encoding.UTF8, "application/json");
+            var httpRensponse = await client.PutAsync(url, httpContent);
+
+            httpRensponse.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        }
+
+        #endregion
+
+        #region Delete method
+
+        [Theory]
+        public async Task Delete_CheckRensponseStatusCodeWhenIdIsCorrect_ReturnStatus200()
+        {
+            var url = "/api/Category/";
+            var httpRensponseAll = await client.GetAsync(url);
+            var content = JsonConvert.DeserializeObject<List<Category>>(await httpRensponseAll.Content.ReadAsStringAsync());
+            var oneCategory = content.FirstOrDefault();
+            httpRensponseAll.EnsureSuccessStatusCode();
+
+            Assume.That(oneCategory != null);
+            url += oneCategory.Id;
+            var httpRensponse = await client.DeleteAsync(url);
+
+            httpRensponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        #endregion
+
     }
 }
