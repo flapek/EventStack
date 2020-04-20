@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Newtonsoft.Json;
 using EventStack_API.Models;
+using System.Net;
 
 namespace EventStack_API.IntegrationTest
 {
@@ -20,6 +21,17 @@ namespace EventStack_API.IntegrationTest
         }
 
         [Test]
+        public async Task Get_ChcekRensponseMessage_ReturnStatus200()
+        {
+            var url = "/api/Category";
+            var httpRensponse = await client.GetAsync(url);
+
+            httpRensponse.EnsureSuccessStatusCode();
+
+            httpRensponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Test]
         public async Task Test1()
         {
             var url = "/api/Category";
@@ -29,18 +41,6 @@ namespace EventStack_API.IntegrationTest
             }));
 
             var httpRensponse = await client.PostAsync(url, httpContent);
-
-            httpRensponse.EnsureSuccessStatusCode();
-
-            Assert.IsTrue(httpRensponse.IsSuccessStatusCode);
-
-        }
-
-        [Test]
-        public async Task Test2()
-        {
-            var url = "/api/Category";
-            var httpRensponse = await client.GetAsync(url);
 
             httpRensponse.EnsureSuccessStatusCode();
 
