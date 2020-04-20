@@ -36,11 +36,6 @@ namespace EventStack_API.Controllers
         public IEnumerable<Event> Get(Event_MongoRepository.Filter filter)
             => repository.Find(filter);
 
-        // GET: api/Event
-        [HttpGet]
-        public IEnumerable<Event> Get(IEnumerable<Event> organization)
-            => repository.Find(organization);
-
         // POST: api/Event
         [HttpPost]
         public bool Post(Event organizaction)
@@ -56,11 +51,6 @@ namespace EventStack_API.Controllers
         public bool Put(string id, Event organization)
             => ModelState.IsValid ? repository.Update(id, organization) : false;
 
-        // PUT: api/Event
-        [HttpPut("{id}")]
-        public bool Put(IEnumerable<Event> organizations)
-            => ModelState.IsValid ? repository.Update(organizations) : false;
-
         // DELETE: api/Event
         [HttpDelete("{id}")]
         public bool Delete(string id)
@@ -71,9 +61,5 @@ namespace EventStack_API.Controllers
         public bool Delete(Event organization)
             => repository.Delete(organization);
 
-        // DELETE: api/Event
-        [HttpDelete("{id}")]
-        public bool Delete(IEnumerable<Event> organizations)
-            => repository.Delete(organizations);
     }
 }

@@ -12,7 +12,7 @@ namespace EventStack_API.Models
         [BsonId]
         [BsonElement("Id")]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; }
+        public string Id { get; set; }
 
         [BsonElement("Name")]
         [BsonRequired]
