@@ -28,7 +28,6 @@ namespace EventStack_API.UnitTest.Model
             Assert.IsTrue((eventModel as object).isValid("Description", "Event must have"));
         }
 
-
         [Test]
         public void Event_IsDescriptionHasMaximumOfCharacters_False()
         {
@@ -37,7 +36,6 @@ namespace EventStack_API.UnitTest.Model
         }
 
         #endregion
-
 
         #region EndTimeTest
 
@@ -48,8 +46,6 @@ namespace EventStack_API.UnitTest.Model
         }
 
         #endregion
-
-
 
         #region IsCanceledTest 
 
@@ -86,7 +82,6 @@ namespace EventStack_API.UnitTest.Model
 
         #endregion
 
-
         #region PlaceTest
 
         [Test]
@@ -98,8 +93,6 @@ namespace EventStack_API.UnitTest.Model
 
         #endregion
 
-
-
         #region PublishTimeTest
 
         [Test]
@@ -110,8 +103,6 @@ namespace EventStack_API.UnitTest.Model
 
         #endregion
 
-
-
         #region StartTimeTest
 
         [Test]
@@ -121,6 +112,5 @@ namespace EventStack_API.UnitTest.Model
         }
         
         #endregion
-
     }
 }
