@@ -63,8 +63,13 @@ namespace EventStack_API.UnitTest.Model
             Assert.IsFalse((eventModel as object).isValid("Name", "Name must be defined!"));
         }
 
+        [Test]
+        public void Event_IsNameCanBeNotNull_True()
+        {
+            eventModel.Name = "not null";
+            Assert.IsTrue((eventModel as object).isValid("Name", "Name must be defined!"));
+        }
 
-        
         #endregion
     }
 }
