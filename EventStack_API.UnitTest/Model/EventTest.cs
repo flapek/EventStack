@@ -98,6 +98,15 @@ namespace EventStack_API.UnitTest.Model
         }
         #endregion
 
-        
+
+
+        #region StartTimeTest
+        [Test]
+        public void Event_IsStartTimeRequired_False()
+        {
+            Assert.IsFalse((eventModel as object).isValid("StartTime", "Event start date must be defined!"));
+        }
+        #endregion
+
     }
 }
