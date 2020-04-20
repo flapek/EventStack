@@ -13,8 +13,8 @@ namespace EventStack_API.Interfaces
         Task<T> FindAsync(string id);
         T Find(T toFind);
         Task<T> FindAsync(T toFind);
-        bool Update(string id, T toUpdate);
-        Task<bool> UpdateAsync(string id,T toUpdate);
+        T Update(string id, T toUpdate);
+        Task<T> UpdateAsync(string id,T toUpdate);
         bool Delete(string id);
         Task<bool> DeleteAsync(string id);
         bool Delete(T toDelete);

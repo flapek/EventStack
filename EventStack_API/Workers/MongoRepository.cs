@@ -30,8 +30,17 @@ namespace EventStack_API.Workers
             using var session = Context.MongoClient.StartSession();
             return session.WithTransaction((s, c) =>
             {
-                Collection.InsertOne(s, insert);
-                return true;
+                try
+                {
+                    Collection.InsertOne(s, insert);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    s.AbortTransaction();
+                    return false;
+                }
+                
             }, new TransactionOptions(), CancellationToken.None);
         }
 
@@ -43,8 +52,16 @@ namespace EventStack_API.Workers
             using var session = Context.MongoClient.StartSession();
             return session.WithTransaction((s, c) =>
             {
-                Collection.InsertMany(s, toInserts);
-                return true;
+                try
+                {
+                    Collection.InsertMany(s, toInserts);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    s.AbortTransaction();
+                    return false;
+                }
             }, new TransactionOptions(), CancellationToken.None);
         }
 
@@ -53,18 +70,18 @@ namespace EventStack_API.Workers
             if (id == null)
                 throw new ArgumentNullException();
 
-            return Collection.Find(filter => filter.Id == id).Limit(1).FirstOrDefault();
+            return Collection.Find(filter => filter.Id == id).FirstOrDefault();
         }
 
-        public T Find(T toFind)
+        public T Find(T toFind)         //TODO zastanowiæ siê czy potrzebne 
         {
             if (toFind == null)
                 throw new ArgumentNullException();
- 
-            return Collection.Find(filter => filter.Id == toFind.Id).Limit(1).FirstOrDefault();
+
+            return Collection.Find(filter => filter.Id == toFind.Id).FirstOrDefault();
         }
 
-        public bool Update(string id, T toUpdate)
+        public T Update(string id, T toUpdate)
         {
             if (toUpdate == null)
                 throw new ArgumentNullException();
@@ -72,9 +89,18 @@ namespace EventStack_API.Workers
             using var session = Context.MongoClient.StartSession();
             return session.WithTransaction((s, c) =>
             {
-                toUpdate.Id = id;
-                Collection.ReplaceOne(s, filter => filter.Id == id, toUpdate);
-                return true;
+                try
+                {
+                    toUpdate.Id = id;
+                    Collection.ReplaceOne(s, filter => filter.Id == id, toUpdate);
+                    return toUpdate;
+                }
+                catch (Exception)
+                {
+                    s.AbortTransaction();
+                    return Find(id);
+                }
+                
             }, new TransactionOptions(), CancellationToken.None);
         }
 
@@ -86,12 +112,21 @@ namespace EventStack_API.Workers
             using var session = Context.MongoClient.StartSession();
             return session.WithTransaction((s, c) =>
             {
-                Collection.DeleteOne(session, filter => filter.Id == id);
-                return true;
+                try
+                {
+                    Collection.DeleteOne(session, filter => filter.Id == id);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    s.AbortTransaction();
+                    return false;
+                }
+                
             }, new TransactionOptions(), CancellationToken.None);
         }
 
-        public bool Delete(T toDelete)
+        public bool Delete(T toDelete)  //TODO zastanowiæ siê czy potrzebne
         {
             if (toDelete == null)
                 throw new ArgumentNullException();
@@ -99,8 +134,17 @@ namespace EventStack_API.Workers
             using var session = Context.MongoClient.StartSession();
             return session.WithTransaction((s, c) =>
             {
-                Collection.DeleteOne(session, filter => filter.Id == toDelete.Id);
-                return true;
+                try
+                {
+                    Collection.DeleteOne(session, filter => filter.Id == toDelete.Id);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    s.AbortTransaction();
+                    return false;
+                }
+               
             }, new TransactionOptions(), CancellationToken.None);
         }
 
@@ -116,8 +160,17 @@ namespace EventStack_API.Workers
             using var session = Context.MongoClient.StartSession();
             return await session.WithTransactionAsync(async (s, c) =>
             {
-                await Collection.InsertOneAsync(session, insert);
-                return true;
+                try
+                {
+                    await Collection.InsertOneAsync(session, insert);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    await s.AbortTransactionAsync();
+                    return false;
+                }
+                
             }, new TransactionOptions(), CancellationToken.None);
         }
 
@@ -129,8 +182,17 @@ namespace EventStack_API.Workers
             using var session = Context.MongoClient.StartSession();
             return await session.WithTransactionAsync(async (s, c) =>
             {
-                await Collection.InsertManyAsync(session, toInserts);
-                return true;
+                try
+                {
+                    await Collection.InsertManyAsync(session, toInserts);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    await s.AbortTransactionAsync();
+                    return false;
+                }
+                
             }, new TransactionOptions(), CancellationToken.None);
         }
 
@@ -143,7 +205,7 @@ namespace EventStack_API.Workers
             return await task.FirstOrDefaultAsync();
         }
 
-        public async Task<T> FindAsync(T toFind)
+        public async Task<T> FindAsync(T toFind)            //TODO zastanowiæ siê czy potrzebne
         {
             if (toFind == null)
                 throw new ArgumentNullException();
@@ -152,7 +214,7 @@ namespace EventStack_API.Workers
             return await task.FirstOrDefaultAsync();
         }
 
-        public async Task<bool> UpdateAsync(string id, T toUpdate)
+        public async Task<T> UpdateAsync(string id, T toUpdate)
         {
             if (toUpdate == null)
                 throw new ArgumentNullException();
@@ -160,9 +222,18 @@ namespace EventStack_API.Workers
             using var session = Context.MongoClient.StartSession();
             return await session.WithTransactionAsync(async (s, c) =>
             {
-                toUpdate.Id = id;
-                await Collection.ReplaceOneAsync(session, filter => filter.Id == toUpdate.Id, toUpdate);
-                return true;
+                try
+                {
+                    toUpdate.Id = id;
+                    await Collection.ReplaceOneAsync(session, filter => filter.Id == toUpdate.Id, toUpdate);
+                    return toUpdate;
+                }
+                catch (Exception)
+                {
+                    await s.AbortTransactionAsync();
+                    return await FindAsync(id);
+                }
+                
             }, new TransactionOptions(), CancellationToken.None);
         }
 
@@ -174,12 +245,20 @@ namespace EventStack_API.Workers
             using var session = Context.MongoClient.StartSession();
             return await session.WithTransactionAsync(async (s, c) =>
             {
-                await Collection.DeleteOneAsync(session, filter => filter.Id == id);
-                return true;
+                try
+                {
+                    await Collection.DeleteOneAsync(session, filter => filter.Id == id);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    await s.AbortTransactionAsync();
+                    return false;
+                }
             }, new TransactionOptions(), CancellationToken.None);
         }
 
-        public async Task<bool> DeleteAsync(T toDelete)
+        public async Task<bool> DeleteAsync(T toDelete)     //TODO zastanowiæ siê czy potrzebne
         {
             if (toDelete == null)
                 throw new ArgumentNullException();           
@@ -187,8 +266,16 @@ namespace EventStack_API.Workers
             using var session = Context.MongoClient.StartSession();
             return await session.WithTransactionAsync(async (s, c) =>
             {
-                await Collection.DeleteOneAsync(session, filter => filter.Id == toDelete.Id);
-                return true;
+                try
+                {
+                    await Collection.DeleteOneAsync(session, filter => filter.Id == toDelete.Id);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    await s.AbortTransactionAsync();
+                    return false;
+                }
             }, new TransactionOptions(), CancellationToken.None);
         }
 
