@@ -70,6 +70,13 @@ namespace EventStack_API.UnitTest.Model
             Assert.IsTrue((eventModel as object).isValid("Name", "Name must be defined!"));
         }
 
+        [Test]
+        public void Event_IsNameHasMaximumOfCharacters_False()
+        {
+            eventModel.Name = new string('*', 51);
+            Assert.IsFalse((eventModel as object).isValid("Name", "The maximum number"));
+        }
+
         #endregion
     }
 }
