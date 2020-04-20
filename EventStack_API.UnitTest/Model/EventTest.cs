@@ -11,7 +11,6 @@ namespace EventStack_API.UnitTest.Model
         [SetUp]
         public void SetUp() => eventModel = new Event();
 
-
         #region DescriptionTest
 
         [Test]
