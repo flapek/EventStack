@@ -11,6 +11,7 @@ namespace EventStack_API.UnitTest.Model
         [SetUp]
         public void SetUp() => eventModel = new Event();
 
+        #region DescriptionTest
         [Test]
         public void Event_IsDescriptionRequired_False()
         {
@@ -31,5 +32,18 @@ namespace EventStack_API.UnitTest.Model
             eventModel.Description = new string('*', 1001);
             Assert.IsFalse((eventModel as object).isValid("Description", "The maximum number"));
         }
+        #endregion
+
+        #region EndTimeTest
+
+        [Test]
+        public void Event_IsEndTimeRequired_False()
+        {
+            Assert.IsFalse((eventModel as object).isValid("EndTime", "Event end date must"));
+        }
+
+
+        #endregion
+
     }
 }
