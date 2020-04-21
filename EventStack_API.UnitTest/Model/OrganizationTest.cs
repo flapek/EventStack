@@ -163,5 +163,7 @@ namespace EventStack_API.UnitTest.Model
             organization.REGON = REGON;
             Assert.IsFalse((organization as object).isValid("REGON", "REGON must contain"));
         }
+
+        #endregion
     }
 }
