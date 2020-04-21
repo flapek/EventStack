@@ -53,7 +53,8 @@ namespace EventStack_API.IntegrationTest
             httpRensponse.Content.Should().NotBeNull();
         }
 
-        [TestCase("d328hdn8s9auy3d")]
+        [TestCase("5e9d7e2e1c9d44000007a088s")]
+        [TestCase("5e9d7e2e1c9d44000007a")]
         [TestCase("5e9d7e2e1c9d44000007@088")]
         public async Task Get_ById_ChcekRensponseStatusCode_ReturnStatus500(string id)
         {
@@ -186,6 +187,33 @@ namespace EventStack_API.IntegrationTest
             var httpRensponse = await client.DeleteAsync(url);
 
             httpRensponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Theory]
+        public async Task Delete_CheckRensponseStatusCodeWhenIdIsCorrect_ReturnTrue()
+        {
+            var url = "/api/Category/";
+            var httpRensponseAll = await client.GetAsync(url);
+            var contentFromGet = JsonConvert.DeserializeObject<List<Category>>(await httpRensponseAll.Content.ReadAsStringAsync());
+            var oneCategory = contentFromGet.FirstOrDefault();
+            httpRensponseAll.EnsureSuccessStatusCode();
+
+            Assume.That(oneCategory != null);
+            url += oneCategory.Id;
+            var httpRensponse = await client.DeleteAsync(url);
+            var contentFromDelete = JsonConvert.DeserializeObject<bool>(await httpRensponse.Content.ReadAsStringAsync());
+            contentFromDelete.Should().BeTrue();
+        }
+
+        [TestCase("5e9d7e2e1c9d44000007a088s")]
+        [TestCase("5e9d7e2e1c9d44000007a")]
+        [TestCase("5e9d7e2e1c9d44000007@088")]
+        public async Task Delete_ChcekRensponseStatusCode_ReturnFalse(string id)
+        {
+            var url = "/api/Category/" + id;
+            var httpRensponse = await client.DeleteAsync(url);
+            var content = JsonConvert.DeserializeObject<bool>(await httpRensponse.Content.ReadAsStringAsync());
+            content.Should().BeFalse();
         }
 
         #endregion
