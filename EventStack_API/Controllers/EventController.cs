@@ -16,13 +16,14 @@ namespace EventStack_API.Controllers
         {
             this.repository = (Event_MongoRepository)repository;
         }
-        
+
+        // GET: api/Event
         [HttpGet]
         public IEnumerable<Event> Get()
            => repository.Find();
 
-        // GET: api/Event/id
-        [HttpGet("{id}")]
+        // GET: api/Event/GetById/id
+        [HttpGet("GetById/{id}")]
         public Event Get(string id)
             => repository.Find(id);
 
@@ -32,8 +33,8 @@ namespace EventStack_API.Controllers
         //public Event Get(Event organization)
         //    => repository.Find(organization);
 
-        // GET: api/Event
-        [HttpGet]
+        // GET: api/Event/GetByFilter
+        [HttpGet("GetByFilter")]
         public IEnumerable<Event> Get(Event_MongoRepository.Filter filter)
             => repository.Find(filter);
 

@@ -26,7 +26,7 @@ namespace EventStack_API.Workers
         public IEnumerable<Event> Find(Filter filter)
         {
             var locationQuery = new FilterDefinitionBuilder<Event>()
-                .Near(e => e.Place.Location, filter.Coordinates.Latitude, filter.Coordinates.Longitude, filter.MaxDistance, filter.MinDistance);
+                .Near(e => e.Place.Location, filter.Coordinates.Latitude, filter.Coordinates.Longitude, filter.MaxDistance);
 
             return Collection.Find(locationQuery).ToList();
         }
