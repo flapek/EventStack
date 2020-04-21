@@ -16,12 +16,34 @@ namespace EventStack_API.IntegrationTest
     class EventTest
     {
         private HttpClient client;
+        private WebClient webClient;
+        private Event goodEvent;
 
         [SetUp]
         public void Setup()
         {
             var factory = new WebApplicationFactory<Startup>();
+            webClient = new WebClient();
             client = factory.CreateClient();
+            goodEvent = new Event
+            {
+                Name = "Test",
+                Photo = webClient.DownloadData("http://www.google.com/images/logos/ps_logo2.png"),
+                StarTime = DateTime.Now.AddDays(20),
+                EndTime = DateTime.Now.AddDays(22),
+                PublishTime = DateTime.Now,
+                Place = new Address
+                {
+                    City = "Warsaw",
+                    Country = "Poland",
+                    Street = "Test",
+                    ZipCode = "43-333",
+                },
+                IsCanceled = false,
+                Description = "some description",
+                FacebookURL = "http://www.google.com",
+                WebSiteURL = "http://www.google.com"
+            };
         }
 
         #region Get method
@@ -73,22 +95,7 @@ namespace EventStack_API.IntegrationTest
         public async Task Post_CheckRensponseStatusCodeWhenModelIsValid_ReturnStatus200()
         {
             var url = "/api/Event";
-            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(new Event
-            {
-                Name = "Test",
-                Photo = new byte[20],
-                StarTime = DateTime.Now.AddDays(60),
-                EndTime = DateTime.Now.AddDays(61),
-                PublishTime = DateTime.Now,
-                Place = new Address
-                {
-                    City = "Warsaw",
-                    Country = "Poland",
-                    Street = "Test",
-                    ZipCode = "43-333",
-                },
-                IsCanceled = false
-            }), Encoding.UTF8, "application/json");
+            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(goodEvent), Encoding.UTF8, "application/json");
 
             var httpRensponse = await client.PostAsync(url, httpContent);
 
@@ -101,7 +108,7 @@ namespace EventStack_API.IntegrationTest
         public async Task Post_CheckRensponseStatusCodeWhenNameIsNotSet_ReturnStatus400()
         {
             var url = "/api/Event";
-            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(new Category()), Encoding.UTF8, "application/json");
+            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(new Event()), Encoding.UTF8, "application/json");
 
             var httpRensponse = await client.PostAsync(url, httpContent);
 
@@ -112,10 +119,8 @@ namespace EventStack_API.IntegrationTest
         public async Task Post_CheckRensponseStatusCodeWhenNameIsLongerThan50_ReturnStatus400(string name)
         {
             var url = "/api/Event";
-            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(new Category
-            {
-                Name = name
-            }), Encoding.UTF8, "application/json");
+            goodEvent.Name = name;
+            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(goodEvent), Encoding.UTF8, "application/json");
 
             var httpRensponse = await client.PostAsync(url, httpContent);
 

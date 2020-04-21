@@ -19,6 +19,10 @@ namespace EventStack_API.Models
         public string ZipCode { get; set; }
 
         [BsonElement("Location")]
-        public GeoJsonPoint<GeoJson2DGeographicCoordinates> Location { get; set; }
+        public GeoJsonPoint<GeoJson2DGeographicCoordinates> Location { get; private set; }
+
+        public void SetLocation(double longitude, double latitude) 
+            => Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(
+                new GeoJson2DGeographicCoordinates(longitude, latitude));
     }
 }
