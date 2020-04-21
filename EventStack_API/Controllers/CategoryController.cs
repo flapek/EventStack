@@ -40,7 +40,7 @@ namespace EventStack_API.Controllers
 
         // DELETE: api/Category
         [HttpDelete("{id}")]
-        public bool Delete(string id)
-            => repository.Delete(id);
+        public async Task<bool> Delete(string id)
+            => await repository.DeleteAsync(id);
     }
 }

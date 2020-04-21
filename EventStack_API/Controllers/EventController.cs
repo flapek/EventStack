@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using EventStack_API.Interfaces;
 using EventStack_API.Models;
 using EventStack_API.Workers;
@@ -19,13 +20,13 @@ namespace EventStack_API.Controllers
 
         // GET: api/Event
         [HttpGet]
-        public IEnumerable<Event> Get()
-           => repository.Find();
+        public async Task<IEnumerable<Event>> Get()
+           => await repository.FindAsync();
 
         // GET: api/Event/GetById/id
         [HttpGet("GetById/{id}")]
-        public Event Get(string id)
-            => repository.Find(id);
+        public async Task<Event> Get(string id)
+            => await repository.FindAsync(id);
 
         //TODO zastanowić się czy potrzebne
         //// GET: api/Event
@@ -35,8 +36,8 @@ namespace EventStack_API.Controllers
 
         // GET: api/Event/GetByFilter
         [HttpGet("GetByFilter")]
-        public IEnumerable<Event> Get(Event_MongoRepository.Filter filter)
-            => repository.Find(filter);
+        public async Task<IEnumerable<Event>> Get(Event_MongoRepository.Filter filter)
+            => await repository.FindAsync(filter);
 
         // POST: api/Event
         [HttpPost]

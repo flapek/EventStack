@@ -9,6 +9,7 @@ using System.Net;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System;
 
 namespace EventStack_API.IntegrationTest
 {
@@ -75,7 +76,18 @@ namespace EventStack_API.IntegrationTest
             HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(new Event
             {
                 Name = "Test",
-                
+                Photo = new byte[20],
+                StarTime = DateTime.Now.AddDays(60),
+                EndTime = DateTime.Now.AddDays(61),
+                PublishTime = DateTime.Now,
+                Place = new Address
+                {
+                    City = "Warsaw",
+                    Country = "Poland",
+                    Street = "Test",
+                    ZipCode = "43-333",
+                },
+                IsCanceled = false
             }), Encoding.UTF8, "application/json");
 
             var httpRensponse = await client.PostAsync(url, httpContent);
