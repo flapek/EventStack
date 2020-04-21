@@ -26,10 +26,11 @@ namespace EventStack_API.Controllers
         public Event Get(string id)
             => repository.Find(id);
 
-        // GET: api/Event
-        [HttpGet]
-        public Event Get(Event organization)
-            => repository.Find(organization);
+        //TODO zastanowić się czy potrzebne
+        //// GET: api/Event
+        //[HttpGet]
+        //public Event Get(Event organization)
+        //    => repository.Find(organization);
 
         // GET: api/Event
         [HttpGet]
@@ -41,10 +42,11 @@ namespace EventStack_API.Controllers
         public bool Post(Event organizaction)
             => ModelState.IsValid ? repository.Insert(organizaction) : false;
 
-        // POST: api/Event
-        [HttpPost]
-        public bool Post(IEnumerable<Event> organizactions)
-            => ModelState.IsValid ? repository.Insert(organizactions) : false;
+        //TODO zastanowić się czy potrzebne
+        //// POST: api/Event
+        //[HttpPost]
+        //public bool Post(IEnumerable<Event> organizactions)
+        //    => ModelState.IsValid ? repository.Insert(organizactions) : false;
 
         // PUT: api/Event
         [HttpPut("{id}")]
