@@ -46,7 +46,7 @@ namespace EventStack_API.IntegrationTest
             httpRensponseAll.EnsureSuccessStatusCode();
 
             Assume.That(oneCategory != null);
-            var httpRensponse = await client.GetAsync(url + oneCategory.Id);
+            var httpRensponse = await client.GetAsync(url + "GetById/" + oneCategory.Id);
 
             httpRensponse.EnsureSuccessStatusCode();
 
@@ -58,7 +58,7 @@ namespace EventStack_API.IntegrationTest
         [TestCase("5e9d7e2e1c9d44000007@088")]
         public async Task Get_ById_ChcekRensponseStatusCode_ReturnStatus500(string id)
         {
-            var url = "/api/Event/" + id;
+            var url = "/api/Event/GetById/" + id;
             var httpRensponse = await client.GetAsync(url);
 
             httpRensponse.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
@@ -66,50 +66,51 @@ namespace EventStack_API.IntegrationTest
 
         #endregion
 
-        //#region Post method
+        #region Post method
 
-        //[Test]
-        //public async Task Post_CheckRensponseStatusCodeWhenModelIsValid_ReturnStatus200()
-        //{
-        //    var url = "/api/Event";
-        //    HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(new Category
-        //    {
-        //        Name = "Holidays"
-        //    }), Encoding.UTF8, "application/json");
+        [Test]
+        public async Task Post_CheckRensponseStatusCodeWhenModelIsValid_ReturnStatus200()
+        {
+            var url = "/api/Event";
+            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(new Event
+            {
+                Name = "Test",
+                
+            }), Encoding.UTF8, "application/json");
 
-        //    var httpRensponse = await client.PostAsync(url, httpContent);
+            var httpRensponse = await client.PostAsync(url, httpContent);
 
-        //    httpRensponse.EnsureSuccessStatusCode();
+            httpRensponse.EnsureSuccessStatusCode();
 
-        //    httpRensponse.StatusCode.Should().Be(HttpStatusCode.OK);
-        //}
+            httpRensponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
 
-        //[Test]
-        //public async Task Post_CheckRensponseStatusCodeWhenNameIsNotSet_ReturnStatus400()
-        //{
-        //    var url = "/api/Event";
-        //    HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(new Category()), Encoding.UTF8, "application/json");
+        [Test]
+        public async Task Post_CheckRensponseStatusCodeWhenNameIsNotSet_ReturnStatus400()
+        {
+            var url = "/api/Event";
+            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(new Category()), Encoding.UTF8, "application/json");
 
-        //    var httpRensponse = await client.PostAsync(url, httpContent);
+            var httpRensponse = await client.PostAsync(url, httpContent);
 
-        //    httpRensponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        //}
+            httpRensponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
 
-        //[TestCase("sadnvfinoisdqwdnwoqkncionocesjoisadoisamkdnowqidnewonckoicoiocnewoinvksmocpjeionfcodsmopmowen")]
-        //public async Task Post_CheckRensponseStatusCodeWhenNameIsLongerThan50_ReturnStatus400(string name)
-        //{
-        //    var url = "/api/Event";
-        //    HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(new Category
-        //    {
-        //        Name = name
-        //    }), Encoding.UTF8, "application/json");
+        [TestCase("sadnvfinoisdqwdnwoqkncionocesjoisadoisamkdnowqidnewonckoicoiocnewoinvksmocpjeionfcodsmopmowen")]
+        public async Task Post_CheckRensponseStatusCodeWhenNameIsLongerThan50_ReturnStatus400(string name)
+        {
+            var url = "/api/Event";
+            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(new Category
+            {
+                Name = name
+            }), Encoding.UTF8, "application/json");
 
-        //    var httpRensponse = await client.PostAsync(url, httpContent);
+            var httpRensponse = await client.PostAsync(url, httpContent);
 
-        //    httpRensponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        //}
+            httpRensponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
 
-        //#endregion
+        #endregion
 
         //#region Put method
 

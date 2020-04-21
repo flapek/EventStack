@@ -46,7 +46,7 @@ namespace EventStack_API.Models
         public string Description { get; set; }
 
         [BsonElement("Events")]
-        public IEnumerable<string> EventsID { get; set; }
+        public IEnumerable<string> EventsId { get; set; }
 
         [BsonElement("NIP")]
         [RegularExpression("^[0-9]{10}$", ErrorMessage = "NIP must contain 10 digit")]
