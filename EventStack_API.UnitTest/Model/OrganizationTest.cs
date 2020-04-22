@@ -23,6 +23,8 @@ namespace EventStack_API.UnitTest.Model
         #endregion
 
         #region Email
+
+        [TestCase("eventstack@gmail.com")]
         [TestCase("eventstack@gmail.com")]
         public void Organization_IsRegexAcceptEmail_True(string email)
         {
@@ -31,6 +33,7 @@ namespace EventStack_API.UnitTest.Model
         }
 
         [TestCase("@com")]
+        [TestCase("@")]
         public void Organization_IsRegexRejectEmail_False(string email)
         {
             organization.Email = email;
@@ -61,6 +64,7 @@ namespace EventStack_API.UnitTest.Model
         #endregion
 
         #region Name
+        
         [Test]
         public void Organization_IsNameRequired_False()
         {
@@ -85,6 +89,7 @@ namespace EventStack_API.UnitTest.Model
         #endregion
 
         #region NIP
+
         [TestCase("1234567890")]
         public void Organization_IsRegexAcceptNIP_True(string NIP)
         {
@@ -102,6 +107,7 @@ namespace EventStack_API.UnitTest.Model
         #endregion
 
         #region Password
+
         [TestCase("EventStack123!")]
         [TestCase("#JamesBond007")]
         [TestCase("$GrzesiuSzlac91$")]
@@ -150,6 +156,7 @@ namespace EventStack_API.UnitTest.Model
         #endregion
 
         #region Regon
+        
         [TestCase("123456789")]
         public void Organization_IsRegexAcceptREGON_True(string REGON)
         {
