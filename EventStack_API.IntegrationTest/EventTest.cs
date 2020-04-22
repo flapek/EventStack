@@ -36,7 +36,7 @@ namespace EventStack_API.IntegrationTest
                 {
                     City = "Warsaw",
                     Country = "Poland",
-                    Street = "Test",
+                    Street = "Test 11/4",
                     ZipCode = "43-333",
                 },
                 IsCanceled = false,
