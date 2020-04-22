@@ -129,65 +129,61 @@ namespace EventStack_API.IntegrationTest
 
         #endregion
 
-        //#region Put method
+        #region Put method
 
-        //[Theory]
-        //public async Task Put_CheckRensponseStatusCodeWhenModelIsValid_ReturnStatus200()
-        //{
-        //    var url = "/api/Event/";
-        //    var httpRensponseAll = await client.GetAsync(url);
-        //    var content = JsonConvert.DeserializeObject<List<Category>>(await httpRensponseAll.Content.ReadAsStringAsync());
-        //    var oneCategory = content.FirstOrDefault();
-        //    httpRensponseAll.EnsureSuccessStatusCode();
+        [Theory]
+        public async Task Put_CheckRensponseStatusCodeWhenModelIsValid_ReturnStatus200()
+        {
+            var url = "/api/Event/";
+            var httpRensponseAll = await client.GetAsync(url);
+            var content = JsonConvert.DeserializeObject<List<Event>>(await httpRensponseAll.Content.ReadAsStringAsync());
+            var oneCategory = content.FirstOrDefault();
+            httpRensponseAll.EnsureSuccessStatusCode();
 
-        //    Assume.That(oneCategory != null);
-        //    url += oneCategory.Id;
-        //    HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(new Category
-        //    {
-        //        Name = "changedName"
-        //    }), Encoding.UTF8, "application/json");
-        //    var httpRensponse = await client.PutAsync(url, httpContent);
-        //    httpRensponse.EnsureSuccessStatusCode();
+            Assume.That(oneCategory != null);
+            url += oneCategory.Id;
+            goodEvent.Description = "new description for event";
+            goodEvent.IsCanceled = true;
+            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(goodEvent), Encoding.UTF8, "application/json");
+            var httpRensponse = await client.PutAsync(url, httpContent);
+            httpRensponse.EnsureSuccessStatusCode();
 
-        //    httpRensponse.StatusCode.Should().Be(HttpStatusCode.OK);
-        //}
+            httpRensponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
 
-        //[Theory]
-        //public async Task Put_CheckRensponseContentWhenModelIsValid_ReturnNameIsCorrectChanged()
-        //{
-        //    var expected = new Category { Name = "changedName" };
-        //    var url = "/api/Event/";
-        //    var httpRensponseAll = await client.GetAsync(url);
-        //    var content = JsonConvert.DeserializeObject<List<Category>>(await httpRensponseAll.Content.ReadAsStringAsync());
-        //    var oneCategory = content.FirstOrDefault();
-        //    httpRensponseAll.EnsureSuccessStatusCode();
+        [Theory]
+        public async Task Put_CheckRensponseContentWhenModelIsValid_ReturnNameIsCorrectChanged()
+        {
+            goodEvent.Name = "new party";
+            var url = "/api/Event/";
+            var httpRensponseAll = await client.GetAsync(url);
+            var content = JsonConvert.DeserializeObject<List<Event>>(await httpRensponseAll.Content.ReadAsStringAsync());
+            var oneCategory = content.FirstOrDefault();
+            httpRensponseAll.EnsureSuccessStatusCode();
 
-        //    Assume.That(oneCategory != null);
-        //    url += oneCategory.Id;
-        //    HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(expected), Encoding.UTF8, "application/json");
-        //    var httpRensponse = await client.PutAsync(url, httpContent);
-        //    httpRensponse.EnsureSuccessStatusCode();
+            Assume.That(oneCategory != null);
+            url += oneCategory.Id;
+            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(goodEvent), Encoding.UTF8, "application/json");
+            var httpRensponse = await client.PutAsync(url, httpContent);
+            httpRensponse.EnsureSuccessStatusCode();
 
-        //    var result = JsonConvert.DeserializeObject<Category>(await httpRensponse.Content.ReadAsStringAsync());
-        //    Assert.AreEqual(expected.Name, result.Name);
-        //}
+            var result = JsonConvert.DeserializeObject<Category>(await httpRensponse.Content.ReadAsStringAsync());
+            Assert.AreEqual(goodEvent.Name, result.Name);
+        }
 
-        //[TestCase("5e9d7e2e1c9d44000007a088s")]
-        //[TestCase("5e9d7e2e1c9d44000007a")]
-        //[TestCase("5e9d7e2e1c9d44000007@088")]
-        //public async Task Put_CheckRensponseStatusCodeWhenIdIsNotValid_ReturnStatus500(string id)
-        //{
-        //    var url = "/api/Event/" + id;
-        //    HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(new Category
-        //    {
-        //        Name = "changedName"
-        //    }), Encoding.UTF8, "application/json");
-        //    var httpRensponse = await client.PutAsync(url, httpContent);
+        [TestCase("5e9d7e2e1c9d44000007a088s")]
+        [TestCase("5e9d7e2e1c9d44000007a")]
+        [TestCase("5e9d7e2e1c9d44000007@088")]
+        public async Task Put_CheckRensponseStatusCodeWhenIdIsNotValid_ReturnStatus500(string id)
+        {
+            var url = "/api/Event/" + id;
+            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(goodEvent), Encoding.UTF8, "application/json");
+            var httpRensponse = await client.PutAsync(url, httpContent);
 
-        //    httpRensponse.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
-        //}
+            httpRensponse.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        }
 
-        //#endregion
+        #endregion
 
         //#region Delete method
 
