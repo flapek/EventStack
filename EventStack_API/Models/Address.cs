@@ -1,6 +1,7 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver.GeoJsonObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace EventStack_API.Models
 {
@@ -16,6 +17,7 @@ namespace EventStack_API.Models
         public string Street { get; set; }
 
         [BsonElement("ZipCode")]
+        [RegularExpression(@"[0-9]{2}-[0-9]{3}")]
         public string ZipCode { get; set; }
 
         [BsonElement("Location")]
