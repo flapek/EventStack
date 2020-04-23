@@ -25,7 +25,9 @@ namespace EventStack_API.UnitTest.Model
         #region Email
 
         [TestCase("eventstack@gmail.com")]
-        [TestCase("eventstack@gmail.com")]
+        [TestCase("korona14@gmail.com")]
+        [TestCase("jestemmama@wp.pl")]
+       
         public void Organization_IsRegexAcceptEmail_True(string email)
         {
             organization.Email = email;
@@ -33,7 +35,17 @@ namespace EventStack_API.UnitTest.Model
         }
 
         [TestCase("@com")]
-        [TestCase("@")]
+        [TestCase("_a@domena.net")]
+        [TestCase("tata1@.pl")]
+        [TestCase("arkadiusz@-domena.pl")]
+        [TestCase("lepkamariusz@_onet.pl")]
+        [TestCase("malgosiawróblewska@kórnik.com")]
+        [TestCase("tomasz_jajczyk.onet.pl")]
+        [TestCase("tomek@interia")]
+        [TestCase("mariusz@wp,pl")]
+        [TestCase("-gosia@domena.net")]
+        [TestCase("kasia1997@pl")]
+
         public void Organization_IsRegexRejectEmail_False(string email)
         {
             organization.Email = email;
