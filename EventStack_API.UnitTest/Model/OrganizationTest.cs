@@ -26,7 +26,17 @@ namespace EventStack_API.UnitTest.Model
 
         [TestCase("eventstack@gmail.com")]
         [TestCase("korona14@gmail.com")]
-        [TestCase("jestemmama@wp.pl")]
+        [TestCase("jestemmama@interia.pl")]
+        [TestCase("koxu15@wp.pl")]
+        [TestCase("mariuszlepka@gmail.com")]
+        [TestCase("izakoox@wp.pl")]
+        [TestCase("abrakadabra13@onet.pl")]
+        [TestCase("pysznaszamka@wp.pl")]
+        [TestCase("arkadiusz_maczynski@02.pl")]
+        [TestCase("tomasz1macionczyk@wp.pl")]
+        [TestCase("laleczka1962@02.pl")]
+        [TestCase("tomasz_sardynski@gmail.com")]
+
        
         public void Organization_IsRegexAcceptEmail_True(string email)
         {
