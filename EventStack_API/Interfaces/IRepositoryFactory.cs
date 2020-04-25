@@ -1,20 +1,23 @@
 using System.Collections.Generic;
-using EventStack_API.Interfaces;
-using MongoDB.Bson;
+using System.Threading.Tasks;
 
 namespace EventStack_API.Interfaces
 {
     public interface IRepositoryFactory<T> where T: IDbModel 
     {
         bool Insert(T insert);
+        Task<bool> InsertAsync(T insert);
         bool Insert(IEnumerable<T> toInserts);
-        T Find(ObjectId id);
+        Task<bool> InsertAsync(IEnumerable<T> toInserts);
+        T Find(string id);
+        Task<T> FindAsync(string id);
         T Find(T toFind);
-        IEnumerable<T> Find(IEnumerable<T> toFinds);
-        bool Update(T toUpdate);
-        bool Update(IEnumerable<T> toUpdates);
-        bool Delete(ObjectId id);
+        Task<T> FindAsync(T toFind);
+        T Update(string id, T toUpdate);
+        Task<T> UpdateAsync(string id,T toUpdate);
+        bool Delete(string id);
+        Task<bool> DeleteAsync(string id);
         bool Delete(T toDelete);
-        bool Delete(IEnumerable<T> toDelete);
+        Task<bool> DeleteAsync(T toDelete);
     }
 }
