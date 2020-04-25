@@ -29,7 +29,7 @@ namespace EventStack_API.IntegrationTest
             {
                 Name = "Test",
                 Photo = webClient.DownloadData("http://www.google.com/images/logos/ps_logo2.png"),
-                StarTime = DateTime.Now.AddDays(20),
+                StartTime = DateTime.Now.AddDays(20),
                 EndTime = DateTime.Now.AddDays(22),
                 PublishTime = DateTime.Now,
                 Place = new Address
