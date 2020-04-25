@@ -1,5 +1,4 @@
-﻿using EventStack_API.Interfaces;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 
 namespace EventStack_API.Interfaces
 {
