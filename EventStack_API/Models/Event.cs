@@ -21,12 +21,12 @@ namespace EventStack_API.Models
         public string Name { get; set; }
 
         [BsonElement("Categories")]
-        public IEnumerable<Category> Categories { get; set; }
+        public IEnumerable<string> CategoriesId { get; set; }
 
         [BsonElement("Photo")]
         [BsonRequired]
         [Required(ErrorMessage = "Photo must be added for event!")]
-        public string Photo { get; set; }
+        public byte[] Photo { get; set; }
 
         [BsonElement("Description")]
         [StringLength(1000, ErrorMessage = "The maximum number of character is 1000!")]
