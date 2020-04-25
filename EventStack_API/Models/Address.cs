@@ -14,7 +14,7 @@ namespace EventStack_API.Models
         public string City { get; set; }
 
         [BsonElement("Street")]
-        [RegularExpression(@"[a-zA-ZÍÛπú≥øüÊÒ ”•å£Øè∆—]*\s[0-9]*/[0-9]*.?[a-zA-Z]{0,3}")]
+        [RegularExpression(@"[a-zA-Z]*\s[0-9]*/[0-9]*.?[a-zA-Z]{0,3}")]
         public string Street { get; set; }
 
         [BsonElement("ZipCode")]
