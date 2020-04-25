@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EventStack_API.Workers
 {
-    public class Event_MongoRepository : MongoRepository<Event>
+    public class Event_MongoRepository : MongoRepository<Event>, IRepositoryFactory<Event>
     {
         private MongoDbContext Context { get; set; }
         private IMongoCollection<Event> Collection { get; set; }
@@ -21,18 +21,26 @@ namespace EventStack_API.Workers
             Collection = Context.GetCollection<Event>(typeof(Event).Name);
         }
 
+        public IEnumerable<Event> Find() => Collection.Find(x => true).ToList();
+
         public IEnumerable<Event> Find(Filter filter)
         {
             var locationQuery = new FilterDefinitionBuilder<Event>()
-                .Near(e => e.Place.Location, filter.Coordinates.Latitude, filter.Coordinates.Longitude, filter.MaxDistance, filter.MinDistance);
+                .Near(e => e.Place.Location, filter.Coordinates.Latitude, filter.Coordinates.Longitude, filter.MaxDistance);
 
             return Collection.Find(locationQuery).ToList();
+        }
+
+        public async Task<IEnumerable<Event>> FindAsync()
+        {
+            var result = await Collection.FindAsync(x => true);
+            return await result.ToListAsync();
         }
 
         public async Task<IEnumerable<Event>> FindAsync(Filter filter)
         {
             var locationQuery = new FilterDefinitionBuilder<Event>()
-                .Near(e => e.Place.Location, filter.Coordinates.Latitude, filter.Coordinates.Longitude, filter.MaxDistance, filter.MinDistance);
+                .Near(e => e.Place.Location, filter.Coordinates.Latitude, filter.Coordinates.Longitude, maxDistance: filter.MaxDistance);
             var result = await Collection.FindAsync(locationQuery);
             return await result.ToListAsync();
         }
@@ -41,7 +49,6 @@ namespace EventStack_API.Workers
         {
             public GeoJson2DGeographicCoordinates Coordinates { get; set; }
             public double? MaxDistance { get; set; }
-            public double? MinDistance { get; set; }
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using EventStack_API.Interfaces;
 using EventStack_API.Models;
+using EventStack_API.Workers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventStack_API.Controllers
@@ -9,61 +11,36 @@ namespace EventStack_API.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private IRepositoryFactory<Category> repository { get; set; }
+        private Category_MongoRepository repository { get; set; }
 
         public CategoryController(IRepositoryFactory<Category> repository)
         {
-            this.repository = repository;
+            this.repository = (Category_MongoRepository)repository;
         }
 
+        // GET: api/Category
+        [HttpGet]
+        public async Task<IEnumerable<Category>> Get()
+            => await repository.FindAsync();
+
         // GET: api/Category/id
-        [HttpGet("{id}", Name = "Get")]
-        public Category Get(string id)
-            => repository.Find(id);
-
-        // GET: api/Category
-        [HttpGet]
-        public Category Get(Category organization)
-            => repository.Find(organization);
-
-        // GET: api/Category
-        [HttpGet]
-        public IEnumerable<Category> Get(IEnumerable<Category> organization)
-            => repository.Find(organization);
+        [HttpGet("{id}")]
+        public async Task<Category> Get(string id)
+            => await repository.FindAsync(id);
 
         // POST: api/Category
         [HttpPost]
-        public bool Post(Category organizaction)
-            => ModelState.IsValid ? repository.Insert(organizaction) : false;
+        public async Task<bool> Post(Category organizaction)
+            => ModelState.IsValid ? await repository.InsertAsync(organizaction) : false;
 
-        // POST: api/Category
-        [HttpPost]
-        public bool Post(IEnumerable<Category> organizactions)
-            => ModelState.IsValid ? repository.Insert(organizactions) : false;
-
-        // PUT: api/Category
+        // PUT: api/Category/id
         [HttpPut("{id}")]
-        public bool Put(Category organization)
-            => ModelState.IsValid ? repository.Update(organization) : false;
-
-        // PUT: api/Category
-        [HttpPut("{id}")]
-        public bool Put(IEnumerable<Category> organizations)
-            => ModelState.IsValid ? repository.Update(organizations) : false;
+        public async Task<Category> Put(string id, Category organization)
+            => ModelState.IsValid ? await repository.UpdateAsync(id, organization) : null;
 
         // DELETE: api/Category
         [HttpDelete("{id}")]
-        public bool Delete(string id)
-            => repository.Delete(id);
-
-        // DELETE: api/Category
-        [HttpDelete("{id}")]
-        public bool Delete(Category organization)
-            => repository.Delete(organization);
-
-        // DELETE: api/Category
-        [HttpDelete("{id}")]
-        public bool Delete(IEnumerable<Category> organizations)
-            => repository.Delete(organizations);
+        public async Task<bool> Delete(string id)
+            => await repository.DeleteAsync(id);
     }
 }
