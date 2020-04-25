@@ -17,7 +17,7 @@ namespace EventStack_API.Controllers
         }
 
         // GET: api/Organization/id
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public Organization Get(string id)
             => repository.Find(id);
 
@@ -26,47 +26,25 @@ namespace EventStack_API.Controllers
         public Organization Get(Organization organization)
             => repository.Find(organization);
 
-        // GET: api/Organization
-        [HttpGet]
-        public IEnumerable<Organization> Get(IEnumerable<Organization> organization)
-            => repository.Find(organization);
-
         // POST: api/Organization
         [HttpPost]
         public bool Post(Organization organizaction)
             => ModelState.IsValid ? repository.Insert(organizaction) : false;
 
-        // POST: api/Organization
-        [HttpPost]
-        public bool Post(IEnumerable<Organization> organizactions)
-            => ModelState.IsValid ? repository.Insert(organizactions) : false;
-
         // PUT: api/Organization
         [HttpPut("{id}")]
-        public bool Put(Organization organization)
-            => ModelState.IsValid ? repository.Update(organization) : false;
-
-        // PUT: api/Organization
-        [HttpPut("{id}")]
-        public bool Put(IEnumerable<Organization> organizations)
-            => ModelState.IsValid ? repository.Update(organizations) : false;
-
+        public Organization Put(string id, Organization organization)
+            => ModelState.IsValid ? repository.Update(id, organization) : null;
 
         // DELETE: api/Organization
         [HttpDelete("{id}")]
         public bool Delete(string id)
             => repository.Delete(id);
 
-
         // DELETE: api/Organization
         [HttpDelete("{id}")]
         public bool Delete(Organization organization)
             => repository.Delete(organization);
 
-
-        // DELETE: api/Organization
-        [HttpDelete("{id}")]
-        public bool Delete(IEnumerable<Organization> organizations)
-            => repository.Delete(organizations);
     }
 }

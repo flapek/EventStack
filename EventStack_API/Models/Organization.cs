@@ -11,7 +11,7 @@ namespace EventStack_API.Models
         [BsonId]
         [BsonElement("Id")]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; }
+        public string Id { get; set; }
 
         [BsonElement("Name")]
         [BsonRequired]
@@ -41,12 +41,12 @@ namespace EventStack_API.Models
         [BsonElement("Address")]
         public Address Address { get; set; }
 
-        [BsonElement("Destription")]
+        [BsonElement("Description")]
         [StringLength(1000, ErrorMessage = "The maximum number of character is 1000!")]
-        public string Destription { get; set; }
+        public string Description { get; set; }
 
         [BsonElement("Events")]
-        public IEnumerable<string> EventsID { get; set; }
+        public IEnumerable<string> EventsId { get; set; }
 
         [BsonElement("NIP")]
         [RegularExpression("^[0-9]{10}$", ErrorMessage = "NIP must contain 10 digit")]
