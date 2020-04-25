@@ -14,7 +14,7 @@ namespace EventStack_API.Models
         public string City { get; set; }
 
         [BsonElement("Street")]
-        [RegularExpression(@"[a-zA-ZÍÛπú≥øüÊÒ ”•å£Øè∆—]*\s[0-9]*/[0-9]*.?[a-zA-Z]{0,3}")]
+        [RegularExpression(@"[a-zA-Z]*\s[0-9]*/[0-9]*.?[a-zA-Z]{0,3}")]
         public string Street { get; set; }
 
         [BsonElement("ZipCode")]
@@ -24,7 +24,7 @@ namespace EventStack_API.Models
         [BsonElement("Location")]
         public GeoJsonPoint<GeoJson2DGeographicCoordinates> Location { get; private set; }
 
-        public void SetLocation(double longitude, double latitude) 
+        public void SetLocation(double longitude, double latitude)
             => Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(
                 new GeoJson2DGeographicCoordinates(longitude, latitude));
     }
