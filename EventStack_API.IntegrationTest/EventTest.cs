@@ -15,6 +15,7 @@ namespace EventStack_API.IntegrationTest
 {
     class EventTest
     {
+        private readonly string baseURL = "/api/Event";
         private HttpClient client;
         private WebClient webClient;
         private Event goodEvent;
@@ -51,7 +52,7 @@ namespace EventStack_API.IntegrationTest
         [Test]
         public async Task Get_All_ChcekRensponseStatusCode_ReturnStatus200()
         {
-            var url = "/api/Event";
+            var url = baseURL + "/GetAll";
             var httpRensponse = await client.GetAsync(url);
 
             httpRensponse.EnsureSuccessStatusCode();
@@ -62,14 +63,14 @@ namespace EventStack_API.IntegrationTest
         [Theory]
         public async Task Get_ById_ChcekRensponseContent_ReturnShouldNotBeNull()
         {
-            var url = "/api/Event/";
+            var url = baseURL + "/GetAll";
             var httpRensponseAll = await client.GetAsync(url);
             var content = JsonConvert.DeserializeObject<List<Event>>(await httpRensponseAll.Content.ReadAsStringAsync());
             var oneEvent = content.FirstOrDefault();
             httpRensponseAll.EnsureSuccessStatusCode();
 
             Assume.That(oneEvent != null);
-            var httpRensponse = await client.GetAsync(url + "GetById/" + oneEvent.Id);
+            var httpRensponse = await client.GetAsync(baseURL + "/GetById/" + oneEvent.Id);
 
             httpRensponse.EnsureSuccessStatusCode();
 
@@ -81,7 +82,7 @@ namespace EventStack_API.IntegrationTest
         [TestCase("5e9d7e2e1c9d44000007@088")]
         public async Task Get_ById_ChcekRensponseStatusCode_ReturnStatus500(string id)
         {
-            var url = "/api/Event/GetById/" + id;
+            var url = baseURL + "/GetById/" + id;
             var httpRensponse = await client.GetAsync(url);
 
             httpRensponse.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
@@ -134,14 +135,14 @@ namespace EventStack_API.IntegrationTest
         [Theory]
         public async Task Put_CheckRensponseStatusCodeWhenModelIsValid_ReturnStatus200()
         {
-            var url = "/api/Event/";
+            var url = baseURL + "/GetAll";
             var httpRensponseAll = await client.GetAsync(url);
             var content = JsonConvert.DeserializeObject<List<Event>>(await httpRensponseAll.Content.ReadAsStringAsync());
             var oneEvent = content.FirstOrDefault();
             httpRensponseAll.EnsureSuccessStatusCode();
 
             Assume.That(oneEvent != null);
-            url += oneEvent.Id;
+            url = baseURL + "/" + oneEvent.Id;
             goodEvent.Description = "new description for event";
             goodEvent.IsCanceled = true;
             HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(goodEvent), Encoding.UTF8, "application/json");
@@ -155,14 +156,14 @@ namespace EventStack_API.IntegrationTest
         public async Task Put_CheckRensponseContentWhenModelIsValid_ReturnNameIsCorrectChanged()
         {
             goodEvent.Name = "new party";
-            var url = "/api/Event/";
+            var url = baseURL + "/GetAll";
             var httpRensponseAll = await client.GetAsync(url);
             var content = JsonConvert.DeserializeObject<List<Event>>(await httpRensponseAll.Content.ReadAsStringAsync());
             var oneEvent = content.FirstOrDefault();
             httpRensponseAll.EnsureSuccessStatusCode();
 
             Assume.That(oneEvent != null);
-            url += oneEvent.Id;
+            url = baseURL + "/" + oneEvent.Id;
             HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(goodEvent), Encoding.UTF8, "application/json");
             var httpRensponse = await client.PutAsync(url, httpContent);
             httpRensponse.EnsureSuccessStatusCode();
@@ -176,7 +177,7 @@ namespace EventStack_API.IntegrationTest
         [TestCase("5e9d7e2e1c9d44000007@088")]
         public async Task Put_CheckRensponseStatusCodeWhenIdIsNotValid_ReturnStatus500(string id)
         {
-            var url = "/api/Event/" + id;
+            var url = baseURL + "/" + id;
             HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(goodEvent), Encoding.UTF8, "application/json");
             var httpRensponse = await client.PutAsync(url, httpContent);
 
@@ -190,14 +191,14 @@ namespace EventStack_API.IntegrationTest
         [Theory]
         public async Task Delete_CheckRensponseStatusCodeWhenIdIsCorrect_ReturnStatus200()
         {
-            var url = "/api/Event/";
+            var url = baseURL + "/GetAll";
             var httpRensponseAll = await client.GetAsync(url);
             var content = JsonConvert.DeserializeObject<List<Event>>(await httpRensponseAll.Content.ReadAsStringAsync());
             var oneEvent = content.FirstOrDefault();
             httpRensponseAll.EnsureSuccessStatusCode();
 
             Assume.That(oneEvent != null);
-            url += oneEvent.Id;
+            url = baseURL + "/" + oneEvent.Id;
             var httpRensponse = await client.DeleteAsync(url);
 
             httpRensponse.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -206,14 +207,14 @@ namespace EventStack_API.IntegrationTest
         [Theory]
         public async Task Delete_CheckRensponseStatusCodeWhenIdIsCorrect_ReturnTrue()
         {
-            var url = "/api/Event/";
+            var url = baseURL + "/GetAll";
             var httpRensponseAll = await client.GetAsync(url);
             var contentFromGet = JsonConvert.DeserializeObject<List<Event>>(await httpRensponseAll.Content.ReadAsStringAsync());
             var oneEvent = contentFromGet.FirstOrDefault();
             httpRensponseAll.EnsureSuccessStatusCode();
 
             Assume.That(oneEvent != null);
-            url += oneEvent.Id;
+            url = baseURL + "/" + oneEvent.Id;
             var httpRensponse = await client.DeleteAsync(url);
             var contentFromDelete = JsonConvert.DeserializeObject<bool>(await httpRensponse.Content.ReadAsStringAsync());
             contentFromDelete.Should().BeTrue();
@@ -224,7 +225,7 @@ namespace EventStack_API.IntegrationTest
         [TestCase("5e9d7e2e1c9d44000007@088")]
         public async Task Delete_ChcekRensponseStatusCode_ReturnFalse(string id)
         {
-            var url = "/api/Event/" + id;
+            var url = baseURL + "/" + id;
             var httpRensponse = await client.DeleteAsync(url);
             var content = JsonConvert.DeserializeObject<bool>(await httpRensponse.Content.ReadAsStringAsync());
             content.Should().BeFalse();

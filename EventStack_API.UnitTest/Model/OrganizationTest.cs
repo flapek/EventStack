@@ -36,8 +36,6 @@ namespace EventStack_API.UnitTest.Model
         [TestCase("tomasz1macionczyk@wp.pl")]
         [TestCase("laleczka1962@02.pl")]
         [TestCase("tomasz_sardynski@gmail.com")]
-
-       
         public void Organization_IsRegexAcceptEmail_True(string email)
         {
             organization.Email = email;
@@ -55,7 +53,6 @@ namespace EventStack_API.UnitTest.Model
         [TestCase("mariusz@wp,pl")]
         [TestCase("-gosia@domena.net")]
         [TestCase("kasia1997@pl")]
-
         public void Organization_IsRegexRejectEmail_False(string email)
         {
             organization.Email = email;
