@@ -18,8 +18,8 @@ namespace EventStack_API.Controllers
             this.repository = (Event_MongoRepository)repository;
         }
 
-        // GET: api/Event
-        [HttpGet]
+        // GET: api/Event/GetAll
+        [HttpGet("GetAll")]
         public async Task<IEnumerable<Event>> Get()
            => await repository.FindAsync();
 
