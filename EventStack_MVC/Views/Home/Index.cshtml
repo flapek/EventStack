@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@* Search block *@
 <div class="mh-70 position-relative">
     <div id="chart_div"></div>
     <div class="position-absolute">
@@ -49,8 +50,7 @@
     </div>
 </div>
 
-
-
+@* Map *@
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
     google.charts.load('upcoming', { 'packages': ['map'] });
