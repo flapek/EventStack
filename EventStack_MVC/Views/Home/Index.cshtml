@@ -2,7 +2,7 @@
     ViewData["Title"] = "Home Page";
 }
 @* Search block *@
-<div class="mh-70 position-relative">
+<div class="imp-thumbnail mb-3 d-block mx-auto" >
     <div id="chart_div"></div>
     <div class="position-absolute">
         <form class=" bg-dark p-3 rounded" >
@@ -50,33 +50,4 @@
     </div>
 </div>
 
-@* Map *@
-<script src="https://www.gstatic.com/charts/loader.js"></script>
-<script>
-    google.charts.load('upcoming', { 'packages': ['map'] });
-    google.charts.setOnLoadCallback(drawMap);
-
-    function drawMap() {
-        var data = new google.visualization.DataTable();
-        var data = new google.visualization.DataTable();
-
-        data.addColumn('number', 'Lat');
-        data.addColumn('number', 'Long');
-        data.addColumn('string', 'name');
-
-        data.addRow([37.4232, -122.0853, 'Work']);
-        data.addRow([37.4289, -122.1697, 'University']);
-        data.addRow([37.6153, -122.3900, 'Airport']);
-        data.addRow([37.4422, -122.1731, 'Shopping']);
-
-        var options = {
-            showTooltip: true,
-            showInfoWindow: true
-        };
-
-        var map = new google.visualization.Map(document.getElementById('chart_div'));
-
-        map.draw(data, options);
-    };
-</script>
 
