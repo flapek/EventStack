@@ -24,7 +24,7 @@ namespace EventStack_API.Models
         [BsonElement("Location")]
         public GeoJsonPoint<GeoJson2DGeographicCoordinates> Location { get; private set; }
 
-        public void SetLocation(double longitude, double latitude)
+        private void SetLocation(double longitude, double latitude)
             => Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(
                 new GeoJson2DGeographicCoordinates(longitude, latitude));
     }
