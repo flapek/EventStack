@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using EventStack_API.Models;
 using EventStack_API.Interfaces;
+using EventStack_API.Workers;
 
 namespace EventStack_API.Controllers
 {
@@ -10,11 +11,11 @@ namespace EventStack_API.Controllers
     [ApiController]
     public class OrganizationController : ControllerBase
     {
-        private IRepositoryFactory<Organization> repository { get; set; }
+        private Organization_MongoRepository repository { get; set; }
 
         public OrganizationController(IRepositoryFactory<Organization> repository)
         {
-            this.repository = repository;
+            this.repository = (Organization_MongoRepository)repository;
         }
 
         // GET: api/Organization/id
