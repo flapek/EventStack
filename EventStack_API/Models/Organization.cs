@@ -36,6 +36,7 @@ namespace EventStack_API.Models
         public string Email { get; set; }
 
         [BsonElement("PhoneNumber")]
+        [RegularExpression(@"((?(\+[0-9]{2})\+[0-9]{2}\s[0-9]{9}|\s[0-9]{9})", ErrorMessage ="Number must contain +48 999999999 or 999999999")]
         public string PhoneNumber { get; set; }
 
         [BsonElement("Address")]
