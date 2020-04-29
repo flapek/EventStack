@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System;
+using EventStack_API.Workers;
 
 namespace EventStack_API.IntegrationTest
 {
@@ -45,8 +46,8 @@ namespace EventStack_API.IntegrationTest
 
         #region Get method
 
-        [Test]
-        public async Task Get_All_ChcekRensponseStatusCode_ReturnStatus200()
+        [Theory]
+        public async Task Get_ByFilter_ChcekRensponseStatusCode_ReturnStatus200()
         {
             var httpRensponse = await client.GetAsync(baseURL);
 
@@ -55,29 +56,17 @@ namespace EventStack_API.IntegrationTest
             httpRensponse.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        [Theory]
-        public async Task Get_ById_ChcekRensponseContent_ReturnShouldNotBeNull()
-        {
-            var httpRensponseAll = await client.GetAsync(baseURL);
-            var content = JsonConvert.DeserializeObject<List<Event>>(await httpRensponseAll.Content.ReadAsStringAsync());
-            var oneEvent = content.FirstOrDefault();
-            httpRensponseAll.EnsureSuccessStatusCode();
-
-            Assume.That(oneEvent != null);
-            var httpRensponse = await client.GetAsync(baseURL + oneEvent.Id);
-
-            httpRensponse.EnsureSuccessStatusCode();
-
-            httpRensponse.Content.Should().NotBeNull();
-        }
-
         [TestCase("5e9d7e2e1c9d44000007a088s")]
         [TestCase("5e9d7e2e1c9d44000007a")]
         [TestCase("5e9d7e2e1c9d44000007@088")]
-        public async Task Get_ById_ChcekRensponseStatusCode_ReturnStatus500(string id)
+        public async Task Get_ById_ChcekRensponseStatusCode_ReturnStatus500()
         {
-            var url = baseURL + "/GetById/" + id;
-            var httpRensponse = await client.GetAsync(url);
+            Organization_MongoRepository.Filter filter = new Organization_MongoRepository.Filter
+            {
+                Email = "",
+                Name = ""
+            };
+            var httpRensponse = await client.GetAsync(baseURL);
 
             httpRensponse.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }

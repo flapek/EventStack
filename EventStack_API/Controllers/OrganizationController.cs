@@ -18,12 +18,12 @@ namespace EventStack_API.Controllers
             this.repository = (Organization_MongoRepository)repository;
         }
 
-        // GET: api/Organization/id
-        [HttpGet("{id}")]
+        // GET: api/Organization
+        [HttpGet]
         public OrganizationWithoutImportantData Get(Organization_MongoRepository.Filter filter)
             => repository.Find(filter);
 
-        // POST: api/Organization
+         // POST: api/Organization
         [HttpPost]
         public bool Post(Organization organizaction)
             => ModelState.IsValid ? repository.Insert(organizaction) : false;

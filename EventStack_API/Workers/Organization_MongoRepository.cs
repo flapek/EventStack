@@ -22,7 +22,7 @@ namespace EventStack_API.Workers
             Collection = Context.GetCollection<Organization>(typeof(Organization).Name);
         }
 
-        public OrganizationWithoutImportantData Find(Filter filter) 
+        public OrganizationWithoutImportantData Find(Filter filter)
             => Collection.Find(x => x.Name == filter.Name && x.Email == filter.Email).FirstOrDefault();
 
         public class Filter
@@ -37,8 +37,8 @@ namespace EventStack_API.Workers
             [BsonRequired]
             [Required(ErrorMessage = "Email must be set!")]
             [StringLength(100, ErrorMessage = "The maximum number of character is 100!")]
-            [RegularExpression(@"[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*", ErrorMessage =
-            "Email must contain eg. example@example.com")]
+            [RegularExpression(@"[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*",
+                ErrorMessage = "Email must contain eg. example@example.com")]
             public string Email { get; set; }
         }
     }
