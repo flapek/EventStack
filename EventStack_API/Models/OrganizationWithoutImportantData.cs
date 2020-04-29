@@ -1,31 +1,20 @@
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using EventStack_API.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EventStack_API.Models
 {
-    public class Organization : OrganizationWithoutImportantData, IDbModel
-    {
-        [BsonId]
-        [BsonElement("Id")]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
-
+    public class OrganizationWithoutImportantData
+    { 
         [BsonElement("Name")]
         [BsonRequired]
         [Required(ErrorMessage = "Name must be set!")]
         [StringLength(100, ErrorMessage = "The maximum number of character is 100!")]
         public string Name { get; set; }
-
-        [BsonElement("Password")]
-        [BsonRequired]
-        [Required(ErrorMessage = "Password must be set!")]
-        [StringLength(30, ErrorMessage = "The maximum number of character is 30!")]
-        [RegularExpression(@"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-+,\(\)]).{8,}$", ErrorMessage =
-            "Password must contain at least 1 lowercase and uppercase alphabetical character, 1 numeric character, 1 special character(!,@,#,$,%,^,&,*) and must be eight characters or longer!")]
-        public string Password { get; set; }
 
         [BsonElement("Email")]
         [BsonRequired]

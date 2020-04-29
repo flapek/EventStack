@@ -20,8 +20,8 @@ namespace EventStack_API.Controllers
 
         // GET: api/Organization/id
         [HttpGet("{id}")]
-        public Organization Get(string id)
-            => repository.Find(id);
+        public OrganizationWithoutImportantData Get(Organization_MongoRepository.Filter filter)
+            => repository.Find(filter);
 
         // POST: api/Organization
         [HttpPost]
