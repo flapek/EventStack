@@ -41,11 +41,5 @@ namespace EventStack_API.Controllers
         [HttpDelete("{id}")]
         public bool Delete(string id)
             => repository.Delete(id);
-
-        // DELETE: api/Organization
-        [HttpDelete("{id}")]
-        public bool Delete(Organization organization)
-            => repository.Delete(organization);
-
     }
 }
