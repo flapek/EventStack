@@ -15,7 +15,7 @@ namespace EventStack_API.IntegrationTest
 {
     class OrganizationControllerTest
     {
-        private readonly string baseURL = "/api/Event";
+        private readonly string baseURL = "api/Organization/";
         private HttpClient client;
         private WebClient webClient;
         private Organization goodEvent;
@@ -42,5 +42,189 @@ namespace EventStack_API.IntegrationTest
                 PhoneNumber = "666666666"
             };
         }
+
+        #region Get method
+
+        [Test]
+        public async Task Get_All_ChcekRensponseStatusCode_ReturnStatus200()
+        {
+            var httpRensponse = await client.GetAsync(baseURL);
+
+            httpRensponse.EnsureSuccessStatusCode();
+
+            httpRensponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Theory]
+        public async Task Get_ById_ChcekRensponseContent_ReturnShouldNotBeNull()
+        {
+            var httpRensponseAll = await client.GetAsync(baseURL);
+            var content = JsonConvert.DeserializeObject<List<Event>>(await httpRensponseAll.Content.ReadAsStringAsync());
+            var oneEvent = content.FirstOrDefault();
+            httpRensponseAll.EnsureSuccessStatusCode();
+
+            Assume.That(oneEvent != null);
+            var httpRensponse = await client.GetAsync(baseURL + oneEvent.Id);
+
+            httpRensponse.EnsureSuccessStatusCode();
+
+            httpRensponse.Content.Should().NotBeNull();
+        }
+
+        [TestCase("5e9d7e2e1c9d44000007a088s")]
+        [TestCase("5e9d7e2e1c9d44000007a")]
+        [TestCase("5e9d7e2e1c9d44000007@088")]
+        public async Task Get_ById_ChcekRensponseStatusCode_ReturnStatus500(string id)
+        {
+            var url = baseURL + "/GetById/" + id;
+            var httpRensponse = await client.GetAsync(url);
+
+            httpRensponse.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        }
+
+        #endregion
+
+        //#region Post method
+
+        //[Test]
+        //public async Task Post_CheckRensponseStatusCodeWhenModelIsValid_ReturnStatus200()
+        //{
+        //    var url = "/api/Event";
+        //    HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(goodEvent), Encoding.UTF8, "application/json");
+
+        //    var httpRensponse = await client.PostAsync(url, httpContent);
+
+        //    httpRensponse.EnsureSuccessStatusCode();
+
+        //    httpRensponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        //}
+
+        //[Test]
+        //public async Task Post_CheckRensponseStatusCodeWhenNameIsNotSet_ReturnStatus400()
+        //{
+        //    var url = "/api/Event";
+        //    HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(new Event()), Encoding.UTF8, "application/json");
+
+        //    var httpRensponse = await client.PostAsync(url, httpContent);
+
+        //    httpRensponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        //}
+
+        //[TestCase("sadnvfinoisdqwdnwoqkncionocesjoisadoisamkdnowqidnewonckoicoiocnewoinvksmocpjeionfcodsmopmowen")]
+        //public async Task Post_CheckRensponseStatusCodeWhenNameIsLongerThan50_ReturnStatus400(string name)
+        //{
+        //    var url = "/api/Event";
+        //    goodEvent.Name = name;
+        //    HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(goodEvent), Encoding.UTF8, "application/json");
+
+        //    var httpRensponse = await client.PostAsync(url, httpContent);
+
+        //    httpRensponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        //}
+
+        //#endregion
+
+        //#region Put method
+
+        //[Theory]
+        //public async Task Put_CheckRensponseStatusCodeWhenModelIsValid_ReturnStatus200()
+        //{
+        //    var url = baseURL + "/GetAll";
+        //    var httpRensponseAll = await client.GetAsync(url);
+        //    var content = JsonConvert.DeserializeObject<List<Event>>(await httpRensponseAll.Content.ReadAsStringAsync());
+        //    var oneEvent = content.FirstOrDefault();
+        //    httpRensponseAll.EnsureSuccessStatusCode();
+
+        //    Assume.That(oneEvent != null);
+        //    url = baseURL + "/" + oneEvent.Id;
+        //    goodEvent.Description = "new description for event";
+        //    goodEvent.IsCanceled = true;
+        //    HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(goodEvent), Encoding.UTF8, "application/json");
+        //    var httpRensponse = await client.PutAsync(url, httpContent);
+        //    httpRensponse.EnsureSuccessStatusCode();
+
+        //    httpRensponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        //}
+
+        //[Theory]
+        //public async Task Put_CheckRensponseContentWhenModelIsValid_ReturnNameIsCorrectChanged()
+        //{
+        //    goodEvent.Name = "new party";
+        //    var url = baseURL + "/GetAll";
+        //    var httpRensponseAll = await client.GetAsync(url);
+        //    var content = JsonConvert.DeserializeObject<List<Event>>(await httpRensponseAll.Content.ReadAsStringAsync());
+        //    var oneEvent = content.FirstOrDefault();
+        //    httpRensponseAll.EnsureSuccessStatusCode();
+
+        //    Assume.That(oneEvent != null);
+        //    url = baseURL + "/" + oneEvent.Id;
+        //    HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(goodEvent), Encoding.UTF8, "application/json");
+        //    var httpRensponse = await client.PutAsync(url, httpContent);
+        //    httpRensponse.EnsureSuccessStatusCode();
+
+        //    var result = JsonConvert.DeserializeObject<Event>(await httpRensponse.Content.ReadAsStringAsync());
+        //    Assert.AreEqual(goodEvent.Name, result.Name);
+        //}
+
+        //[TestCase("5e9d7e2e1c9d44000007a088s")]
+        //[TestCase("5e9d7e2e1c9d44000007a")]
+        //[TestCase("5e9d7e2e1c9d44000007@088")]
+        //public async Task Put_CheckRensponseStatusCodeWhenIdIsNotValid_ReturnStatus500(string id)
+        //{
+        //    var url = baseURL + "/" + id;
+        //    HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(goodEvent), Encoding.UTF8, "application/json");
+        //    var httpRensponse = await client.PutAsync(url, httpContent);
+
+        //    httpRensponse.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        //}
+
+        //#endregion
+
+        //#region Delete method
+
+        //[Theory]
+        //public async Task Delete_CheckRensponseStatusCodeWhenIdIsCorrect_ReturnStatus200()
+        //{
+        //    var url = baseURL + "/GetAll";
+        //    var httpRensponseAll = await client.GetAsync(url);
+        //    var content = JsonConvert.DeserializeObject<List<Event>>(await httpRensponseAll.Content.ReadAsStringAsync());
+        //    var oneEvent = content.FirstOrDefault();
+        //    httpRensponseAll.EnsureSuccessStatusCode();
+
+        //    Assume.That(oneEvent != null);
+        //    url = baseURL + "/" + oneEvent.Id;
+        //    var httpRensponse = await client.DeleteAsync(url);
+
+        //    httpRensponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        //}
+
+        //[Theory]
+        //public async Task Delete_CheckRensponseStatusCodeWhenIdIsCorrect_ReturnTrue()
+        //{
+        //    var url = baseURL + "/GetAll";
+        //    var httpRensponseAll = await client.GetAsync(url);
+        //    var contentFromGet = JsonConvert.DeserializeObject<List<Event>>(await httpRensponseAll.Content.ReadAsStringAsync());
+        //    var oneEvent = contentFromGet.FirstOrDefault();
+        //    httpRensponseAll.EnsureSuccessStatusCode();
+
+        //    Assume.That(oneEvent != null);
+        //    url = baseURL + "/" + oneEvent.Id;
+        //    var httpRensponse = await client.DeleteAsync(url);
+        //    var contentFromDelete = JsonConvert.DeserializeObject<bool>(await httpRensponse.Content.ReadAsStringAsync());
+        //    contentFromDelete.Should().BeTrue();
+        //}
+
+        //[TestCase("5e9d7e2e1c9d44000007a088s")]
+        //[TestCase("5e9d7e2e1c9d44000007a")]
+        //[TestCase("5e9d7e2e1c9d44000007@088")]
+        //public async Task Delete_ChcekRensponseStatusCode_ReturnFalse(string id)
+        //{
+        //    var url = baseURL + "/" + id;
+        //    var httpRensponse = await client.DeleteAsync(url);
+        //    var content = JsonConvert.DeserializeObject<bool>(await httpRensponse.Content.ReadAsStringAsync());
+        //    content.Should().BeFalse();
+        //}
+
+        //#endregion
     }
 }

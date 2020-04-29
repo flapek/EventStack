@@ -22,11 +22,6 @@ namespace EventStack_API.Controllers
         public Organization Get(string id)
             => repository.Find(id);
 
-        // GET: api/Organization
-        [HttpGet]
-        public Organization Get(Organization organization)
-            => repository.Find(organization);
-
         // POST: api/Organization
         [HttpPost]
         public bool Post(Organization organizaction)
