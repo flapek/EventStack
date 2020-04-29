@@ -5,6 +5,7 @@ using EventStack_API.Interfaces;
 
 namespace EventStack_API.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")]
     [ApiController]
     public class OrganizationController : ControllerBase
