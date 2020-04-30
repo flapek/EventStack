@@ -22,7 +22,7 @@ namespace EventStack_API.Workers
             Collection = Context.GetCollection<Organization>(typeof(Organization).Name);
         }
 
-        public OrganizationWithoutImportantData Find(Filter filter)
+        public Organization Find(Filter filter)
             => Collection.Find(x => x.Name == filter.Name && x.Email == filter.Email).FirstOrDefault();
 
         public new async Task<bool> Insert(Organization insert)
@@ -45,7 +45,7 @@ namespace EventStack_API.Workers
                         await s.AbortTransactionAsync();
                         return false;
                     }
-                    
+
                 }
                 catch (Exception)
                 {

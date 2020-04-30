@@ -7,6 +7,9 @@ using Newtonsoft.Json;
 using EventStack_API.Models;
 using System.Net;
 using System.Text;
+using EventStack_API.Workers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EventStack_API.IntegrationTest
 {
@@ -40,42 +43,30 @@ namespace EventStack_API.IntegrationTest
             };
         }
 
-        //#region Get method
+        #region Get method
 
-        //[Theory]
-        //public async Task Get_ByFilter_ChcekRensponseStatusCode_ReturnStatus200()
-        //{
-        //    Organization_MongoRepository.Filter filter = new Organization_MongoRepository.Filter
-        //    {
-        //        Email = "example@example.com",
-        //        Name = "company"
-        //    };
-        //    var httpRensponse = await httpClient.GetAsync(baseURL);
-        //    var content = JsonConvert.DeserializeObject<List<Organization>>(await httpRensponse.Content.ReadAsStringAsync());
-        //    var oneOrganization = content.FirstOrDefault();
-        //    httpRensponse.EnsureSuccessStatusCode();
+        [Theory]
+        public async Task Get_ByFilter_ChcekRensponseStatusCode_ReturnStatus200()
+        {
+            Organization_MongoRepository.Filter filter = new Organization_MongoRepository.Filter
+            {
+                Email = "example@example.com",
+                Name = "company"
+            };
 
-        //    Assume.That(oneOrganization != null);
+            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(filter), Encoding.UTF8, "application/json");
 
-        //    httpRensponse.StatusCode.Should().Be(HttpStatusCode.OK);
-        //}
+            var httpRensponse = await httpClient.GetAsync(baseURL);
+            var content = JsonConvert.DeserializeObject<List<Organization>>(await httpRensponse.Content.ReadAsStringAsync());
+            var oneOrganization = content.FirstOrDefault();
+            httpRensponse.EnsureSuccessStatusCode();
 
-        //[TestCase("5e9d7e2e1c9d44000007a088s")]
-        //[TestCase("5e9d7e2e1c9d44000007a")]
-        //[TestCase("5e9d7e2e1c9d44000007@088")]
-        //public async Task Get_ById_ChcekRensponseStatusCode_ReturnStatus500()
-        //{
-        //    Organization_MongoRepository.Filter filter = new Organization_MongoRepository.Filter
-        //    {
-        //        Email = "example@example.com",
-        //        Name = "company"
-        //    };
-        //    var httpRensponse = await httpClient.GetAsync(baseURL);
+            Assume.That(oneOrganization != null);
 
-        //    httpRensponse.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
-        //}
+            httpRensponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
 
-        //#endregion
+        #endregion
 
         #region Post method
 
