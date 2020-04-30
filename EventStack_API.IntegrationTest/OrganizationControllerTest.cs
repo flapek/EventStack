@@ -294,51 +294,78 @@ namespace EventStack_API.IntegrationTest
 
         #endregion
 
-        //#region Delete method
+        #region Delete method
 
-        //[Theory]
-        //public async Task Delete_CheckRensponseStatusCodeWhenIdIsCorrect_ReturnStatus200()
-        //{
-        //    var url = baseURL + "/GetAll";
-        //    var httpResponseAll = await client.GetAsync(url);
-        //    var content = JsonConvert.DeserializeObject<List<Organization>>(await httpResponseAll.Content.ReadAsStringAsync());
-        //    var oneOrganization = content.FirstOrDefault();
-        //    httpResponseAll.EnsureSuccessStatusCode();
+        [Theory]
+        public async Task Delete_CheckRensponseStatusCodeWhenIdIsCorrect_ReturnStatus200()
+        {
+            Organization_MongoRepository.Filter filter = new Organization_MongoRepository.Filter
+            {
+                Email = "exampleX@exampleX.com",
+                Name = "CompanyXXX"
+            };
 
-        //    Assume.That(oneOrganization != null);
-        //    url = baseURL + "/" + oneOrganization.Id;
-        //    var httpResponse = await client.DeleteAsync(url);
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri("https://localhost:44382/api/Organization"),
+                Content = new StringContent(JsonConvert.SerializeObject(filter), Encoding.UTF8, "application/json"),
+            };
 
-        //    httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
-        //}
+            var response = await httpClient.SendAsync(request).ConfigureAwait(false);
+            var content = JsonConvert.DeserializeObject<Organization>(await response.Content.ReadAsStringAsync());
 
-        //[Theory]
-        //public async Task Delete_CheckRensponseStatusCodeWhenIdIsCorrect_ReturnTrue()
-        //{
-        //    var url = baseURL + "/GetAll";
-        //    var httpResponseAll = await client.GetAsync(url);
-        //    var contentFromGet = JsonConvert.DeserializeObject<List<Organization>>(await httpResponseAll.Content.ReadAsStringAsync());
-        //    var oneOrganization = contentFromGet.FirstOrDefault();
-        //    httpResponseAll.EnsureSuccessStatusCode();
+            Assume.That(null != content);
 
-        //    Assume.That(oneOrganization != null);
-        //    url = baseURL + "/" + oneOrganization.Id;
-        //    var httpResponse = await client.DeleteAsync(url);
-        //    var contentFromDelete = JsonConvert.DeserializeObject<bool>(await httpResponse.Content.ReadAsStringAsync());
-        //    contentFromDelete.Should().BeTrue();
-        //}
+            content.Description = "new description";
+            content.Password = "P@$$w0rd";
+            response = await httpClient.DeleteAsync(baseURL + content.Id);
 
-        //[TestCase("5e9d7e2e1c9d44000007a088s")]
-        //[TestCase("5e9d7e2e1c9d44000007a")]
-        //[TestCase("5e9d7e2e1c9d44000007@088")]
-        //public async Task Delete_ChcekRensponseStatusCode_ReturnFalse(string id)
-        //{
-        //    var url = baseURL + "/" + id;
-        //    var httpResponse = await client.DeleteAsync(url);
-        //    var content = JsonConvert.DeserializeObject<bool>(await httpResponse.Content.ReadAsStringAsync());
-        //    content.Should().BeFalse();
-        //}
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
 
-        //#endregion
+        [Theory]
+        public async Task Delete_CheckRensponseStatusCodeWhenIdIsCorrect_ReturnTrue()
+        {
+            Organization_MongoRepository.Filter filter = new Organization_MongoRepository.Filter
+            {
+                Email = "exampleX@exampleX.com",
+                Name = "CompanyXXX"
+            };
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri("https://localhost:44382/api/Organization"),
+                Content = new StringContent(JsonConvert.SerializeObject(filter), Encoding.UTF8, "application/json"),
+            };
+
+            var response = await httpClient.SendAsync(request).ConfigureAwait(false);
+            var content = JsonConvert.DeserializeObject<Organization>(await response.Content.ReadAsStringAsync());
+
+            Assume.That(null != content);
+
+            content.Description = "new description";
+            content.Password = "P@$$w0rd";
+            response = await httpClient.DeleteAsync(baseURL + content.Id);
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var contentFromDelete = JsonConvert.DeserializeObject<bool>(await response.Content.ReadAsStringAsync());
+            contentFromDelete.Should().BeTrue();
+        }
+
+        [TestCase("5e9d7e2e1c9d44000007a088s")]
+        [TestCase("5e9d7e2e1c9d44000007a")]
+        [TestCase("5e9d7e2e1c9d44000007@088")]
+        public async Task Delete_ChcekRensponseStatusCodeWhenIdIsInvalid_ReturnFalse(string id)
+        {
+            var url = baseURL + id;
+            var httpResponse = await httpClient.DeleteAsync(url);
+            var content = JsonConvert.DeserializeObject<bool>(await httpResponse.Content.ReadAsStringAsync());
+            content.Should().BeFalse();
+        }
+
+        #endregion
     }
 }
