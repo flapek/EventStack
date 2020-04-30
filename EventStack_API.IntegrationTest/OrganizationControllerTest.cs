@@ -46,7 +46,7 @@ namespace EventStack_API.IntegrationTest
 
         #region Get method
 
-        [Test]
+        [Theory]
         public async Task Get_ByFilter_ChcekRensponseStatusCodeWhenModelIsValidAndDataExistInDatabase_ReturnStatus200()
         {
             Organization_MongoRepository.Filter filter = new Organization_MongoRepository.Filter
@@ -63,8 +63,9 @@ namespace EventStack_API.IntegrationTest
             };
 
             var response = await httpClient.SendAsync(request).ConfigureAwait(false);
-            response.EnsureSuccessStatusCode();
             var content = JsonConvert.DeserializeObject<Organization>(await response.Content.ReadAsStringAsync());
+
+            Assume.That(null != content);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
@@ -206,61 +207,95 @@ namespace EventStack_API.IntegrationTest
 
         #endregion
 
-        //#region Put method
+        #region Put method
 
-        //[Theory]
-        //public async Task Put_CheckRensponseStatusCodeWhenModelIsValid_ReturnStatus200()
-        //{
-        //    var url = baseURL + "/GetAll";
-        //    var httpResponseAll = await client.GetAsync(url);
-        //    var content = JsonConvert.DeserializeObject<List<Organization>>(await httpResponseAll.Content.ReadAsStringAsync());
-        //    var oneOrganization = content.FirstOrDefault();
-        //    httpResponseAll.EnsureSuccessStatusCode();
+        [Theory]
+        public async Task Put_CheckRensponseStatusCodeWhenModelIsValid_ReturnStatus200()
+        {
+            Organization_MongoRepository.Filter filter = new Organization_MongoRepository.Filter
+            {
+                Email = "example@example.com",
+                Name = "CompanyXXX"
+            };
 
-        //    Assume.That(oneOrganization != null);
-        //    url = baseURL + "/" + oneOrganization.Id;
-        //    goodOrganization.Description = "new description for event";
-        //    goodOrganization.IsCanceled = true;
-        //    HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(goodOrganization), Encoding.UTF8, "application/json");
-        //    var httpResponse = await client.PutAsync(url, httpContent);
-        //    httpResponse.EnsureSuccessStatusCode();
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri("https://localhost:44382/api/Organization"),
+                Content = new StringContent(JsonConvert.SerializeObject(filter), Encoding.UTF8, "application/json"),
+            };
 
-        //    httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
-        //}
+            var response = await httpClient.SendAsync(request).ConfigureAwait(false);
+            var content = JsonConvert.DeserializeObject<Organization>(await response.Content.ReadAsStringAsync());
 
-        //[Theory]
-        //public async Task Put_CheckRensponseContentWhenModelIsValid_ReturnNameIsCorrectChanged()
-        //{
-        //    goodOrganization.Name = "new party";
-        //    var url = baseURL + "/GetAll";
-        //    var httpResponseAll = await client.GetAsync(url);
-        //    var content = JsonConvert.DeserializeObject<List<Organization>>(await httpResponseAll.Content.ReadAsStringAsync());
-        //    var oneOrganization = content.FirstOrDefault();
-        //    httpResponseAll.EnsureSuccessStatusCode();
+            Assume.That(null != content);
 
-        //    Assume.That(oneOrganization != null);
-        //    url = baseURL + "/" + oneOrganization.Id;
-        //    HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(goodOrganization), Encoding.UTF8, "application/json");
-        //    var httpResponse = await client.PutAsync(url, httpContent);
-        //    httpResponse.EnsureSuccessStatusCode();
+            content.Description = "new description";
+            content.Password = "P@$$w0rd";
+            response = await httpClient.PutAsync(baseURL + content.Id, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
 
-        //    var result = JsonConvert.DeserializeObject<Organization>(await httpResponse.Content.ReadAsStringAsync());
-        //    Assert.AreEqual(goodOrganization.Name, result.Name);
-        //}
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
 
-        //[TestCase("5e9d7e2e1c9d44000007a088s")]
-        //[TestCase("5e9d7e2e1c9d44000007a")]
-        //[TestCase("5e9d7e2e1c9d44000007@088")]
-        //public async Task Put_CheckRensponseStatusCodeWhenIdIsNotValid_ReturnStatus500(string id)
-        //{
-        //    var url = baseURL + "/" + id;
-        //    HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(goodOrganization), Encoding.UTF8, "application/json");
-        //    var httpResponse = await client.PutAsync(url, httpContent);
+        [Theory]
+        public async Task Put_CheckRensponseContentWhenModelIsValid_ReturnNameIsCorrectChanged()
+        {
+            var expectedName = "CompanyYYY";
+            Organization_MongoRepository.Filter filter = new Organization_MongoRepository.Filter
+            {
+                Email = "example@example.com",
+                Name = "CompanyXXX"
+            };
 
-        //    httpResponse.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
-        //}
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri("https://localhost:44382/api/Organization"),
+                Content = new StringContent(JsonConvert.SerializeObject(filter), Encoding.UTF8, "application/json"),
+            };
 
-        //#endregion
+            var response = await httpClient.SendAsync(request).ConfigureAwait(false);
+            var content = JsonConvert.DeserializeObject<Organization>(await response.Content.ReadAsStringAsync());
+
+            Assume.That(null != content);
+
+            content.Name = expectedName;
+            content.Password = "P@$$w0rd";
+            response = await httpClient.PutAsync(baseURL + content.Id, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
+            content = JsonConvert.DeserializeObject<Organization>(await response.Content.ReadAsStringAsync());
+
+            content.Name.Should().Be(expectedName);
+        }
+
+        [TestCase("5e9d7e2e1c9d44000007a088s")]
+        [TestCase("5e9d7e2e1c9d44000007a")]
+        [TestCase("5e9d7e2e1c9d44000007@088")]
+        public async Task Put_CheckRensponseStatusCodeWhenIdIsNotValid_ReturnStatus500(string id)
+        {
+            Organization_MongoRepository.Filter filter = new Organization_MongoRepository.Filter
+            {
+                Email = "example@example.com",
+                Name = "CompanyXXX"
+            };
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri("https://localhost:44382/api/Organization"),
+                Content = new StringContent(JsonConvert.SerializeObject(filter), Encoding.UTF8, "application/json"),
+            };
+
+            var response = await httpClient.SendAsync(request).ConfigureAwait(false);
+            var content = JsonConvert.DeserializeObject<Organization>(await response.Content.ReadAsStringAsync());
+
+            Assume.That(null != content);
+
+            response = await httpClient.PutAsync(baseURL + id, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        #endregion
 
         //#region Delete method
 

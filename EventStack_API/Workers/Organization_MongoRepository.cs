@@ -34,7 +34,9 @@ namespace EventStack_API.Workers
         {
             var result = await Collection.FindAsync(x => x.Name == filter.Name && x.Email == filter.Email).Result.FirstOrDefaultAsync();
             //TODO password code
-            result.Password = "new password";
+            if (result != null)
+                result.Password = "newP@ssw0rd";
+
             return result;
         }
 
