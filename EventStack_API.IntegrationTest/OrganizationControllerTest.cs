@@ -10,6 +10,7 @@ using System.Text;
 using EventStack_API.Workers;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace EventStack_API.IntegrationTest
 {
@@ -51,19 +52,23 @@ namespace EventStack_API.IntegrationTest
             Organization_MongoRepository.Filter filter = new Organization_MongoRepository.Filter
             {
                 Email = "example@example.com",
-                Name = "company"
+                Name = "CompanyXXX"
             };
 
-            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(filter), Encoding.UTF8, "application/json");
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri("https://localhost:44382/api/Organization"),
+                Content = new StringContent(JsonConvert.SerializeObject(filter), Encoding.UTF8, "application/json"),
+            };
 
-            var httpRensponse = await httpClient.GetAsync(baseURL);
-            var content = JsonConvert.DeserializeObject<List<Organization>>(await httpRensponse.Content.ReadAsStringAsync());
-            var oneOrganization = content.FirstOrDefault();
-            httpRensponse.EnsureSuccessStatusCode();
+            var response = await httpClient.SendAsync(request).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            var content = JsonConvert.DeserializeObject<Organization>(await response.Content.ReadAsStringAsync());
 
-            Assume.That(oneOrganization != null);
+            Assume.That(content != null);
 
-            httpRensponse.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         #endregion

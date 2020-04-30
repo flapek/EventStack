@@ -23,7 +23,12 @@ namespace EventStack_API.Workers
         }
 
         public Organization Find(Filter filter)
-            => Collection.Find(x => x.Name == filter.Name && x.Email == filter.Email).FirstOrDefault();
+        {
+            var result = Collection.Find(x => x.Name == filter.Name && x.Email == filter.Email).FirstOrDefault();
+            //TODO password code
+            result.Password = "new password";
+            return result;
+        }
 
         public new async Task<bool> Insert(Organization insert)
         {
