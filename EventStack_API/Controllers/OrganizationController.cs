@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using EventStack_API.Models;
 using EventStack_API.Interfaces;
 using EventStack_API.Workers;

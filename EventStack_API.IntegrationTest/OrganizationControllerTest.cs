@@ -8,8 +8,6 @@ using EventStack_API.Models;
 using System.Net;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System;
 using EventStack_API.Workers;
 
 namespace EventStack_API.IntegrationTest
@@ -50,8 +48,11 @@ namespace EventStack_API.IntegrationTest
         public async Task Get_ByFilter_ChcekRensponseStatusCode_ReturnStatus200()
         {
             var httpRensponse = await client.GetAsync(baseURL);
-
+            var content = JsonConvert.DeserializeObject<List<Event>>(await httpRensponse.Content.ReadAsStringAsync());
+            var oneEvent = content.FirstOrDefault();
             httpRensponse.EnsureSuccessStatusCode();
+
+            Assume.That(oneEvent != null);
 
             httpRensponse.StatusCode.Should().Be(HttpStatusCode.OK);
         }

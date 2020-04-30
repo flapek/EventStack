@@ -3,11 +3,8 @@ using EventStack_API.Interfaces;
 using EventStack_API.Models;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace EventStack_API.Workers
 {

@@ -28,12 +28,6 @@ namespace EventStack_API.Controllers
         public async Task<Event> Get(string id)
             => await repository.FindAsync(id);
 
-        //TODO zastanowić się czy potrzebne
-        //// GET: api/Event
-        //[HttpGet]
-        //public Event Get(Event organization)
-        //    => repository.Find(organization);
-
         // GET: api/Event/GetByFilter
         [HttpGet("GetByFilter")]
         public async Task<IEnumerable<Event>> Get(Event_MongoRepository.Filter filter)
@@ -43,12 +37,6 @@ namespace EventStack_API.Controllers
         [HttpPost]
         public bool Post(Event organizaction)
             => ModelState.IsValid ? repository.Insert(organizaction) : false;
-
-        //TODO zastanowić się czy potrzebne
-        //// POST: api/Event
-        //[HttpPost]
-        //public bool Post(IEnumerable<Event> organizactions)
-        //    => ModelState.IsValid ? repository.Insert(organizactions) : false;
 
         // PUT: api/Event
         [HttpPut("{id}")]
