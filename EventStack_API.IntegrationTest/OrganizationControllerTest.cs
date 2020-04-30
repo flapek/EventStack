@@ -51,7 +51,7 @@ namespace EventStack_API.IntegrationTest
         {
             Organization_MongoRepository.Filter filter = new Organization_MongoRepository.Filter
             {
-                Email = "example@example.com",
+                Email = "exampleX@exampleX.com",
                 Name = "CompanyXXX"
             };
 
@@ -122,9 +122,16 @@ namespace EventStack_API.IntegrationTest
 
         #region Post method
 
-        [Test]
-        public async Task Post_CheckRensponseStatusCodeWhenModelIsValid_ReturnStatus200()
+        [TestCase("CompanyAAA", "exampleA@exampleA.com")]
+        [TestCase("CompanyBBB", "exampleB@exampleB.com")]
+        [TestCase("CompanyXXX", "exampleX@exampleX.com")]
+        [TestCase("CompanyYYY", "exampleY@exampleY.com")]
+        [TestCase("CompanyZZZ", "exampleZ@exampleZ.com")]
+        public async Task Post_CheckRensponseStatusCodeWhenModelIsValid_ReturnStatus200(string name, string email)
         {
+            goodOrganization.Name = name;
+            goodOrganization.Email = email;
+
             HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(goodOrganization), Encoding.UTF8, "application/json");
 
             var httpResponse = await httpClient.PostAsync(baseURL, httpContent);
@@ -214,7 +221,7 @@ namespace EventStack_API.IntegrationTest
         {
             Organization_MongoRepository.Filter filter = new Organization_MongoRepository.Filter
             {
-                Email = "example@example.com",
+                Email = "exampleX@exampleX.com",
                 Name = "CompanyXXX"
             };
 
@@ -238,13 +245,14 @@ namespace EventStack_API.IntegrationTest
         }
 
         [Theory]
-        public async Task Put_CheckRensponseContentWhenModelIsValid_ReturnNameIsCorrectChanged()
+        [TestCase("CompanyXYZ", "exampleXYZ@exampleXYZ.com", "CompanyXXX", "exampleX@exampleX.com")]
+        [TestCase("CompanyXXX", "exampleX@exampleX.com", "CompanyXYZ", "exampleXYZ@exampleXYZ.com")]
+        public async Task Put_CheckRensponseContentWhenModelIsValid_ReturnNameIsCorrectChanged(string expectedName, string expectedEmail, string name, string email)
         {
-            var expectedName = "CompanyYYY";
             Organization_MongoRepository.Filter filter = new Organization_MongoRepository.Filter
             {
-                Email = "example@example.com",
-                Name = "CompanyXXX"
+                Email = email,
+                Name = name
             };
 
             var request = new HttpRequestMessage
@@ -260,6 +268,7 @@ namespace EventStack_API.IntegrationTest
             Assume.That(null != content);
 
             content.Name = expectedName;
+            content.Email = expectedEmail;
             content.Password = "P@$$w0rd";
             response = await httpClient.PutAsync(baseURL + content.Id, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
             content = JsonConvert.DeserializeObject<Organization>(await response.Content.ReadAsStringAsync());
@@ -274,23 +283,11 @@ namespace EventStack_API.IntegrationTest
         {
             Organization_MongoRepository.Filter filter = new Organization_MongoRepository.Filter
             {
-                Email = "example@example.com",
+                Email = "exampleX@exampleX.com",
                 Name = "CompanyXXX"
             };
 
-            var request = new HttpRequestMessage
-            {
-                Method = HttpMethod.Get,
-                RequestUri = new Uri("https://localhost:44382/api/Organization"),
-                Content = new StringContent(JsonConvert.SerializeObject(filter), Encoding.UTF8, "application/json"),
-            };
-
-            var response = await httpClient.SendAsync(request).ConfigureAwait(false);
-            var content = JsonConvert.DeserializeObject<Organization>(await response.Content.ReadAsStringAsync());
-
-            Assume.That(null != content);
-
-            response = await httpClient.PutAsync(baseURL + id, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
+            var response = await httpClient.PutAsync(baseURL + id, new StringContent(JsonConvert.SerializeObject(new Organization()), Encoding.UTF8, "application/json"));
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
