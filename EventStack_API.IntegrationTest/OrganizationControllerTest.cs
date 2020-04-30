@@ -46,8 +46,8 @@ namespace EventStack_API.IntegrationTest
 
         #region Get method
 
-        [Theory]
-        public async Task Get_ByFilter_ChcekRensponseStatusCode_ReturnStatus200()
+        [Test]
+        public async Task Get_ByFilter_ChcekRensponseStatusCodeWhenModelIsValidAndDataExistInDatabase_ReturnStatus200()
         {
             Organization_MongoRepository.Filter filter = new Organization_MongoRepository.Filter
             {
@@ -66,16 +66,62 @@ namespace EventStack_API.IntegrationTest
             response.EnsureSuccessStatusCode();
             var content = JsonConvert.DeserializeObject<Organization>(await response.Content.ReadAsStringAsync());
 
-            Assume.That(content != null);
-
             response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [TestCase("@com")]
+        [TestCase("tata1@.pl")]
+        [TestCase("arkadiusz@-domena.pl")]
+        [TestCase("lepkamariusz@_onet.pl")]
+        [TestCase("malgosiawróblewska@kórnik.com")]
+        [TestCase("tomasz_jajczyk.onet.pl")]
+        [TestCase("mariusz@wp,pl")]
+        public async Task Get_ByFilter_ChcekRensponseStatusCodeWhenEmailIsInvalid_ReturnStatus400(string email)
+        {
+            Organization_MongoRepository.Filter filter = new Organization_MongoRepository.Filter
+            {
+                Email = email,
+                Name = "CompanyXXX"
+            };
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri("https://localhost:44382/api/Organization"),
+                Content = new StringContent(JsonConvert.SerializeObject(filter), Encoding.UTF8, "application/json"),
+            };
+
+            var response = await httpClient.SendAsync(request).ConfigureAwait(false);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [TestCase("sadnvfinoisdqwdnwoqkncionocesjoisadoisamkdnowqidnewonckoicoiocnewoinvksmocpjeionfcodsmopmowensafmovmownvdnmnjsdnklmdokwqpokdpoeinjnmkmiosdjqwncmakpodwqckonijdsnoiewkmkdsoiv")]
+        public async Task Get_ByFilter_ChcekRensponseStatusCodeWhenNameIsInvalid_ReturnStatus400(string name)
+        {
+            Organization_MongoRepository.Filter filter = new Organization_MongoRepository.Filter
+            {
+                Email = "example@example.com",
+                Name = name
+            };
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri("https://localhost:44382/api/Organization"),
+                Content = new StringContent(JsonConvert.SerializeObject(filter), Encoding.UTF8, "application/json"),
+            };
+
+            var response = await httpClient.SendAsync(request).ConfigureAwait(false);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
         #endregion
 
         #region Post method
 
-        [Theory]
+        [Test]
         public async Task Post_CheckRensponseStatusCodeWhenModelIsValid_ReturnStatus200()
         {
             HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(goodOrganization), Encoding.UTF8, "application/json");

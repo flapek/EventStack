@@ -20,8 +20,8 @@ namespace EventStack_API.Controllers
 
         // GET: api/Organization
         [HttpGet]
-        public Organization Get(Organization_MongoRepository.Filter filter)
-            => repository.Find(filter);
+        public async Task<Organization> Get(Organization_MongoRepository.Filter filter)
+            => ModelState.IsValid ? await repository.FindAsync(filter): null;
 
          // POST: api/Organization
         [HttpPost]

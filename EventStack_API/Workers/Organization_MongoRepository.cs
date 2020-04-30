@@ -30,6 +30,14 @@ namespace EventStack_API.Workers
             return result;
         }
 
+        public async Task<Organization> FindAsync(Filter filter)
+        {
+            var result = await Collection.FindAsync(x => x.Name == filter.Name && x.Email == filter.Email).Result.FirstOrDefaultAsync();
+            //TODO password code
+            result.Password = "new password";
+            return result;
+        }
+
         public new async Task<bool> Insert(Organization insert)
         {
             if (insert == null)
