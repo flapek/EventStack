@@ -151,6 +151,20 @@ namespace EventStack_API.IntegrationTest
             httpRensponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
+        [TestCase("123456789")]
+        [TestCase("123456789o")]
+        [TestCase("12345678901")]
+        [TestCase("123456789@")]
+        public async Task Post_CheckRensponseStatusCodeWhenNIPIsInvalid_ReturnStatus400(string nip)
+        {
+            goodOrganization.NIP = nip;
+            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(goodOrganization), Encoding.UTF8, "application/json");
+
+            var httpRensponse = await httpClient.PostAsync(baseURL, httpContent);
+
+            httpRensponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
         #endregion
 
         //#region Put method
