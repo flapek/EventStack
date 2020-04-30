@@ -6,9 +6,6 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using EventStack_API.Models;
 using System.Net;
-using System.Collections.Generic;
-using System.Linq;
-using EventStack_API.Workers;
 using System.Text;
 
 namespace EventStack_API.IntegrationTest
