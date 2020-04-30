@@ -2,6 +2,7 @@
 using EventStack_API.Models;
 using EventStack_API.Interfaces;
 using EventStack_API.Workers;
+using System.Threading.Tasks;
 
 namespace EventStack_API.Controllers
 {
@@ -24,8 +25,8 @@ namespace EventStack_API.Controllers
 
          // POST: api/Organization
         [HttpPost]
-        public bool Post(Organization organizaction)
-            => ModelState.IsValid ? repository.Insert(organizaction) : false;
+        public async Task<bool> Post(Organization organizaction)
+            => ModelState.IsValid ? await repository.Insert(organizaction) : false;
 
         // PUT: api/Organization
         [HttpPut("{id}")]

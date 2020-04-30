@@ -82,7 +82,7 @@ namespace EventStack_API.IntegrationTest
 
         #region Post method
 
-        [Test]
+        [Theory]
         public async Task Post_CheckRensponseStatusCodeWhenModelIsValid_ReturnStatus200()
         {
             HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(goodOrganization), Encoding.UTF8, "application/json");
@@ -109,6 +109,41 @@ namespace EventStack_API.IntegrationTest
         public async Task Post_CheckRensponseStatusCodeWhenNameIsLongerThan100_ReturnStatus400(string name)
         {
             goodOrganization.Name = name;
+            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(goodOrganization), Encoding.UTF8, "application/json");
+
+            var httpRensponse = await httpClient.PostAsync(baseURL, httpContent);
+
+            httpRensponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [TestCase("Password")]
+        [TestCase("Passwor")]
+        [TestCase("Password123")]
+        [TestCase("Password\"\"123")]
+        public async Task Post_CheckRensponseStatusCodeWhenPasswordIsInvalid_ReturnStatus400(string password)
+        {
+            goodOrganization.Password = password;
+            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(goodOrganization), Encoding.UTF8, "application/json");
+
+            var httpRensponse = await httpClient.PostAsync(baseURL, httpContent);
+
+            httpRensponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [TestCase("@com")]
+        [TestCase("_a@domena.net")]
+        [TestCase("tata1@.pl")]
+        [TestCase("arkadiusz@-domena.pl")]
+        [TestCase("lepkamariusz@_onet.pl")]
+        [TestCase("malgosiawróblewska@kórnik.com")]
+        [TestCase("tomasz_jajczyk.onet.pl")]
+        [TestCase("tomek@interia")]
+        [TestCase("mariusz@wp,pl")]
+        [TestCase("-gosia@domena.net")]
+        [TestCase("kasia1997@pl")]
+        public async Task Post_CheckRensponseStatusCodeWhenEmailIsInvalid_ReturnStatus400(string password)
+        {
+            goodOrganization.Password = password;
             HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(goodOrganization), Encoding.UTF8, "application/json");
 
             var httpRensponse = await httpClient.PostAsync(baseURL, httpContent);

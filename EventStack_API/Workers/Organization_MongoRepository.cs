@@ -3,8 +3,11 @@ using EventStack_API.Interfaces;
 using EventStack_API.Models;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace EventStack_API.Workers
 {
@@ -21,6 +24,41 @@ namespace EventStack_API.Workers
 
         public OrganizationWithoutImportantData Find(Filter filter)
             => Collection.Find(x => x.Name == filter.Name && x.Email == filter.Email).FirstOrDefault();
+
+        public new async Task<bool> Insert(Organization insert)
+        {
+            if (insert == null)
+                throw new ArgumentNullException(nameof(Organization));
+
+            using var session = Context.MongoClient.StartSession();
+            return await session.WithTransactionAsync(async (s, c) =>
+            {
+                try
+                {
+                    if (!await CheckIfTheGivenModelExist(insert))
+                    {
+                        await Collection.InsertOneAsync(s, insert);
+                        return true;
+                    }
+                    else
+                    {
+                        await s.AbortTransactionAsync();
+                        return false;
+                    }
+                    
+                }
+                catch (Exception)
+                {
+                    await s.AbortTransactionAsync();
+                    return false;
+                }
+
+            }, new TransactionOptions(), CancellationToken.None);
+        }
+
+        private async Task<bool> CheckIfTheGivenModelExist(Organization insert)
+            => null == await Collection.FindAsync(x => (x.Name == insert.Name && x.Email == insert.Email) || x.NIP == insert.NIP || x.REGON == insert.REGON)
+            .Result.FirstOrDefaultAsync() ? false : true;
 
         public class Filter
         {
