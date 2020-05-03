@@ -6,7 +6,15 @@ namespace EventStack_API.UnitTest.Model
 {
     public class CategoryTest
     {
+        public Category categoryModel;
         [SetUp]
         public void SetUp() => categoryModel = new Category();
+
+        [Test]
+        public void Category_IsNameHasMaximumOfCharacters_False()
+        {
+            categoryModel.Name = new string('*', 51);
+            Assert.IsFalse((categoryModel as object).isValid("Name", "The maximum number"));
+        }
     }
 }
