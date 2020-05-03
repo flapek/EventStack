@@ -11,6 +11,7 @@ namespace EventStack_API.Models
         public string Country { get; set; }
 
         [BsonElement("City")]
+        [Required(ErrorMessage = "City must be set!")]
         public string City { get; set; }
 
         [BsonElement("Street")]
