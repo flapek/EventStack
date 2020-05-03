@@ -17,7 +17,7 @@ namespace EventStack_API.Models
 
         [BsonElement("Street")]
         [Required(ErrorMessage = "Street must be set!")]
-        [RegularExpression(@"(([a-zA-Z\p{L}])*\s*)*([0-9a-zA-Z./\-])*", ErrorMessage = "Street must contain name and number of street")]
+        [RegularExpression(@"(([a-zA-Z\p{L}])*\s*-*)*([0-9a-zA-Z./\-])*", ErrorMessage = "Street must contain name and number of street")]
         public string Street { get; set; }
 
         [BsonElement("ZipCode")]
