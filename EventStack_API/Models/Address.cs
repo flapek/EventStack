@@ -22,7 +22,7 @@ namespace EventStack_API.Models
 
         [BsonElement("ZipCode")]
         [Required(ErrorMessage = "ZipCode must be set!")]
-        [RegularExpression(@"[0-9]{2}-[0-9]{3}")]
+        [RegularExpression(@"[0-9]{2}-[0-9]{3}", ErrorMessage = "ZipCode must contain eg. 23-345")]
         public string ZipCode { get; set; }
 
         [BsonElement("Location")]
