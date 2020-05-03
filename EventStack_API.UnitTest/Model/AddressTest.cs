@@ -35,9 +35,15 @@ namespace EventStack_API.UnitTest.Model
         }
 
         #endregion
-    
+
         #region ZipCode
 
+        [TestCase("23-342")]
+        public void Address_IsRegexAcceptZipCode_True(string zipCode)
+        {
+            addressModel.ZipCode = zipCode;
+            Assert.IsTrue((addressModel as object).isValid("ZipCode", "ZipCode must contain"));
+        }    
 
         #endregion
     }
