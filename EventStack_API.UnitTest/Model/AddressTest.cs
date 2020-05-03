@@ -11,6 +11,7 @@ namespace EventStack_API.UnitTest.Model
         [SetUp]
         public void SetUp() => addressModel = new Address();
 
+        [TestCase("Piłsudskiego 4/7/8")]
         public void Address_IsRegexAcceptStreet_True(string street)
         {
             addressModel.Street = street;
