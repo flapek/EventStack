@@ -36,26 +36,6 @@ namespace EventStack_API.UnitTest.Model
 
         #endregion
 
-        #region EndTimeTest
-
-        [Test]
-        public void Event_IsEndTimeRequired_False()
-        {
-            Assert.IsFalse((eventModel as object).isValid("EndTime", "Event end date must"));
-        }
-
-        #endregion
-
-        #region IsCanceledTest 
-
-        [Test]
-        public void Event_IsCanceledRequired_False()
-        {
-            Assert.IsFalse((eventModel as object).isValid("IsCanceled", "Flag must be set!"));
-        }
-
-        #endregion
-
         #region NameTest 
 
         [Test]
@@ -90,26 +70,6 @@ namespace EventStack_API.UnitTest.Model
             Assert.IsFalse((eventModel as object).isValid("Place", "Place for event must be set"));
         }
 
-        #endregion
-
-        #region PublishTimeTest
-
-        [Test]
-        public void Event_IsPublishTimeRequired_False()
-        {
-            Assert.IsFalse((eventModel as object).isValid("PublishTime", "Publish date must be set"));
-        }
-
-        #endregion
-
-        #region StartTimeTest
-
-        [Test]
-        public void Event_IsStartTimeRequired_False()
-        {
-            Assert.IsFalse((eventModel as object).isValid("StartTime", "Event start date must be defined!"));
-        }
-        
         #endregion
     }
 }
