@@ -11,7 +11,7 @@ namespace EventStack_API.UnitTest.Model
         [SetUp]
         public void SetUp() => eventModel = new Event();
 
-        #region DescriptionTest
+        #region Description
 
         [Test]
         public void Event_IsDescriptionRequired_False()
@@ -36,7 +36,7 @@ namespace EventStack_API.UnitTest.Model
 
         #endregion
 
-        #region NameTest 
+        #region Name
 
         [Test]
         public void Event_IsNameRequired_False()
@@ -61,7 +61,7 @@ namespace EventStack_API.UnitTest.Model
 
         #endregion
 
-        #region PlaceTest
+        #region Place
 
         [Test]
         public void Event_IsPlaceRequired_False()
