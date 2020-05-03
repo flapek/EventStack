@@ -22,12 +22,16 @@ namespace EventStack_API.UnitTest.Model
 
         #endregion
 
+        #region City
+
         [Test]
         public void Address_IsCityRequired_False()
         {
             addressModel.City = null;
             Assert.IsFalse((addressModel as object).isValid("City", "City must be set!"));
         }
+
+        #endregion
 
         #region Street
 
