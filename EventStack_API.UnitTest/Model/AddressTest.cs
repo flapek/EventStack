@@ -35,5 +35,10 @@ namespace EventStack_API.UnitTest.Model
         }
 
         #endregion
+    
+        #region ZipCode
+
+
+        #endregion
     }
 }
