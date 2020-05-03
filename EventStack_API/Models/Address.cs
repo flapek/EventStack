@@ -19,6 +19,7 @@ namespace EventStack_API.Models
         public string Street { get; set; }
 
         [BsonElement("ZipCode")]
+        [Required(ErrorMessage = "ZipCode must be set!")]
         [RegularExpression(@"[0-9]{2}-[0-9]{3}")]
         public string ZipCode { get; set; }
 
