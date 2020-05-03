@@ -6,5 +6,9 @@ namespace EventStack_API.UnitTest.Model
 {
     public class AddressTest
     {
+        private Address addressModel;
+
+        [SetUp]
+        public void SetUp() => addressModel = new Address();
     }
 }
