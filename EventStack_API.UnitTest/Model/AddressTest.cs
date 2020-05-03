@@ -11,6 +11,13 @@ namespace EventStack_API.UnitTest.Model
         [SetUp]
         public void SetUp() => addressModel = new Address();
 
+        [Test]
+        public void Address_IsCountryRequired_False()
+        {
+            addressModel.Country = null;
+            Assert.IsFalse((addressModel as object).isValid("Country", "Country must be set!"));
+        }
+
         #region Street
 
         [TestCase("Piłsudskiego 4/7/8")]
