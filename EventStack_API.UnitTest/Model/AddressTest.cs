@@ -17,12 +17,17 @@ namespace EventStack_API.UnitTest.Model
         [TestCase("Mazańcowicka")]
         [TestCase("Kolorowa 4b")]
         [TestCase("Przeźroczysta 4/5b")]
+        [TestCase("Jana Pawła 2")]
+        [TestCase("2048")] // Exist street unnamed
         public void Address_IsRegexAcceptStreet_True(string street)
         {
             addressModel.Street = street;
             Assert.IsTrue((addressModel as object).isValid("Street", "Street must contain"));
         }
 
+        [TestCase("9 Janusza")]
+        [TestCase("_Bolesława")]
+        [TestCase("!@#$%^&")]
         public void Address_IsRegexRejectStreet_False(string street)
         {
             addressModel.Street = street;
