@@ -72,11 +72,15 @@ namespace EventStack_API.UnitTest.Model
 
         #endregion
 
+        #region Photo
+
         [Test]
         public void Event_IsPhotoRequired_False()
         {
             eventModel.Photo = null;
             Assert.IsFalse((eventModel as object).isValid("Photo", "Photo must be added for event!"));
         }
+
+        #endregion
     }
 }
