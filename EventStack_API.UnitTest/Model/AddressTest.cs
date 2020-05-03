@@ -23,6 +23,12 @@ namespace EventStack_API.UnitTest.Model
             Assert.IsTrue((addressModel as object).isValid("Street", "Street must contain"));
         }
 
+        public void Address_IsRegexRejectStreet_False(string street)
+        {
+            addressModel.Street = street;
+            Assert.IsFalse((addressModel as object).isValid("Street", "Street must contain"));
+        }
+
         #endregion
     }
 }
