@@ -47,6 +47,7 @@ namespace EventStack_API.UnitTest.Model
         [TestCase("Kolorowa 4b")]
         [TestCase("Przeźroczysta 4/5b")]
         [TestCase("Jana Pawła 2")]
+        [TestCase("Bielsko-Biała")]
         [TestCase("2048")] // Exist street unnamed
         public void Address_IsRegexAcceptStreet_True(string street)
         {
