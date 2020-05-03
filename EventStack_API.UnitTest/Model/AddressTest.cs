@@ -46,6 +46,8 @@ namespace EventStack_API.UnitTest.Model
         }
 
         [TestCase("233-32")]
+        [TestCase("xx-xxx")]
+        [TestCase("__-___")]
         public void Address_IsRegexRejectZipCode_False(string zipCode)
         {
             addressModel.ZipCode = zipCode;
