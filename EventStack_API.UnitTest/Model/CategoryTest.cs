@@ -10,6 +10,8 @@ namespace EventStack_API.UnitTest.Model
         [SetUp]
         public void SetUp() => categoryModel = new Category();
 
+        #region Name
+
         [Test]
         public void Category_IsNameRequired_False()
         {
@@ -23,5 +25,7 @@ namespace EventStack_API.UnitTest.Model
             categoryModel.Name = new string('*', 51);
             Assert.IsFalse((categoryModel as object).isValid("Name", "The maximum number"));
         }
+
+        #endregion
     }
 }
