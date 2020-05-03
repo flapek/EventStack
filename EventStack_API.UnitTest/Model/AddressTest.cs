@@ -67,6 +67,13 @@ namespace EventStack_API.UnitTest.Model
 
         #region ZipCode
 
+        [Test]
+        public void Address_IsZipCodeRequired_False()
+        {
+            addressModel.ZipCode = null;
+            Assert.IsFalse((addressModel as object).isValid("ZipCode", "ZipCode must be set!"));
+        }
+
         [TestCase("23-342")]
         public void Address_IsRegexAcceptZipCode_True(string zipCode)
         {
