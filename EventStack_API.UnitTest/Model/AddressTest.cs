@@ -11,6 +11,8 @@ namespace EventStack_API.UnitTest.Model
         [SetUp]
         public void SetUp() => addressModel = new Address();
 
+        #region Street
+
         [TestCase("Piłsudskiego 4/7/8")]
         [TestCase("Mazańcowicka")]
         [TestCase("Kolorowa 4b")]
@@ -20,5 +22,7 @@ namespace EventStack_API.UnitTest.Model
             addressModel.Street = street;
             Assert.IsTrue((addressModel as object).isValid("Street", "Street must contain"));
         }
+
+        #endregion
     }
 }
