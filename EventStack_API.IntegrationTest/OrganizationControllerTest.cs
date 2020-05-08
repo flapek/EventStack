@@ -11,6 +11,7 @@ using EventStack_API.Workers;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using EventStack_API.Helpers;
 
 namespace EventStack_API.IntegrationTest
 {
@@ -40,7 +41,8 @@ namespace EventStack_API.IntegrationTest
                     ZipCode = "30-200",
                 },
                 Password = "P@$$w0rd",
-                PhoneNumber = "666666666"
+                PhoneNumber = "666666666",
+                Secret = SecretGenerator.Generate()
             };
         }
 

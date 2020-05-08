@@ -24,14 +24,6 @@ namespace EventStack_API.Workers
 
         public new Organization Find(string secret) => Collection.Find(x => x.Secret == secret).FirstOrDefault();
 
-        public async Task<Organization> Find(Filter filter)
-        {
-            var result = await Collection.FindAsync(x => x.Name == filter.Name && x.Email == filter.Email).Result.FirstOrDefaultAsync();
-            //TODO password code
-            result.Password = "new password";
-            return result;
-        }
-
         public async Task<Organization> FindAsync(Filter filter)
         {
             var result = await Collection.FindAsync(x => x.Name == filter.Name && x.Email == filter.Email).Result.FirstOrDefaultAsync();
