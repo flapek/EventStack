@@ -22,9 +22,11 @@ namespace EventStack_API.Workers
             Collection = Context.GetCollection<Organization>(typeof(Organization).Name);
         }
 
-        public Organization Find(Filter filter)
+        public new Organization Find(string secret) => Collection.Find(x => x.Secret == secret).FirstOrDefault();
+
+        public async Task<Organization> Find(Filter filter)
         {
-            var result = Collection.Find(x => x.Name == filter.Name && x.Email == filter.Email).FirstOrDefault();
+            var result = await Collection.FindAsync(x => x.Name == filter.Name && x.Email == filter.Email).Result.FirstOrDefaultAsync();
             //TODO password code
             result.Password = "new password";
             return result;
