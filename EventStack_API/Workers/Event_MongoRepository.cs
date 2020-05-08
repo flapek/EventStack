@@ -3,6 +3,7 @@ using EventStack_API.Interfaces;
 using EventStack_API.Models;
 using MongoDB.Driver;
 using MongoDB.Driver.GeoJsonObjectModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -42,6 +43,21 @@ namespace EventStack_API.Workers
                 .Near(e => e.Place.Location, filter.Coordinates.Latitude, filter.Coordinates.Longitude, maxDistance: filter.MaxDistance);
             var result = await Collection.FindAsync(locationQuery);
             return await result.ToListAsync();
+        }
+
+        internal bool Insert(string secret, Event @event)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal Event Update(string id, string secret, Event @event)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal bool Delete(string id, string secret)
+        {
+            throw new NotImplementedException();
         }
 
         public class Filter

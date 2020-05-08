@@ -39,48 +39,51 @@ namespace EventStack_API.Controllers
         // POST: api/Event/{secret}
         [HttpPost("{secret}")]
         public bool Post([FromRoute]string secret, [FromBody]Event @event)
-        {
-            if (ModelState.IsValid)
-            {
-                var organization = repositoryOrganization.Find(secret);
-                if (@event != null)
-                {
-                    repositoryEvent.Insert(@event);
-                    organization.EventsId.Append(repositoryEvent.Find(@event).Id);
-                    repositoryOrganization.Update(organization.Id, organization);
-                    return true;
-                }
-            }
-            return false;
-        }
+            => ModelState.IsValid ? repositoryEvent.Insert(secret, @event) : false;
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var organization = repositoryOrganization.Find(secret);
+        //        if (@event != null)
+        //        {
+        //            repositoryEvent.Insert(@event);
+        //            organization.EventsId.Append(repositoryEvent.Find(@event).Id);
+        //            repositoryOrganization.Update(organization.Id, organization);
+        //            return true;
+        //        }
+        //    }
+        //    return false;
+        //}
 
         // PUT: api/Event/{id}/{secret}
         [HttpPut("{id}/{secret}")]
         public Event Put([FromRoute]string id, [FromHeader]string secret, [FromBody]Event @event)
-        {
-            if (ModelState.IsValid)
-            {
-                var organization = repositoryOrganization.Find(secret);
-                if (@event != null)
-                {
-                    organization.EventsId.TakeWhile(x => x == @event.Id);
-                    repositoryEvent.Insert(@event);
-                    organization.EventsId.Append(repositoryEvent.Find(@event).Id);
-                    repositoryOrganization.Update(organization.Id, organization);
-                    return repositoryEvent.Update(id, @event);
-                }
-            }
-            return null;
-        }
+            => ModelState.IsValid ? repositoryEvent.Update(id, secret, @event) : null;
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var organization = repositoryOrganization.Find(secret);
+        //        if (@event != null)
+        //        {
+        //            organization.EventsId.TakeWhile(x => x == @event.Id);
+        //            repositoryEvent.Insert(@event);
+        //            organization.EventsId.Append(repositoryEvent.Find(@event).Id);
+        //            repositoryOrganization.Update(organization.Id, organization);
+        //            return repositoryEvent.Update(id, @event);
+        //        }
+        //    }
+        //    return null;
+        //}
 
         // DELETE: api/Event/{id}/{secret}
         [HttpDelete("{id}")]
         public bool Delete([FromRoute]string id, [FromRoute]string secret)
-        {
-            var organization = repositoryOrganization.Find(secret);
-            organization.EventsId.TakeWhile(x => x == id);
-            repositoryOrganization.Update(organization.Id, organization);
-            return repositoryEvent.Delete(id);
-        }
+            => repositoryEvent.Delete(id, secret);
+        //{
+        //    var organization = repositoryOrganization.Find(secret);
+        //    organization.EventsId.TakeWhile(x => x == id);
+        //    repositoryOrganization.Update(organization.Id, organization);
+        //    return repositoryEvent.Delete(id);
+        //}
     }
 }
