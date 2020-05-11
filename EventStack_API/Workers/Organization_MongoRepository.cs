@@ -24,10 +24,10 @@ namespace EventStack_API.Workers
 
         public new Organization Find(string secret) => Collection.Find(x => x.Secret == secret).FirstOrDefault();
 
-        public async Task<Organization> FindAsync(Filter filter) 
+        public async Task<Organization> FindAsync(Filter filter)
             => await Collection.FindAsync(x => x.Name == filter.Name && x.Email == filter.Email).Result.FirstOrDefaultAsync();
 
-        public new async Task<bool> Insert(Organization insert)
+        public new async Task<bool> InsertAsync(Organization insert)
         {
             if (insert == null)
                 throw new ArgumentNullException(nameof(Organization));
@@ -37,9 +37,9 @@ namespace EventStack_API.Workers
             {
                 try
                 {
+                    insert.Secret = await CheckSecret();
                     if (!await CheckIfTheGivenModelExist(insert))
                     {
-                        insert.Secret = SecretGenerator.Generate();
                         await Collection.InsertOneAsync(s, insert);
                         return true;
                     }
@@ -57,6 +57,16 @@ namespace EventStack_API.Workers
                 }
 
             }, new TransactionOptions(), CancellationToken.None);
+        }
+
+        private async Task<string> CheckSecret()
+        {
+            string result;
+            do
+            {
+                result = SecretGenerator.Generate();
+            } while (await Collection.FindAsync(x => x.Secret == result).Result.FirstOrDefaultAsync() != null);
+            return result;
         }
 
         private async Task<bool> CheckIfTheGivenModelExist(Organization insert)

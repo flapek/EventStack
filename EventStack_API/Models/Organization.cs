@@ -58,7 +58,6 @@ namespace EventStack_API.Models
         public string REGON { get; set; }
 
         [BsonElement("Secret")]
-        [Required]
         [RegularExpression(@"[A-z0-9]{32}", ErrorMessage = "The maximum number of characters is 32! Only characters from \'A\' to \'z\' and from \'0\' to \'9\'")]
         public string Secret { get; set; }
     }

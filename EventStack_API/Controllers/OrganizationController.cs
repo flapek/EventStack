@@ -26,7 +26,7 @@ namespace EventStack_API.Controllers
          // POST: api/Organization
         [HttpPost]
         public async Task<bool> Post(Organization organizaction)
-            => ModelState.IsValid ? await repository.Insert(organizaction) : false;
+            => ModelState.IsValid ? await repository.InsertAsync(organizaction) : false;
 
         // PUT: api/Organization
         [HttpPut("{id}")]

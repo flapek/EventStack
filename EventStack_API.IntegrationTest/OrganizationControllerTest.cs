@@ -41,8 +41,7 @@ namespace EventStack_API.IntegrationTest
                     ZipCode = "30-200",
                 },
                 Password = "P@$$w0rd",
-                PhoneNumber = "666666666",
-                Secret = SecretGenerator.Generate()
+                PhoneNumber = "666666666"
             };
         }
 
