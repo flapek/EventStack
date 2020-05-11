@@ -4,6 +4,7 @@ using EventStack_API.Models;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading;
@@ -37,9 +38,10 @@ namespace EventStack_API.Workers
             {
                 try
                 {
-                    insert.Secret = await CheckSecret();
                     if (!await CheckIfTheGivenModelExist(insert))
                     {
+                        insert.Secret = await CheckSecret();
+                        insert.EventsId = new List<string>();
                         await Collection.InsertOneAsync(s, insert);
                         return true;
                     }

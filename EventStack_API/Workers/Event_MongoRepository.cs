@@ -58,11 +58,14 @@ namespace EventStack_API.Workers
             {
                 try
                 {
-                    var organization = await CollectionOrganization.FindAsync(secret).Result.FirstOrDefaultAsync();
+                    var organization = await CollectionOrganization.FindAsync(x => x.Secret == secret).Result.FirstOrDefaultAsync();
                     if (organization != null)
                     {
+                        @event.CategoriesId = new List<string>();
                         await CollectionEvent.InsertOneAsync(s, @event);
-                        organization.EventsId.Append(@event.Id);
+                        var events = organization.EventsId.ToList();
+                        events.Add(@event.Id);
+                        organization.EventsId = events;
                         await CollectionOrganization.ReplaceOneAsync(s, x => x.Id == organization.Id, organization);
                         return true;
                     }
