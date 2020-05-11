@@ -38,52 +38,17 @@ namespace EventStack_API.Controllers
 
         // POST: api/Event/{secret}
         [HttpPost("{secret}")]
-        public bool Post([FromRoute]string secret, [FromBody]Event @event)
-            => ModelState.IsValid ? repositoryEvent.Insert(secret, @event) : false;
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var organization = repositoryOrganization.Find(secret);
-        //        if (@event != null)
-        //        {
-        //            repositoryEvent.Insert(@event);
-        //            organization.EventsId.Append(repositoryEvent.Find(@event).Id);
-        //            repositoryOrganization.Update(organization.Id, organization);
-        //            return true;
-        //        }
-        //    }
-        //    return false;
-        //}
+        public async Task<bool> Post([FromRoute]string secret, [FromBody]Event @event)
+            => ModelState.IsValid ? await repositoryEvent.InsertAsync(secret, @event) : false;
 
         // PUT: api/Event/{id}/{secret}
         [HttpPut("{id}/{secret}")]
-        public Event Put([FromRoute]string id, [FromHeader]string secret, [FromBody]Event @event)
-            => ModelState.IsValid ? repositoryEvent.Update(id, secret, @event) : null;
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var organization = repositoryOrganization.Find(secret);
-        //        if (@event != null)
-        //        {
-        //            organization.EventsId.TakeWhile(x => x == @event.Id);
-        //            repositoryEvent.Insert(@event);
-        //            organization.EventsId.Append(repositoryEvent.Find(@event).Id);
-        //            repositoryOrganization.Update(organization.Id, organization);
-        //            return repositoryEvent.Update(id, @event);
-        //        }
-        //    }
-        //    return null;
-        //}
+        public async Task<Event> Put([FromRoute]string id, [FromHeader]string secret, [FromBody]Event @event)
+            => ModelState.IsValid ? await repositoryEvent.UpdateAsync(id, secret, @event) : null;
 
         // DELETE: api/Event/{id}/{secret}
         [HttpDelete("{id}")]
-        public bool Delete([FromRoute]string id, [FromRoute]string secret)
-            => repositoryEvent.Delete(id, secret);
-        //{
-        //    var organization = repositoryOrganization.Find(secret);
-        //    organization.EventsId.TakeWhile(x => x == id);
-        //    repositoryOrganization.Update(organization.Id, organization);
-        //    return repositoryEvent.Delete(id);
-        //}
+        public async Task<bool> Delete([FromRoute]string id, [FromRoute]string secret)
+            => await repositoryEvent.Delete(id, secret);
     }
 }

@@ -39,6 +39,7 @@ namespace EventStack_API.Workers
                 {
                     if (!await CheckIfTheGivenModelExist(insert))
                     {
+                        insert.Secret = SecretGenerator.Generate();
                         await Collection.InsertOneAsync(s, insert);
                         return true;
                     }
