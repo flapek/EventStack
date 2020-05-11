@@ -13,13 +13,8 @@ namespace EventStack_API.Controllers
     public class EventController : ControllerBase
     {
         private Event_MongoRepository repositoryEvent { get; set; }
-        private Organization_MongoRepository repositoryOrganization { get; set; }
 
-        public EventController(IRepositoryFactory<Event> repositoryEvent, IRepositoryFactory<Organization> repositoryOrganization)
-        {
-            this.repositoryEvent = (Event_MongoRepository)repositoryEvent;
-            this.repositoryOrganization = (Organization_MongoRepository)repositoryOrganization;
-        }
+        public EventController(IRepositoryFactory<Event> repositoryEvent) => this.repositoryEvent = (Event_MongoRepository)repositoryEvent;
 
         // GET: api/Event/GetAll
         [HttpGet("GetAll")]
