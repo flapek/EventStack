@@ -95,9 +95,10 @@ namespace EventStack_API.Workers
             {
                 try
                 {
-                    var organization = await CollectionOrganization.FindAsync(secret).Result.FirstOrDefaultAsync();
+                    var organization = await CollectionOrganization.FindAsync(x => x.Secret == secret).Result.FirstOrDefaultAsync();
                     if (organization != null)
                     {
+                        @event.Id = id;
                         await CollectionEvent.ReplaceOneAsync(s, x => x.Id == id, @event);
                         return @event;
                     }
@@ -124,13 +125,22 @@ namespace EventStack_API.Workers
             {
                 try
                 {
-                    var organization = await CollectionOrganization.FindAsync(secret).Result.FirstOrDefaultAsync();
+                    var organization = await CollectionOrganization.FindAsync(x=>x.Secret == secret).Result.FirstOrDefaultAsync();
                     if (organization != null)
                     {
-                        organization.EventsId.TakeWhile(x => x == id);
-                        await CollectionEvent.DeleteOneAsync(x => x.Id == id);
-                        await CollectionOrganization.ReplaceOneAsync(s, x => x.Id == organization.Id, organization);
-                        return true;
+                        var events = organization.EventsId.ToList();
+                        if (events.Remove(id))
+                        {
+                            await CollectionEvent.DeleteOneAsync(x => x.Id == id);
+                            organization.EventsId = events;
+                            await CollectionOrganization.ReplaceOneAsync(s, x => x.Id == organization.Id, organization);
+                            return true;
+                        }
+                        else
+                        {
+                            await s.AbortTransactionAsync();
+                            return false;
+                        }
                     }
                     else
                     {

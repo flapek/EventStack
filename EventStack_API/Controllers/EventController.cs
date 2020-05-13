@@ -23,12 +23,12 @@ namespace EventStack_API.Controllers
 
         // GET: api/Event/GetById/id
         [HttpGet("GetById/{id}")]
-        public async Task<Event> Get(string id)
+        public async Task<Event> Get([FromRoute]string id)
             => await repositoryEvent.FindAsync(id);
 
         // GET: api/Event/GetByFilter
         [HttpGet("GetByFilter")]
-        public async Task<IEnumerable<Event>> Get(Event_MongoRepository.Filter filter)
+        public async Task<IEnumerable<Event>> Get([FromBody]Event_MongoRepository.Filter filter)
             => await repositoryEvent.FindAsync(filter);
 
         // POST: api/Event/{secret}
@@ -38,11 +38,11 @@ namespace EventStack_API.Controllers
 
         // PUT: api/Event/{id}/{secret}
         [HttpPut("{id}/{secret}")]
-        public async Task<Event> Put([FromRoute]string id, [FromHeader]string secret, [FromBody]Event @event)
+        public async Task<Event> Put([FromRoute]string id, [FromRoute]string secret, [FromBody]Event @event)
             => ModelState.IsValid ? await repositoryEvent.UpdateAsync(id, secret, @event) : null;
 
         // DELETE: api/Event/{id}/{secret}
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}/{secret}")]
         public async Task<bool> Delete([FromRoute]string id, [FromRoute]string secret)
             => await repositoryEvent.Delete(id, secret);
     }
