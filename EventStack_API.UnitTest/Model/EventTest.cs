@@ -11,7 +11,7 @@ namespace EventStack_API.UnitTest.Model
         [SetUp]
         public void SetUp() => eventModel = new Event();
 
-        #region DescriptionTest
+        #region Description
 
         [Test]
         public void Event_IsDescriptionRequired_False()
@@ -36,27 +36,7 @@ namespace EventStack_API.UnitTest.Model
 
         #endregion
 
-        #region EndTimeTest
-
-        [Test]
-        public void Event_IsEndTimeRequired_False()
-        {
-            Assert.IsFalse((eventModel as object).isValid("EndTime", "Event end date must"));
-        }
-
-        #endregion
-
-        #region IsCanceledTest 
-
-        [Test]
-        public void Event_IsCanceledRequired_False()
-        {
-            Assert.IsFalse((eventModel as object).isValid("IsCanceled", "Flag must be set!"));
-        }
-
-        #endregion
-
-        #region NameTest 
+        #region Name
 
         [Test]
         public void Event_IsNameRequired_False()
@@ -81,7 +61,7 @@ namespace EventStack_API.UnitTest.Model
 
         #endregion
 
-        #region PlaceTest
+        #region Place
 
         [Test]
         public void Event_IsPlaceRequired_False()
@@ -92,24 +72,15 @@ namespace EventStack_API.UnitTest.Model
 
         #endregion
 
-        #region PublishTimeTest
+        #region Photo
 
         [Test]
-        public void Event_IsPublishTimeRequired_False()
+        public void Event_IsPhotoRequired_False()
         {
-            Assert.IsFalse((eventModel as object).isValid("PublishTime", "Publish date must be set"));
+            eventModel.Photo = null;
+            Assert.IsFalse((eventModel as object).isValid("Photo", "Photo must be added for event!"));
         }
 
-        #endregion
-
-        #region StartTimeTest
-
-        [Test]
-        public void Event_IsStartTimeRequired_False()
-        {
-            Assert.IsFalse((eventModel as object).isValid("StartTime", "Event start date must be defined!"));
-        }
-        
         #endregion
     }
 }

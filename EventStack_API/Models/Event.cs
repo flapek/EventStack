@@ -36,20 +36,14 @@ namespace EventStack_API.Models
 
         [BsonElement("StartTime")]
         [BsonRepresentation(BsonType.DateTime)]
-        [BsonRequired]
-        [Required(ErrorMessage = "Event start date must be defined!")]
         public DateTime StartTime { get; set; }
 
         [BsonElement("EndTime")]
         [BsonRepresentation(BsonType.DateTime)]
-        [BsonRequired]
-        [Required(ErrorMessage = "Event end date must be defined!")]
         public DateTime EndTime { get; set; }
 
         [BsonElement("PublishTime")]
         [BsonRepresentation(BsonType.DateTime)]
-        [BsonRequired]
-        [Required(ErrorMessage = "Publish date must be set")]
         public DateTime PublishTime { get; set; }
 
         [BsonElement("Place")]
@@ -59,8 +53,6 @@ namespace EventStack_API.Models
 
         [BsonElement("IsCanceled")]
         [BsonDefaultValue(false)]
-        [BsonRequired]
-        [Required(ErrorMessage = "Flag must be set!")]
         public bool IsCanceled { get; set; }
 
         [BsonElement("FacebookURL")]
