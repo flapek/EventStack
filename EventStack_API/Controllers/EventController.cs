@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using EventStack_API.Interfaces;
 using EventStack_API.Models;
@@ -11,53 +12,38 @@ namespace EventStack_API.Controllers
     [ApiController]
     public class EventController : ControllerBase
     {
-        private Event_MongoRepository repository { get; set; }
+        private Event_MongoRepository repositoryEvent { get; set; }
 
-        public EventController(IRepositoryFactory<Event> repository)
-        {
-            this.repository = (Event_MongoRepository)repository;
-        }
+        public EventController(IRepositoryFactory<Event> repositoryEvent) => this.repositoryEvent = (Event_MongoRepository)repositoryEvent;
 
         // GET: api/Event/GetAll
         [HttpGet("GetAll")]
         public async Task<IEnumerable<Event>> Get()
-           => await repository.FindAsync();
+           => await repositoryEvent.FindAsync();
 
         // GET: api/Event/GetById/id
         [HttpGet("GetById/{id}")]
-        public async Task<Event> Get(string id)
-            => await repository.FindAsync(id);
-
-        //TODO zastanowić się czy potrzebne
-        //// GET: api/Event
-        //[HttpGet]
-        //public Event Get(Event organization)
-        //    => repository.Find(organization);
+        public async Task<Event> Get([FromRoute]string id)
+            => await repositoryEvent.FindAsync(id);
 
         // GET: api/Event/GetByFilter
         [HttpGet("GetByFilter")]
-        public async Task<IEnumerable<Event>> Get(Event_MongoRepository.Filter filter)
-            => await repository.FindAsync(filter);
+        public async Task<IEnumerable<Event>> Get([FromBody]Event_MongoRepository.Filter filter)
+            => await repositoryEvent.FindAsync(filter);
 
-        // POST: api/Event
-        [HttpPost]
-        public bool Post(Event organizaction)
-            => ModelState.IsValid ? repository.Insert(organizaction) : false;
+        // POST: api/Event/{secret}
+        [HttpPost("{secret}")]
+        public async Task<bool> Post([FromRoute]string secret, [FromBody]Event @event)
+            => ModelState.IsValid ? await repositoryEvent.InsertAsync(secret, @event) : false;
 
-        //TODO zastanowić się czy potrzebne
-        //// POST: api/Event
-        //[HttpPost]
-        //public bool Post(IEnumerable<Event> organizactions)
-        //    => ModelState.IsValid ? repository.Insert(organizactions) : false;
+        // PUT: api/Event/{id}/{secret}
+        [HttpPut("{id}/{secret}")]
+        public async Task<Event> Put([FromRoute]string id, [FromRoute]string secret, [FromBody]Event @event)
+            => ModelState.IsValid ? await repositoryEvent.UpdateAsync(id, secret, @event) : null;
 
-        // PUT: api/Event
-        [HttpPut("{id}")]
-        public Event Put(string id, Event organization)
-            => ModelState.IsValid ? repository.Update(id, organization) : null;
-
-        // DELETE: api/Event
-        [HttpDelete("{id}")]
-        public bool Delete(string id)
-            => repository.Delete(id);
+        // DELETE: api/Event/{id}/{secret}
+        [HttpDelete("{id}/{secret}")]
+        public async Task<bool> Delete([FromRoute]string id, [FromRoute]string secret)
+            => await repositoryEvent.Delete(id, secret);
     }
 }

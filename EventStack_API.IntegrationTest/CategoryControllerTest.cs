@@ -12,7 +12,7 @@ using System.Text;
 
 namespace EventStack_API.IntegrationTest
 {
-    public class CategoryTest
+    public class CategoryControllerTest
     {
         private HttpClient client;
 
@@ -29,28 +29,28 @@ namespace EventStack_API.IntegrationTest
         public async Task Get_All_ChcekRensponseStatusCode_ReturnStatus200()
         {
             var url = "/api/Category";
-            var httpRensponse = await client.GetAsync(url);
+            var httpResponse = await client.GetAsync(url);
 
-            httpRensponse.EnsureSuccessStatusCode();
+            httpResponse.EnsureSuccessStatusCode();
 
-            httpRensponse.StatusCode.Should().Be(HttpStatusCode.OK);
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Theory]
         public async Task Get_ById_ChcekRensponseContent_ReturnShouldNotBeNull()
         {
             var url = "/api/Category/";
-            var httpRensponseAll = await client.GetAsync(url);
-            var content = JsonConvert.DeserializeObject<List<Category>>(await httpRensponseAll.Content.ReadAsStringAsync());
+            var httpResponseAll = await client.GetAsync(url);
+            var content = JsonConvert.DeserializeObject<List<Category>>(await httpResponseAll.Content.ReadAsStringAsync());
             var oneCategory = content.FirstOrDefault();
-            httpRensponseAll.EnsureSuccessStatusCode();
+            httpResponseAll.EnsureSuccessStatusCode();
 
             Assume.That(oneCategory != null);
-            var httpRensponse = await client.GetAsync(url + oneCategory.Id);
+            var httpResponse = await client.GetAsync(url + oneCategory.Id);
 
-            httpRensponse.EnsureSuccessStatusCode();
+            httpResponse.EnsureSuccessStatusCode();
 
-            httpRensponse.Content.Should().NotBeNull();
+            httpResponse.Content.Should().NotBeNull();
         }
 
         [TestCase("5e9d7e2e1c9d44000007a088s")]
@@ -59,9 +59,9 @@ namespace EventStack_API.IntegrationTest
         public async Task Get_ById_ChcekRensponseStatusCode_ReturnStatus500(string id)
         {
             var url = "/api/Category/" + id;
-            var httpRensponse = await client.GetAsync(url);
+            var httpResponse = await client.GetAsync(url);
 
-            httpRensponse.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
 
         #endregion
@@ -77,11 +77,11 @@ namespace EventStack_API.IntegrationTest
                 Name = "Holidays"
             }), Encoding.UTF8, "application/json");
 
-            var httpRensponse = await client.PostAsync(url, httpContent);
+            var httpResponse = await client.PostAsync(url, httpContent);
 
-            httpRensponse.EnsureSuccessStatusCode();
+            httpResponse.EnsureSuccessStatusCode();
 
-            httpRensponse.StatusCode.Should().Be(HttpStatusCode.OK);
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Test]
@@ -90,9 +90,9 @@ namespace EventStack_API.IntegrationTest
             var url = "/api/Category";
             HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(new Category()), Encoding.UTF8, "application/json");
 
-            var httpRensponse = await client.PostAsync(url, httpContent);
+            var httpResponse = await client.PostAsync(url, httpContent);
 
-            httpRensponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
         [TestCase("sadnvfinoisdqwdnwoqkncionocesjoisadoisamkdnowqidnewonckoicoiocnewoinvksmocpjeionfcodsmopmowen")]
@@ -104,9 +104,9 @@ namespace EventStack_API.IntegrationTest
                 Name = name
             }), Encoding.UTF8, "application/json");
 
-            var httpRensponse = await client.PostAsync(url, httpContent);
+            var httpResponse = await client.PostAsync(url, httpContent);
 
-            httpRensponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
         #endregion
@@ -117,10 +117,10 @@ namespace EventStack_API.IntegrationTest
         public async Task Put_CheckRensponseStatusCodeWhenModelIsValid_ReturnStatus200()
         {
             var url = "/api/Category/";
-            var httpRensponseAll = await client.GetAsync(url);
-            var content = JsonConvert.DeserializeObject<List<Category>>(await httpRensponseAll.Content.ReadAsStringAsync());
+            var httpResponseAll = await client.GetAsync(url);
+            var content = JsonConvert.DeserializeObject<List<Category>>(await httpResponseAll.Content.ReadAsStringAsync());
             var oneCategory = content.FirstOrDefault();
-            httpRensponseAll.EnsureSuccessStatusCode();
+            httpResponseAll.EnsureSuccessStatusCode();
 
             Assume.That(oneCategory != null);
             url += oneCategory.Id;
@@ -128,10 +128,10 @@ namespace EventStack_API.IntegrationTest
             {
                 Name = "changedName"
             }), Encoding.UTF8, "application/json");
-            var httpRensponse = await client.PutAsync(url, httpContent);
-            httpRensponse.EnsureSuccessStatusCode();
+            var httpResponse = await client.PutAsync(url, httpContent);
+            httpResponse.EnsureSuccessStatusCode();
 
-            httpRensponse.StatusCode.Should().Be(HttpStatusCode.OK);
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Theory]
@@ -139,18 +139,18 @@ namespace EventStack_API.IntegrationTest
         {
             var expected = new Category { Name = "changedName" };
             var url = "/api/Category/";
-            var httpRensponseAll = await client.GetAsync(url);
-            var content = JsonConvert.DeserializeObject<List<Category>>(await httpRensponseAll.Content.ReadAsStringAsync());
+            var httpResponseAll = await client.GetAsync(url);
+            var content = JsonConvert.DeserializeObject<List<Category>>(await httpResponseAll.Content.ReadAsStringAsync());
             var oneCategory = content.FirstOrDefault();
-            httpRensponseAll.EnsureSuccessStatusCode();
+            httpResponseAll.EnsureSuccessStatusCode();
 
             Assume.That(oneCategory != null);
             url += oneCategory.Id;
             HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(expected), Encoding.UTF8, "application/json");
-            var httpRensponse = await client.PutAsync(url, httpContent);
-            httpRensponse.EnsureSuccessStatusCode();
+            var httpResponse = await client.PutAsync(url, httpContent);
+            httpResponse.EnsureSuccessStatusCode();
 
-            var result = JsonConvert.DeserializeObject<Category>(await httpRensponse.Content.ReadAsStringAsync());
+            var result = JsonConvert.DeserializeObject<Category>(await httpResponse.Content.ReadAsStringAsync());
             Assert.AreEqual(expected.Name, result.Name);
         }
 
@@ -164,9 +164,9 @@ namespace EventStack_API.IntegrationTest
             {
                 Name = "changedName"
             }), Encoding.UTF8, "application/json");
-            var httpRensponse = await client.PutAsync(url, httpContent);
+            var httpResponse = await client.PutAsync(url, httpContent);
 
-            httpRensponse.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
 
         #endregion
@@ -177,31 +177,31 @@ namespace EventStack_API.IntegrationTest
         public async Task Delete_CheckRensponseStatusCodeWhenIdIsCorrect_ReturnStatus200()
         {
             var url = "/api/Category/";
-            var httpRensponseAll = await client.GetAsync(url);
-            var content = JsonConvert.DeserializeObject<List<Category>>(await httpRensponseAll.Content.ReadAsStringAsync());
+            var httpResponseAll = await client.GetAsync(url);
+            var content = JsonConvert.DeserializeObject<List<Category>>(await httpResponseAll.Content.ReadAsStringAsync());
             var oneCategory = content.FirstOrDefault();
-            httpRensponseAll.EnsureSuccessStatusCode();
+            httpResponseAll.EnsureSuccessStatusCode();
 
             Assume.That(oneCategory != null);
             url += oneCategory.Id;
-            var httpRensponse = await client.DeleteAsync(url);
+            var httpResponse = await client.DeleteAsync(url);
 
-            httpRensponse.StatusCode.Should().Be(HttpStatusCode.OK);
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Theory]
         public async Task Delete_CheckRensponseStatusCodeWhenIdIsCorrect_ReturnTrue()
         {
             var url = "/api/Category/";
-            var httpRensponseAll = await client.GetAsync(url);
-            var contentFromGet = JsonConvert.DeserializeObject<List<Category>>(await httpRensponseAll.Content.ReadAsStringAsync());
+            var httpResponseAll = await client.GetAsync(url);
+            var contentFromGet = JsonConvert.DeserializeObject<List<Category>>(await httpResponseAll.Content.ReadAsStringAsync());
             var oneCategory = contentFromGet.FirstOrDefault();
-            httpRensponseAll.EnsureSuccessStatusCode();
+            httpResponseAll.EnsureSuccessStatusCode();
 
             Assume.That(oneCategory != null);
             url += oneCategory.Id;
-            var httpRensponse = await client.DeleteAsync(url);
-            var contentFromDelete = JsonConvert.DeserializeObject<bool>(await httpRensponse.Content.ReadAsStringAsync());
+            var httpResponse = await client.DeleteAsync(url);
+            var contentFromDelete = JsonConvert.DeserializeObject<bool>(await httpResponse.Content.ReadAsStringAsync());
             contentFromDelete.Should().BeTrue();
         }
 
@@ -211,8 +211,8 @@ namespace EventStack_API.IntegrationTest
         public async Task Delete_ChcekRensponseStatusCode_ReturnFalse(string id)
         {
             var url = "/api/Category/" + id;
-            var httpRensponse = await client.DeleteAsync(url);
-            var content = JsonConvert.DeserializeObject<bool>(await httpRensponse.Content.ReadAsStringAsync());
+            var httpResponse = await client.DeleteAsync(url);
+            var content = JsonConvert.DeserializeObject<bool>(await httpResponse.Content.ReadAsStringAsync());
             content.Should().BeFalse();
         }
 
