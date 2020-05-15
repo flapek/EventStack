@@ -1,7 +1,7 @@
 using NUnit.Framework;
-using System.Threading.Tasks;
 using EventStack_API.Models;
-using System.Net;
+using EventStack_API.UnitTest.Helpers;
+
 namespace EventStack_API.UnitTest.Model
 {
     public class AddressTest

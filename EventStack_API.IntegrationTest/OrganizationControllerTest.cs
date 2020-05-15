@@ -8,10 +8,7 @@ using EventStack_API.Models;
 using System.Net;
 using System.Text;
 using EventStack_API.Workers;
-using System.Collections.Generic;
-using System.Linq;
 using System;
-using EventStack_API.Helpers;
 
 namespace EventStack_API.IntegrationTest
 {
@@ -123,11 +120,11 @@ namespace EventStack_API.IntegrationTest
 
         #region Post method
 
-        [TestCase("CompanyAAA", "exampleA@exampleA.com")]
-        [TestCase("CompanyBBB", "exampleB@exampleB.com")]
-        [TestCase("CompanyXXX", "exampleX@exampleX.com")]
-        [TestCase("CompanyYYY", "exampleY@exampleY.com")]
-        [TestCase("CompanyZZZ", "exampleZ@exampleZ.com")]
+        [TestCase("CompanyAAA", "exampleA@example.com")]
+        [TestCase("CompanyBBB", "exampleB@example.com")]
+        [TestCase("CompanyXXX", "exampleX@example.com")]
+        [TestCase("CompanyYYY", "exampleY@example.com")]
+        [TestCase("CompanyZZZ", "exampleZ@example.com")]
         public async Task Post_CheckRensponseStatusCodeWhenModelIsValid_ReturnStatus200(string name, string email)
         {
             goodOrganization.Name = name;

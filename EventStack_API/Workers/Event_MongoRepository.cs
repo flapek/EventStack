@@ -24,21 +24,7 @@ namespace EventStack_API.Workers
             CollectionOrganization = Context.GetCollection<Organization>(typeof(Organization).Name);
         }
 
-        public IEnumerable<Event> Find() => CollectionEvent.Find(x => true).ToList();
-
-        public IEnumerable<Event> Find(Filter filter)
-        {
-            var locationQuery = new FilterDefinitionBuilder<Event>()
-                .Near(e => e.Place.Location, filter.Coordinates.Latitude, filter.Coordinates.Longitude, filter.MaxDistance);
-
-            return CollectionEvent.Find(locationQuery).ToList();
-        }
-
-        public async Task<IEnumerable<Event>> FindAsync()
-        {
-            var result = await CollectionEvent.FindAsync(x => true);
-            return await result.ToListAsync();
-        }
+        public async Task<IEnumerable<Event>> FindAsync() => await (await CollectionEvent.FindAsync(x => true)).ToListAsync();
 
         public async Task<IEnumerable<Event>> FindAsync(Filter filter)
         {

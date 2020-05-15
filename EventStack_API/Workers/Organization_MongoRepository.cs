@@ -72,7 +72,7 @@ namespace EventStack_API.Workers
         }
 
         private async Task<bool> CheckIfTheGivenModelExist(Organization insert)
-            => null == await Collection.FindAsync(x => (x.Name == insert.Name && x.Email == insert.Email) || x.NIP == insert.NIP || x.REGON == insert.REGON)
+            => null == await Collection.FindAsync(x => x.Name == insert.Name && x.Email == insert.Email)
             .Result.FirstOrDefaultAsync() ? false : true;
 
         public class Filter
