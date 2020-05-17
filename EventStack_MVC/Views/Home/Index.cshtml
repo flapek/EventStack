@@ -5,15 +5,15 @@
 <div class="imp-thumbnail mb-3 d-block mx-auto" >
     <div id="chart_div"></div>
     <div class="imp-thumbnail col-md-10  mr-5 ml-5 d-block mx-auto ">
-        <form class=" bg-dark p-3 rounded" >
+        <form class=" bg-dark p-3 rounded" method="get" action="/Home/Index">
             <h4 class="text-white">Search Events</h4>
             <div class="form-row">
                 <div class="form-group col-md-6 ">
                     <label class="text-white" for="inputEmail4">Town</label>
-                    <input type="text" class="form-control" id="inputSearchByTown" placeholder="e.g Warsaw">
+                    <input name="city" type="text" class="form-control" id="inputSearchByTown" placeholder="e.g Warsaw">
                 </div>
                 <div class="form-group col-md-3 ">
-                    <label class="text-white" for="inputPassword4">Distance</label>
+                    <label name="distance" class="text-white" for="inputPassword4">Distance</label>
 
                     
                             <div class="slidecontainer">
@@ -24,7 +24,7 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label class="text-white" for="inputPassword4">Category</label>
-                    <select class="custom-select" id="selectSearchCategory">
+                    <select name=category class="custom-select" id="selectSearchCategory">
                         <option selected>Choose...</option>
                     </select>
                 </div>
