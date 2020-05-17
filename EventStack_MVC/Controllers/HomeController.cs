@@ -25,7 +25,7 @@ namespace EventStack_MVC.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Index(string exampleDataFilter)
+        public async Task<IActionResult> Index(string city, int distance, string category)
         {
             var eventList = new List<Event>();
 
