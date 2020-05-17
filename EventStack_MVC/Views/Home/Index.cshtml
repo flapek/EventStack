@@ -1,30 +1,26 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<div class="mh-70 position-relative">
+@* Search block *@
+<div class="imp-thumbnail mb-3 d-block mx-auto" >
     <div id="chart_div"></div>
-    <div class="position-absolute">
-        <form class=" bg-dark p-3 rounded" >
+    <div class="imp-thumbnail col-md-10  mr-5 ml-5 d-block mx-auto ">
+        <form class=" bg-dark p-3 rounded" method="get" action="/Home/Index">
             <h4 class="text-white">Search Events</h4>
             <div class="form-row">
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-6 ">
                     <label class="text-white" for="inputEmail4">Town</label>
-                    <input type="text" class="form-control" id="inputSearchByTown" placeholder="e.g Warsaw">
+                    <input name="city" type="text" class="form-control" id="inputSearchByTown" placeholder="e.g Warsaw">
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-3 ">
                     <label class="text-white" for="inputPassword4">Distance</label>
-                    <select class="custom-select" id="selectSearchDistance">
-                        <option selected>Choose...</option>
-                        <option value="1">+ 10</option>
-                        <option value="2">+ 25</option>
-                        <option value="3">+ 50</option>
-                        <option value="4">+ 100</option>
-                        <option value="5">+ 250</option>
-                    </select>
+                    <div class="slidecontainer">
+                        <input name="distance" type="range" min="1" max="100" value="50" class="slider" id="myRange">
+                    </div>
                 </div>
                 <div class="form-group col-md-3">
                     <label class="text-white" for="inputPassword4">Category</label>
-                    <select class="custom-select" id="selectSearchCategory">
+                    <select name="category" class="custom-select" id="selectSearchCategory">
                         <option selected>Choose...</option>
                     </select>
                 </div>
@@ -49,34 +45,4 @@
     </div>
 </div>
 
-
-
-<script src="https://www.gstatic.com/charts/loader.js"></script>
-<script>
-    google.charts.load('upcoming', { 'packages': ['map'] });
-    google.charts.setOnLoadCallback(drawMap);
-
-    function drawMap() {
-        var data = new google.visualization.DataTable();
-        var data = new google.visualization.DataTable();
-
-        data.addColumn('number', 'Lat');
-        data.addColumn('number', 'Long');
-        data.addColumn('string', 'name');
-
-        data.addRow([37.4232, -122.0853, 'Work']);
-        data.addRow([37.4289, -122.1697, 'University']);
-        data.addRow([37.6153, -122.3900, 'Airport']);
-        data.addRow([37.4422, -122.1731, 'Shopping']);
-
-        var options = {
-            showTooltip: true,
-            showInfoWindow: true
-        };
-
-        var map = new google.visualization.Map(document.getElementById('chart_div'));
-
-        map.draw(data, options);
-    };
-</script>
 
