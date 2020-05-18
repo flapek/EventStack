@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using EventStack_MVC.Models;
 using System.Threading.Tasks;
 using System.Net.Http;
-using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace EventStack_MVC.Controllers
 {
@@ -25,18 +25,15 @@ namespace EventStack_MVC.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Index(string city, int distance, string category)
+        public async Task<IActionResult> Search(string city, string distance, string category)
         {
             var eventList = new List<Event>();
 
-            var url = "api/Event/GetAll";
+            var url = @"https://localhost:44382/api/Event/GetAll";
             var httpRensponse = await client.GetAsync(url);
 
             if (httpRensponse.IsSuccessStatusCode)
-            {
-                var message = httpRensponse.Content.ReadAsStreamAsync().Result;
-                eventList = await JsonSerializer.DeserializeAsync<List<Event>>(message);
-            }
+                eventList = JsonConvert.DeserializeObject<List<Event>>(await httpRensponse.Content.ReadAsStringAsync());
 
             return View(eventList);
         }
