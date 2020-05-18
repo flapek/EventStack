@@ -1,35 +1,32 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using EventStack_API.Models;
 using EventStack_API.Interfaces;
+using EventStack_API.Workers;
+using System.Threading.Tasks;
 
 namespace EventStack_API.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")]
     [ApiController]
     public class OrganizationController : ControllerBase
     {
-        private IRepositoryFactory<Organization> repository { get; set; }
+        private Organization_MongoRepository repository { get; set; }
 
         public OrganizationController(IRepositoryFactory<Organization> repository)
         {
-            this.repository = repository;
+            this.repository = (Organization_MongoRepository)repository;
         }
-
-        // GET: api/Organization/id
-        [HttpGet("{id}")]
-        public Organization Get(string id)
-            => repository.Find(id);
 
         // GET: api/Organization
         [HttpGet]
-        public Organization Get(Organization organization)
-            => repository.Find(organization);
+        public async Task<Organization> Get(Organization_MongoRepository.Filter filter)
+            => ModelState.IsValid ? await repository.FindAsync(filter): null;
 
-        // POST: api/Organization
+         // POST: api/Organization
         [HttpPost]
-        public bool Post(Organization organizaction)
-            => ModelState.IsValid ? repository.Insert(organizaction) : false;
+        public async Task<bool> Post(Organization organizaction)
+            => ModelState.IsValid ? await repository.InsertAsync(organizaction) : false;
 
         // PUT: api/Organization
         [HttpPut("{id}")]
@@ -40,11 +37,5 @@ namespace EventStack_API.Controllers
         [HttpDelete("{id}")]
         public bool Delete(string id)
             => repository.Delete(id);
-
-        // DELETE: api/Organization
-        [HttpDelete("{id}")]
-        public bool Delete(Organization organization)
-            => repository.Delete(organization);
-
     }
 }

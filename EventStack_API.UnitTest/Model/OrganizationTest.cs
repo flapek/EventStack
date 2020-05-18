@@ -17,7 +17,7 @@ namespace EventStack_API.UnitTest.Model
         public void Organization_IsDescriptionHasMaximumOfCharacters_False()
         {
             organization.Description = new string('*', 1001);
-            Assert.IsFalse((organization as object).isValid("Destription", "The maximum number"));
+            Assert.IsFalse((organization as object).isValid("Description", "The maximum number"));
         }
 
         #endregion
@@ -36,6 +36,7 @@ namespace EventStack_API.UnitTest.Model
         [TestCase("tomasz1macionczyk@wp.pl")]
         [TestCase("laleczka1962@02.pl")]
         [TestCase("tomasz_sardynski@gmail.com")]
+        [TestCase("student007@student.ath.bielsko.edu.pl")]
         public void Organization_IsRegexAcceptEmail_True(string email)
         {
             organization.Email = email;
@@ -53,6 +54,7 @@ namespace EventStack_API.UnitTest.Model
         [TestCase("mariusz@wp,pl")]
         [TestCase("-gosia@domena.net")]
         [TestCase("kasia1997@pl")]
+        [TestCase("janusz korwin mikke@wp.pl")]
         public void Organization_IsRegexRejectEmail_False(string email)
         {
             organization.Email = email;

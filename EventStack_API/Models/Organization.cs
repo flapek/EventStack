@@ -1,8 +1,8 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using EventStack_API.Interfaces;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace EventStack_API.Models
 {
@@ -31,11 +31,12 @@ namespace EventStack_API.Models
         [BsonRequired]
         [Required(ErrorMessage = "Email must be set!")]
         [StringLength(100, ErrorMessage = "The maximum number of character is 100!")]
-        [RegularExpression(@"[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*", ErrorMessage =
+        [RegularExpression(@"\A(?:[a-zA-Z])(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", ErrorMessage =
             "Email must contain eg. example@example.com")]
         public string Email { get; set; }
 
         [BsonElement("PhoneNumber")]
+        //[RegularExpression(@"((?(\+[0-9]{2})\+[0-9]{2}\s[0-9]{9}|\s[0-9]{9})", ErrorMessage = "Number must contain +48 999999999 or 999999999")]
         public string PhoneNumber { get; set; }
 
         [BsonElement("Address")]
@@ -49,11 +50,15 @@ namespace EventStack_API.Models
         public IEnumerable<string> EventsId { get; set; }
 
         [BsonElement("NIP")]
-        [RegularExpression("^[0-9]{10}$", ErrorMessage = "NIP must contain 10 digit")]
+        [RegularExpression("^[0-9]{10}$", ErrorMessage = "NIP must contain 10 digit!")]
         public string NIP { get; set; }
 
         [BsonElement("REGON")]
-        [RegularExpression(@"^[0-9]{9}$", ErrorMessage = "REGON must contain 9 digit")]
+        [RegularExpression(@"^[0-9]{9}$", ErrorMessage = "REGON must contain 9 digit!")]
         public string REGON { get; set; }
+
+        [BsonElement("Secret")]
+        [RegularExpression(@"[A-z0-9]{32}", ErrorMessage = "The maximum number of characters is 32! Only characters from \'A\' to \'z\' and from \'0\' to \'9\'")]
+        public string Secret { get; set; }
     }
 }

@@ -31,7 +31,7 @@ namespace EventStack_API
 
             services.AddSingleton<IDbSettings>(s => s.GetRequiredService<IOptions<DbSettings>>().Value);
             services.AddScoped<IDbContext, MongoDbContext>();
-            services.AddScoped<IRepositoryFactory<Organization>, MongoRepository<Organization>>();
+            services.AddScoped<IRepositoryFactory<Organization>, Organization_MongoRepository>();
             services.AddScoped<IRepositoryFactory<Category>, Category_MongoRepository>();
             services.AddScoped<IRepositoryFactory<Event>, Event_MongoRepository>();
 

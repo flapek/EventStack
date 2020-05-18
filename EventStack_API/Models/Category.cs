@@ -14,7 +14,7 @@ namespace EventStack_API.Models
 
         [BsonElement("Name")]
         [BsonRequired]
-        [Required(ErrorMessage = "Name must be defined!")]
+        [Required(ErrorMessage = "Name must be set!")]
         [StringLength(50, ErrorMessage = "The maximum number of character is 50!")]
         public string Name { get; set; }
     } 
