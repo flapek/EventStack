@@ -16,7 +16,7 @@ namespace EventStack_API.IntegrationTest
     class EventControllerTest
     {
         private readonly string baseURL = "/api/Event/";
-        private readonly string secret = "00000000-0000-0000-0000-000000000000";
+        private readonly string secret = "GX02BII78ZD0V6JSDVUSNGPQ7P7BRBZCYAQ5LEMSB6BGAWFZ0H11GLS9HJ4WKGQ7";
         private HttpClient client;
         private WebClient webClient;
         private Event goodEvent;
