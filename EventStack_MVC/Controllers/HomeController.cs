@@ -25,7 +25,11 @@ namespace EventStack_MVC.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Search(string city, string distance, string category)
+        [HttpGet]
+        public async Task<IActionResult> Search(
+            [FromQuery(Name = "city")]string city,
+            [FromQuery(Name = "distance")]string distance,
+            [FromQuery(Name = "category")]string category)
         {
             var eventList = new List<Event>();
 
