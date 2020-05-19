@@ -6,6 +6,9 @@ using EventStack_MVC.Models;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.Text;
 
 namespace EventStack_MVC.Controllers
 {
@@ -33,11 +36,34 @@ namespace EventStack_MVC.Controllers
         {
             var eventList = new List<Event>();
 
-            var url = @"https://localhost:44382/api/Event/GetAll";
-            var httpRensponse = await client.GetAsync(url);
+            if (string.IsNullOrEmpty(city))
+            {
+                var url = @"https://localhost:44382/api/Event/GetAll";
+                var httpRensponse = await client.GetAsync(url);
 
-            if (httpRensponse.IsSuccessStatusCode)
-                eventList = JsonConvert.DeserializeObject<List<Event>>(await httpRensponse.Content.ReadAsStringAsync());
+                if (httpRensponse.IsSuccessStatusCode)
+                    eventList = JsonConvert.DeserializeObject<List<Event>>(await httpRensponse.Content.ReadAsStringAsync());
+            }
+            else
+            {
+                if (double.TryParse(distance, out double dis))
+                {
+                    var url = @"https://localhost:44382/api/Event/";
+                    var request = new HttpRequestMessage
+                    {
+                        Method = HttpMethod.Get,
+                        RequestUri = new Uri(url),
+                        Content = new StringContent(JsonConvert.SerializeObject(new EventFilter
+                        {
+                            City = city,
+                            MaxDistance = dis
+                        }), Encoding.UTF8, "application/json"),
+                    };
+                    var httpRensponse = await client.SendAsync(request);
+                    if (httpRensponse.IsSuccessStatusCode)
+                        eventList = JsonConvert.DeserializeObject<List<Event>>(await httpRensponse.Content.ReadAsStringAsync());
+                }
+            }
 
             return View(eventList);
         }
