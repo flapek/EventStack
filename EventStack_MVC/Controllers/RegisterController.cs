@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using EventStack_MVC.Models;
+using System.Threading.Tasks;
 
 namespace EventStack_MVC.Controllers
 {
@@ -17,6 +18,10 @@ namespace EventStack_MVC.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+        public Task<IActionResult> CreateAccount([FromQuery]string email, [FromQuery]string password)
+        {
+            return null;
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
