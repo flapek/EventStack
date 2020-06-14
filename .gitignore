@@ -341,3 +341,6 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+# Database settings for connection string
+EventStack_API/appsettings.json
