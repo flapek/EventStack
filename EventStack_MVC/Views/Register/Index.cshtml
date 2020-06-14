@@ -39,7 +39,11 @@
 							<div class="modal-footer">
 								<input type="hidden" name="isEmpty" value="">
 								<button type="button" name="submit" value="createAccount" class="btn btn-success btn-icon"><i class="fa fa-check"></i> Create My Account</button>
-								<button type="button" class="btn btn-default btn-icon" data-dismiss="modal"><i class="fa fa-times-circle"></i> Cancel</button>
+								<a asp-area="" asp-controller="Home" asp-action="Index"> 
+									<button type="button" class="btn btn-default btn-icon" data-dismiss="modal">
+										 Cancel
+									</button>
+								</a>
 							</div>
 						</form>
 
