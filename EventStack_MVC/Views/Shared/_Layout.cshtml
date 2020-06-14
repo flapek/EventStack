@@ -19,15 +19,6 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse navbar-light">
                     <ul class="navbar-nav  flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-black-50" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-black-50" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-black-50" asp-area="" asp-controller="Register" asp-action="Index">Register</a>
-                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link text-black-50" dropdown-toggle data-toggle="dropdown" role="button"  asp-area="" asp-controller="Home" asp-action="Privacy" asp-action="Events List">Lista Wydarzeń</a>
                             <div class="dropdown-menu">
@@ -36,9 +27,18 @@
                             <a class="dropdown-item" href="#">Event 3 </a>
                             <a class="dropdown-item" href="#">Event 4 </a>
                             <a class="dropdown-item" href="#">Event 5 </a>
-                            
-                            </div>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-black-50" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-black-50" asp-area="" asp-controller="Register" asp-action="Index">Register</a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link text-black-50" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                            </div>
                             <form class="form-inline">
                         <input class="form-control mr-1 " type="search" placeholder="Search" aria-label="Wyszukaj">
                         <button class="btn btn-dark" type="submit" >Search</button>
