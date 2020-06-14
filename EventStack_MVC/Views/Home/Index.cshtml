@@ -12,16 +12,16 @@
         @using (Html.BeginForm("Search", "Home", FormMethod.Get))
         {
         <div class=" bg-dark p-3 rounded" >
-            <h4 class="text-white">Search Events</h4>
+            <h4 class="text-white">Wyszukaj wydarzenie</h4>
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label class="text-white" for="inputEmail4">Town</label>
-                    <input type="text" class="form-control" id="inputSearchByTown" placeholder="e.g Warsaw">
+                    <label class="text-white" for="inputEmail4">Miasto</label>
+                    <input type="text" class="form-control" id="inputSearchByTown" placeholder="n.p. Warszawa">
                 </div>
                 <div class="form-group col-md-3">
-                    <label class="text-white" for="inputPassword4">Distance</label>
+                    <label class="text-white" for="inputPassword4">Dystans</label>
                     <select class="custom-select" id="selectSearchDistance">
-                        <option selected>Choose...</option>
+                        <option selected>Wybierz...</option>
                         <option value="1">+ 10 km</option>
                         <option value="2">+ 25 km</option>
                         <option value="3">+ 50 km</option>
@@ -31,9 +31,9 @@
                     </select>
                 </div>
                 <div class="form-group col-md-3">
-                    <label class="text-white" for="inputPassword4">Category</label>
+                    <label class="text-white" for="inputPassword4">Kategoria</label>
                     <select class="custom-select" id="selectSearchCategory">
-                        <option selected>Choose...</option>
+                        <option selected>Wybierz...</option>
                         <option value="1">Category 1</option>
                         <option value="2">Category 2</option>
                         <option value="3">Category 3</option>
@@ -47,12 +47,12 @@
                         <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 011.415 0l3.85 3.85a1 1 0 01-1.414 1.415l-3.85-3.85a1 1 0 010-1.415z" clip-rule="evenodd" />
                         <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM13 6.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" clip-rule="evenodd" />
                     </svg>
-                    Search
+                    Wyszukaj
                 </button>
                 <a class="text-white float-right " asp-area="" asp-controller="" asp-action="">
                     <u>
                         <small>
-                            Advance search
+                            Wyszukiwanie zaawansowane
                         </small>
                     </u>
                 </a>
