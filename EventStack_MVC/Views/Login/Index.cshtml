@@ -13,15 +13,16 @@
 			</div>	    
 
 			<!-- Login Form -->
-			<form>
-				<input type="email" id="email" class="fadeIn second zero-raduis" name="email" placeholder="email">
-				<input type="text" id="password" class="fadeIn third zero-raduis" name="login" placeholder="password">
+			@using (Html.BeginForm("Index", "Login", FormMethod.Post)) 
+			{
+				<input name="email" type="email" id="email" class="fadeIn second zero-raduis" name="email" placeholder="email">
+				<input name="password" type="text" id="password" class="fadeIn third zero-raduis" name="login" placeholder="password">
 				<div id="formFooter">
 					<a class="underlineHover" href="#">Forgot Password?</a>
 				</div>
 				<input type="submit" class="fadeIn fourth zero-raduis" value="login">
 				<h2>You don't have a account ?</h2>
 				<a class="fadeIn fourth zero-raduis pc btn btn-info" asp-area="" asp-controller="Register" asp-action="Index">register</a>
-			</form>
+			}
 		</div>
   </div>
