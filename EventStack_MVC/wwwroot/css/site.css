@@ -1,6 +1,10 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+input.Login {
+
+}
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -178,12 +182,12 @@ input[type=text], input[type=email] {
   border: none;
   color: #0d0d0d;
   padding: 10px 25px;
-  text-align: center;
+  text-align: left;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
   margin: 5px;
-  width: 85%;
+  /*width: 85%;*/
   border: 2px solid #f6f6f6;
   -webkit-transition: all 0.5s ease-in-out;
   -moz-transition: all 0.5s ease-in-out;
