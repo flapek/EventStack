@@ -326,8 +326,8 @@ input[type=text]:placeholder, input[type=email]:placeholder {
   background-clip: padding-box;
 }
 .modal-header {
-  border-bottom: 1px solid #ffbb00;
-  background: #ffbb00;
+  border-bottom: 1px solid orange;
+  background: orange;
   min-height: 16.4286px;
   padding: 10px 15px;
 }
