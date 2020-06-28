@@ -7,30 +7,30 @@
 	<div class="modal-content">
 
     					<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
-							<h4 class="modal-title">Create a New Account</h4>
+							
+							<h4 class="modal-title" >Stwórz nowe konto</h4>
 						</div>
 
 						<form action="" method="post">
 							<div class="modal-body">
 								<div class="form-group">
-									<label for="userEmail">Email Address</label>
+									<label for="userEmail">Podaj adres e-mail</label>
 									<input type="text" class="form-control" required="" name="userEmail" value="">
-									<span class="help-block">Your email address is also used to log in.</span>
+									<span class="help-block">Twój adres e-mail jest również wykorzystywany w celu zalogowania.</span>
 								</div>
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<label for="password">Password</label>
+											<label for="password">Hasło</label>
 											<input type="password" class="form-control" required="" name="password" value="">
-											<span class="help-block">Choose a password for your new account.</span>
+											<span class="help-block">Wpisz hasło dla Twojego konta.</span>
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
-											<label for="passwordr">Repeat Password</label>
+											<label for="passwordr">Powtórz hasło</label>
 											<input type="password" class="form-control" required="" name="passwordr" value="">
-											<span class="help-block">Type the password again. Passwords must match.</span>
+											<span class="help-block">Wpisz hasło ponownie. Hasła muszą być identyczne!</span>
 										</div>
 									</div>
 								</div>
@@ -38,10 +38,10 @@
 
 							<div class="modal-footer">
 								<input type="hidden" name="isEmpty" value="">
-								<button type="button" name="submit" value="createAccount" class="btn btn-success btn-icon"><i class="fa fa-check"></i> Create My Account</button>
+								<button type="button" name="submit" value="createAccount" class="btn btn-success btn-icon"><i class="fa fa-check"></i> Stwórz konto</button>
 								<a asp-area="" asp-controller="Home" asp-action="Index"> 
-									<button type="button" class="btn btn-default btn-icon" data-dismiss="modal">
-										 Cancel
+									<button type="button" class="btn btn-danger" data-dismiss="modal">
+										 Anuluj
 									</button>
 								</a>
 							</div>
