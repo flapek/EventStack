@@ -3,16 +3,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using EventStack_MVC.Models;
 using System.Threading.Tasks;
+using System.Net.Http;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using System.Linq;
 
 namespace EventStack_MVC.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly ILogger<LoginController> _logger;
+        private HttpClient client;
 
-        public LoginController(ILogger<LoginController> logger)
+        public LoginController()
         {
-            _logger = logger;
+            client = new HttpClient();
         }
 
         public IActionResult Index()
@@ -20,9 +24,26 @@ namespace EventStack_MVC.Controllers
             return View();
         }
 
-        public Task<IActionResult> Login([FromQuery]string email, [FromQuery]string password)
+        [HttpPost]
+        public async Task<IActionResult> Index([FromQuery]string email, [FromQuery]string password)
         {
-            return null;
+            var organizationList = new List<Organization>();
+            var url = @"https://localhost:44382/api/Organization";
+            var httpRensponse = await client.GetAsync(url);
+
+            if (httpRensponse.IsSuccessStatusCode)
+                organizationList = JsonConvert.DeserializeObject<List<Organization>>(await httpRensponse.Content.ReadAsStringAsync());
+            else
+                return Error();
+
+            var authenticatedUser = organizationList.FirstOrDefault(user => user.Email == email && user.Password == password);
+
+            if(authenticatedUser != null)
+            {
+                // To do AuthenticationToken
+            }
+
+            return View();
         }
 
 
