@@ -14,12 +14,10 @@ namespace EventStack_MVC.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private HttpClient client;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController()
         {
-            _logger = logger;
             client = new HttpClient();
         }
 
@@ -30,9 +28,9 @@ namespace EventStack_MVC.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Search(
-            [FromQuery(Name = "city")]string city,
-            [FromQuery(Name = "distance")]string distance,
-            [FromQuery(Name = "category")]string category)
+            [FromQuery(Name = "city")] string city,
+            [FromQuery(Name = "distance")] string distance,
+            [FromQuery(Name = "category")] string category)
         {
             var eventList = new List<Event>();
 
