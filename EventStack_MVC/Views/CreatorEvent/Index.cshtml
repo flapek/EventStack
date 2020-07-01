@@ -1,3 +1,89 @@
 @{
     ViewData["Title"] = "Kreator";
 }
+
+@model Event;
+
+<div class="wrapper fadeInDown zero-raduis">
+	<div id="formContent">
+        <div class="fadeIn first">
+  	      <h2 class="my-5">Kreator eventów</h2>
+  	    </div>
+
+        @using (Html.BeginForm("Index", "CreatorEvent", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div>
+                @Html.ValidationSummary(true)
+                <div>
+                    @Html.LabelFor(model => model.Name)
+                    <div>
+                        @Html.EditorFor(model => model.Name)
+                        @Html.ValidationMessageFor(model => model.Name)
+                    </div>
+                </div>
+
+                <div>
+                    @Html.LabelFor(model => model.Place.Country)
+                    <div>
+                        @Html.EditorFor(model => model.Place.Country)
+                        @Html.ValidationMessageFor(model => model.Place.Country)
+                    </div>
+                </div>
+
+                <div>
+                    @Html.LabelFor(model => model.Place.ZipCode)
+                    <div>
+                        @Html.EditorFor(model => model.Place.ZipCode)
+                        @Html.ValidationMessageFor(model => model.Place.ZipCode)
+                    </div>
+                </div>
+
+                <div>
+                    @Html.LabelFor(model => model.Place.Street)
+                    <div>
+                        @Html.EditorFor(model => model.Place.Street)
+                        @Html.ValidationMessageFor(model => model.Place.Street)
+                    </div>
+                </div>
+
+                <div>
+                    @Html.LabelFor(model => model.Place.Location)
+                    <div>
+                        @Html.EditorFor(model => model.Place.Location)
+                        @Html.ValidationMessageFor(model => model.Place.Location)
+                    </div>
+                </div>
+
+                <div>
+                    @Html.LabelFor(model => model.Photo)
+                    <div>
+                        @Html.EditorFor(model => model.Photo)
+                        <input type="file" name="Photo" id="Photo" />
+                    </div>
+                </div>
+
+                <div>
+                    @Html.LabelFor(model => model.Description)
+                    <div>
+                        @Html.EditorFor(model => model.Description)
+                        @Html.ValidationMessageFor(model => model.Description)
+                    </div>
+                </div>
+
+                <div>
+                    @Html.LabelFor(model => model.Place.Location)
+                    <div>
+                        @Html.EditorFor(model => model.Place.Location)
+                        @Html.ValidationMessageFor(model => model.Place.Location)
+                    </div>
+                </div>
+
+                <div>
+                    <input type="submit" value="Utwórz" />
+                </div>
+            </div>     
+        }
+    </div>
+</div>   
