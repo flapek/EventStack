@@ -1,19 +1,24 @@
 @{
     ViewData["Title"] = "Lista wydarzeń";
+    @model IEnumerable<Event>;
 } 
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-3">
-            <div class="card">
-                <img class="card-img-top img-fluid" src="~/img/Koncert1.jpg" alt="Card image cap">
-                <div class="card-block">
-                    <h4 class="card-title">Koncert w Chełmie</h4>
-                    <p class="card-text">To właśnie w Chełmie zakończy się Wakacyjna Trasa Dwójki, jedno z najchętniej oglądanych wydarzeń muzycznych 2019 roku. Plenerowe koncerty cyklu „Lato, Muzyka, Zabawa” gromadziły setki przed sceną a setki tysięcy widzów przed telewizorami. Gwarantujemy niezapomniane przeżycia oraz niesamowite doznania muzyczne. Nie może tam Ciebie zabraknąć! Zapraszamy!</p>
-                    <a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/pg/Eventstacktest-109139734073006/events/?ref=page_internal" class="btn btn-warning">Przejdź do wydarzenia</a>
+        @foreach (var item in Model)
+        {
+            <div class="col-sm-3">
+                <div class="card">
+                    <!-- @Url.Action("GetPhoto", @item.Photo) -->
+                    <img class="card-img-top img-fluid" src="~/img/orangewarsawfestival2021.png" />
+                    <div class="card-block">
+                        <h4 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h4>
+                        <p class="card-text">@item.Description</p>
+                        <a target="_blank" rel="noopener noreferrer" href="@item.FacebookURL" class="btn btn-warning">Przejdź do wydarzenia</a>
+                    </div>
                 </div>
             </div>
-        </div>
+        }
         <div class="col-sm-3">
             <div class="card">
                 <img class="card-img-top img-fluid" src="~/img/warsawsummerdays2.png" alt="Card image cap">
