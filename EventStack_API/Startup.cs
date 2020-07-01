@@ -25,7 +25,7 @@ namespace EventStack_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllersWithViews();
 
             services.Configure<DbSettings>(Configuration.GetSection(nameof(DbSettings)));
 
@@ -64,7 +64,7 @@ namespace EventStack_API
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapDefaultControllerRoute();
             });
 
         }

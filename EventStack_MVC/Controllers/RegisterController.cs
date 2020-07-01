@@ -10,9 +10,8 @@ namespace EventStack_MVC.Controllers
     {
         private readonly ILogger<RegisterController> _logger;
 
-        public RegisterController(ILogger<RegisterController> logger)
+        public RegisterController()
         {
-            _logger = logger;
         }
 
         public IActionResult Index()

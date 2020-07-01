@@ -36,7 +36,7 @@ namespace EventStack_MVC.Controllers
 
             if (string.IsNullOrEmpty(city))
             {
-                var url = @"https://localhost:44382/api/Event/GetAll";
+                var url = @"http://localhost:44382/api/Event/GetAll";
                 var httpRensponse = await client.GetAsync(url);
 
                 if (httpRensponse.IsSuccessStatusCode)
@@ -46,7 +46,7 @@ namespace EventStack_MVC.Controllers
             {
                 if (double.TryParse(distance, out double dis))
                 {
-                    var url = @"https://localhost:44382/api/Event/";
+                    var url = @"http://localhost:44382/api/Event/";
                     var request = new HttpRequestMessage
                     {
                         Method = HttpMethod.Get,

@@ -16,7 +16,6 @@ namespace EventStack_API
                 {
                     webBuilder.UseStartup<Startup>();
                     webBuilder.UseUrls("http://localhost:44382/");
-                    webBuilder.UseUrls("https://localhost:44382/");
                 });
     }
 }
