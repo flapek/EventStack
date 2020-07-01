@@ -10,7 +10,6 @@ using EventStack_API.Models;
 using EventStack_API.Workers;
 using EventStack_API.Interfaces;
 using System;
-using System.Net;
 
 namespace EventStack_API.Controllers
 {
